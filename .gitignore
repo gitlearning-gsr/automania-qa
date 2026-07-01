@@ -1,0 +1,26 @@
+# ─── Brochure PDFs (stored separately – too large for GitHub) ───────────────
+# Serve from Supabase Storage or CDN in production
+*.pdf
+
+# ─── OS / Editor junk ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# ─── Node / npm (if added later) ─────────────────────────────────────────────
+node_modules/
+dist/
+.env
+.env.local
+
+# ─── Large binary assets (re-download from manufacturer sites) ───────────────
+# images/ folder is small (~1MB) so it IS included
+# cars/  folder is empty so included
+
+# ─── Misc uploads ────────────────────────────────────────────────────────────
+*.xlsx
+01\ Executive*
+ineos-grenadier-brochure_uk.pdf

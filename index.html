@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automania.qa — Qatar's Premier Auto Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fafaf8;--bg2:#f5f2ee;--bg3:#ffffff;--card:#ffffff;
+  --border:#e8e3dc;--border2:#d8d2c8;
+  --text:#1a1a1a;--muted:#6b6460;--muted2:#aaa;
+  --orange:#f05a1a;--red:#e8340a;--gold:#c9a227;
+  --green:#10b981;--blue:#3b82f6;--navy:#1a2744;
+  --r:14px;--r2:8px;
+  --sh:0 2px 16px rgba(0,0,0,.08);--sh2:0 8px 32px rgba(0,0,0,.12);
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}ul{list-style:none}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,select,textarea{font-family:inherit;outline:none}
+img{max-width:100%;display:block}
+
+/* TOPBAR */
+.topbar{background:var(--navy);padding:7px 24px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:rgba(255,255,255,.7)}
+.topbar a{color:rgba(255,255,255,.7);margin-left:16px;transition:color .2s}.topbar a:hover{color:#fff}
+.topbar-left{display:flex;gap:20px}.topbar-right{display:flex}
+
+/* HEADER */
+.header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:500;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.header-top{border-bottom:3px solid var(--orange)}
+.header-inner{max-width:1400px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;cursor:pointer;flex-shrink:0}
+.logo svg{height:44px;width:auto}
+.logo img{height:52px;width:auto}
+
+/* SEARCH */
+.global-search{flex:1;max-width:480px;position:relative}
+.global-search input{width:100%;background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);padding:10px 16px 10px 42px;border-radius:8px;font-size:14px;transition:all .2s}
+.global-search input:focus{border-color:var(--orange);background:#fff;box-shadow:0 0 0 3px rgba(240,90,26,.1)}
+.global-search input::placeholder{color:var(--muted2)}
+.search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1.5px solid var(--border2);border-radius:var(--r2);box-shadow:var(--sh2);z-index:999;display:none;max-height:360px;overflow-y:auto}
+.search-result-item{padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.search-result-item:hover{background:var(--bg2)}.search-result-item:last-child{border-bottom:none}
+
+/* NAV */
+.header-nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+.hn-item{color:var(--muted);font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.hn-item:hover{color:var(--orange);background:rgba(240,90,26,.06)}
+.hn-item.active{color:var(--orange);background:rgba(240,90,26,.1)}
+.hn-item.btn-consult{background:var(--orange);color:#fff!important;border-radius:8px}
+.hn-item.btn-consult:hover{background:var(--red)}
+
+/* COMPARE BAR */
+.compare-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:3px solid var(--orange);box-shadow:0 -4px 24px rgba(0,0,0,.15);z-index:800;padding:12px 24px;display:flex;align-items:center;gap:16px;transform:translateY(100%);transition:transform .3s}
+.compare-bar.visible{transform:translateY(0)}
+.compare-slots{display:flex;gap:12px;flex:1}
+.compare-slot{background:var(--bg2);border:2px dashed var(--border2);border-radius:10px;padding:8px 14px;min-width:200px;height:64px;display:flex;align-items:center;gap:10px;position:relative}
+.compare-slot.filled{border-style:solid;border-color:var(--orange);background:#fff3ee}
+.slot-empty{color:var(--muted2);font-size:12px;display:flex;align-items:center;gap:6px}
+.slot-empty-plus{font-size:22px;color:var(--orange)}
+.btn-compare-now{background:var(--orange);color:#fff;padding:12px 24px;border-radius:10px;font-weight:800;font-size:15px;white-space:nowrap}
+.btn-compare-now:hover{background:var(--red)}
+.compare-count{background:var(--orange);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:#fff;border-radius:20px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;padding:32px;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.2)}
+.modal-close{position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;color:var(--muted);background:var(--bg2);border:none;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--text);background:var(--border)}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#0d1a3a 60%,#1a2744 100%);padding:56px 24px 48px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.hero-title{font-size:44px;font-weight:900;color:#fff;line-height:1.15;margin-bottom:10px}
+.hero-title span{color:var(--orange)}
+.hero-subtitle{color:rgba(255,255,255,.7);font-size:16px;margin-bottom:16px}
+.hero-tagline{font-size:18px;font-weight:700;color:#f05a1a;letter-spacing:1.5px;margin-bottom:28px;text-shadow:0 1px 8px rgba(0,0,0,.25);font-style:italic}
+.hero-search{background:#fff;border-radius:14px;padding:20px;box-shadow:0 16px 48px rgba(0,0,0,.3);display:flex;gap:12px;flex-wrap:wrap}
+.hs-select{flex:1;min-width:160px;background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:8px;font-size:14px;font-weight:500}
+.hs-btn{background:var(--orange);color:#fff;padding:12px 28px;border-radius:8px;font-size:15px;font-weight:800;white-space:nowrap}
+.hs-btn:hover{background:var(--red)}
+.hero-stats{display:flex;gap:32px;margin-top:28px}
+.hstat{color:rgba(255,255,255,.8);font-size:13px}.hstat strong{display:block;font-size:22px;font-weight:900;color:#fff}
+
+/* BRAND STRIP */
+.brand-strip{background:#fff;border-bottom:1px solid var(--border);padding:20px 0}
+.brand-strip-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
+.brand-strip-inner::-webkit-scrollbar{display:none}
+.brand-pill{flex-shrink:0;background:var(--bg2);border:1.5px solid var(--border);border-radius:30px;padding:6px 18px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--text)}
+.brand-pill:hover{border-color:var(--orange);color:var(--orange);background:#fff3ee}
+
+/* SECTIONS */
+.section{padding:40px 24px}
+.section-inner{max-width:1400px;margin:0 auto}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-title{font-size:22px;font-weight:900;color:var(--text)}
+.section-title span{color:var(--orange)}
+.section-badge{background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;margin-left:10px;letter-spacing:.5px}
+.view-all{font-size:13px;font-weight:700;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:4px}
+.view-all:hover{text-decoration:underline}
+.section-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.section-scroll::-webkit-scrollbar{height:4px}
+.section-scroll::-webkit-scrollbar-track{background:transparent}
+.section-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* CAR CARD */
+.car-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;flex-shrink:0;width:240px;transition:all .25s;cursor:pointer;box-shadow:var(--sh)}
+.car-card:hover{box-shadow:var(--sh2);border-color:var(--orange);transform:translateY(-3px)}
+.car-img-wrap{height:152px;overflow:hidden;background:var(--bg2);position:relative}
+.car-img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.car-card:hover .car-img{transform:scale(1.04)}
+.car-badge{position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff}
+.upcoming-badge{position:absolute;top:10px;right:10px;background:var(--navy);color:#fff;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800}
+.car-info{padding:14px}
+.car-brand-tag{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:1px}
+.car-model{font-size:15px;font-weight:800;color:var(--text);margin:3px 0 6px;line-height:1.2}
+.car-price{font-size:17px;font-weight:900;color:var(--navy)}
+.car-price-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.car-actions{display:flex;gap:8px;margin-top:12px}
+.btn-details{background:var(--orange);color:#fff;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;flex:1;text-align:center}
+.btn-details:hover{background:var(--red)}
+.btn-cmp{background:var(--bg2);color:var(--text);padding:7px 10px;border-radius:7px;font-size:12px;font-weight:700;border:1.5px solid var(--border2);transition:all .2s}
+.btn-cmp:hover,.btn-cmp.added{background:#fff3ee;color:var(--orange);border-color:var(--orange)}
+
+/* FILTER CHIPS */
+.filter-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 24px}
+.filter-bar-inner{max-width:1400px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.filter-bar-inner::-webkit-scrollbar{display:none}
+.fchip{flex-shrink:0;padding:7px 18px;border-radius:30px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);color:var(--muted);background:#fff;transition:all .2s}
+.fchip:hover{border-color:var(--orange);color:var(--orange)}
+.fchip.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+/* BROWSE PAGE */
+.browse-header{background:#fff;border-bottom:1px solid var(--border);padding:20px 24px}
+.browse-filters{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.browse-input{background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);padding:9px 14px;border-radius:8px;font-size:13px;transition:all .2s}
+.browse-input:focus{border-color:var(--orange);background:#fff}
+.browse-count{font-size:13px;color:var(--muted);margin-left:auto;font-weight:600}
+.browse-grid{max-width:1400px;margin:0 auto;padding:28px 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+
+/* EV HUB */
+.ev-hub{background:linear-gradient(135deg,#0a1628 0%,var(--navy) 100%);padding:40px 24px 0}
+.ev-hub-inner{max-width:1400px;margin:0 auto}
+.ev-hub-title{font-size:32px;font-weight:900;color:#fff;margin-bottom:6px}
+.ev-hub-title span{color:var(--orange)}
+.ev-hub-sub{color:rgba(255,255,255,.6);font-size:14px;margin-bottom:24px}
+.ev-tabs{display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:0}
+.ev-tab{padding:12px 22px;font-size:14px;font-weight:700;color:rgba(255,255,255,.6);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .2s}
+.ev-tab.active{color:#fff;border-bottom-color:var(--orange)}
+.ev-tab:hover{color:#fff}
+.ev-content{background:var(--bg);padding:32px 0}
+.ev-grid{max-width:1400px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.charging-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+.charging-name{font-size:15px;font-weight:800;margin-bottom:4px}
+.charging-area{font-size:12px;color:var(--muted);margin-bottom:14px}
+.charging-row{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)}
+.charging-row:last-of-type{border:none}
+.charging-row span:first-child{color:var(--muted)}
+.charging-row span:last-child{font-weight:600}
+.charging-net{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:10px}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}
+
+/* SPECS */
+.spec-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.spec-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.spec-val{font-weight:700}
+
+/* CONSULTING */
+.consulting{padding:56px 24px;background:var(--bg2)}
+.consulting-inner{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.cl-title{font-size:34px;font-weight:900;line-height:1.2;margin-bottom:12px}
+.cl-title span{color:var(--orange)}
+.cl-sub{color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:24px}
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.step-box{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px;text-align:center;box-shadow:var(--sh)}
+.step-n{font-size:22px;font-weight:900;color:var(--orange)}
+.step-t{font-size:13px;font-weight:700;margin:2px 0}
+.step-s{font-size:11px;color:var(--muted)}
+.advisor{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--sh)}
+.advisor-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.av-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:#fff;flex-shrink:0}
+.av-name{font-size:14px;font-weight:800}
+.av-role{font-size:11px;color:var(--muted);margin-top:2px}
+.av-wa{margin-left:auto;background:#25d366;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;flex-shrink:0}
+.cta-btns{display:flex;gap:12px;margin-bottom:24px}
+.btn-wa{background:#25d366;color:#fff;padding:12px 22px;border-radius:10px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px}
+.btn-call{background:var(--navy);color:#fff;padding:12px 22px;border-radius:10px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
+.price-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:22px;text-align:center;box-shadow:var(--sh)}
+.price-card.featured{border-color:var(--orange);background:var(--navy);color:#fff;transform:scale(1.03)}
+.price-plan{font-size:10px;font-weight:800;letter-spacing:2px;margin-bottom:8px}
+.price-amt{font-size:30px;font-weight:900;margin-bottom:4px}
+.price-card.featured .price-amt{color:var(--gold)}
+.price-desc{font-size:11px;color:var(--muted);padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.price-card.featured .price-desc{color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.15)}
+.price-items{text-align:left;display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.price-item{font-size:12px;color:#555;display:flex;gap:8px;align-items:flex-start}
+.price-card.featured .price-item{color:rgba(255,255,255,.8)}
+.price-item-dash{color:var(--green);font-weight:700;flex-shrink:0}
+.price-card.featured .price-item-dash{color:var(--gold)}
+.price-btn{width:100%;padding:10px;border-radius:8px;font-size:13px;font-weight:700;border:1.5px solid var(--border2);background:transparent;color:var(--text);cursor:pointer;transition:all .2s}
+.price-card.featured .price-btn{background:var(--orange);border-color:var(--orange);color:#fff}
+.price-btn:hover{border-color:var(--orange);color:var(--orange)}
+.price-card.featured .price-btn:hover{background:var(--red);border-color:var(--red)}
+
+/* FORM */
+.consult-form{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:30px;box-shadow:var(--sh2)}
+.cf-title{font-size:20px;font-weight:900;margin-bottom:4px}
+.cf-sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+.cf-group{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.cf-group label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.cf-group input,.cf-group select,.cf-group textarea{background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:8px;font-size:13px;transition:all .2s;width:100%}
+.cf-group input:focus,.cf-group select:focus,.cf-group textarea:focus{border-color:var(--orange);background:#fff}
+.cf-group textarea{resize:vertical;min-height:80px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn-submit{width:100%;padding:14px;background:var(--orange);color:#fff;border-radius:10px;font-size:15px;font-weight:800;margin-top:4px;transition:background .2s}
+.btn-submit:hover{background:var(--red)}
+.cf-note{text-align:center;font-size:11px;color:var(--muted);margin-top:10px}
+.cf-cb-group{display:flex;flex-wrap:wrap;gap:8px}
+.cf-cb{background:var(--bg2);border:1.5px solid var(--border2);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.cf-cb:hover{border-color:var(--orange)}
+
+/* FOOTER */
+.footer{background:var(--navy);color:rgba(255,255,255,.7);padding:48px 24px 24px}
+.footer-inner{max-width:1400px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand p{font-size:13px;line-height:1.7;margin-top:12px;color:rgba(255,255,255,.5)}
+.fc h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#fff;margin-bottom:14px}
+.fc ul li{font-size:13px;padding:4px 0;cursor:pointer;transition:color .2s}
+.fc ul li:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.footer-socials{display:flex;gap:10px}
+.fsoc{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;transition:background .2s;cursor:pointer}
+.fsoc:hover{background:var(--orange)}
+
+/* GUIDE */
+.guide-section{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:var(--sh)}
+.guide-section h3{color:var(--orange);margin-bottom:10px;font-size:16px}
+.guide-section p,.guide-section li{color:var(--muted);font-size:14px;line-height:1.7;margin:4px 0}
+.guide-section ul{padding-left:18px;list-style:disc}
+
+/* COMPARE TABLE */
+.cmp-table{width:100%;border-collapse:collapse}
+.cmp-table th,.cmp-table td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--border);font-size:13px}
+.cmp-table th{background:var(--bg2);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.cmp-table .row-label{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;background:var(--bg2)}
+.cmp-table tr:hover{background:var(--bg2)}
+.cmp-table .car-head{background:#fff3ee;font-weight:900;font-size:14px;color:var(--navy)}
+
+/* TOAST */
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:2000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .consulting-inner{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .price-card.featured{transform:none}
+}
+@media(max-width:640px){
+  .hero-title{font-size:28px}
+  .hero-search{flex-direction:column}
+  .header-nav .hn-item:not(.btn-consult){display:none}
+  .compare-slots{flex-direction:column}
+  .cf-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>📍 Serving Qatar</span>
+    </div>
+  <div class="topbar-right">
+    <a href="tel:+97450979699">📞 +974 50979699</a>
+    <a href="mailto:hello@automania.qa">✉️ hello@automania.qa</a>
+    <a href="#" onclick="showPage('consult')">🚗 Free Consulting</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top" style="height:3px"></div>
+  <div class="header-inner">
+    <div class="logo" onclick="showPage('home')">
+      <img src="logo.png" alt="Automania" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <svg viewBox="0 0 300 48" xmlns="http://www.w3.org/2000/svg" style="display:none">
+        <defs><linearGradient id="og" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f05a1a"/><stop offset="100%" style="stop-color:#e8340a"/></linearGradient></defs>
+        <path d="M8 28 C35 6,90 4,148 16 C188 25,218 23,255 13 C272 8,288 10,290 17 C292 22,278 28,252 27 C218 25,185 32,145 24 C96 14,44 20,16 36 Z" fill="url(#og)" opacity=".9"/>
+        <path d="M95 34 C138 28,182 31,240 22" fill="none" stroke="#1a2744" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+        <text x="6" y="45" font-family="'Inter',sans-serif" font-weight="900" font-size="14" fill="#1a1a1a" letter-spacing="3">AUTOMANIA</text>
+      </svg>
+    </div>
+    <div class="global-search">
+      <span class="search-ico">🔍</span>
+      <input type="text" placeholder="Search brand, model or category..." oninput="liveSearch(this.value)" onblur="setTimeout(hideSearch,200)">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <div class="header-nav">
+      <div class="hn-item active" onclick="showPage('home',this)">Home</div>
+      <div class="hn-item" onclick="showPage('browse',this)">Browse Cars</div>
+      <div class="hn-item" onclick="showPage('ev',this)">⚡ EV Hub</div>
+      <div class="hn-item" onclick="openCompareModal()">⊕ Compare <span class="compare-count" id="cmpCnt" style="display:none">0</span></div>
+      <div class="hn-item btn-consult" onclick="showPage('consult',this)">🚗 Free Consulting</div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE BAR -->
+<div class="compare-bar" id="compareBar">
+  <div class="compare-slots" id="compareSlots">
+    <div class="compare-slot" id="cslot0"><div class="slot-empty"><span class="slot-empty-plus">+</span><span>Add a car</span></div></div>
+    <div class="compare-slot" id="cslot1"><div class="slot-empty"><span class="slot-empty-plus">+</span><span>Add a car</span></div></div>
+    <div class="compare-slot" id="cslot2"><div class="slot-empty"><span class="slot-empty-plus">+</span><span>Add a car</span></div></div>
+  </div>
+  <button class="btn-compare-now" onclick="openCompareModal()">Compare Now →</button>
+  <button onclick="clearCompare()" style="background:none;border:1.5px solid var(--border2);color:var(--muted);padding:10px 16px;border-radius:8px;font-size:13px">Clear</button>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="carModal">
+  <div class="modal-box"><button class="modal-close" onclick="closeModal()">×</button><div id="carModalBody"></div></div>
+</div>
+<div class="modal-overlay" id="compareModal">
+  <div class="modal-box" style="max-width:1100px"><button class="modal-close" onclick="closeCompareModal()">×</button>
+    <h2 style="font-size:22px;font-weight:900;margin-bottom:20px">Cars Comparison <span style="color:var(--orange)">Side-by-Side</span></h2>
+    <div id="compareBody"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ============ HOME PAGE ============ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-title">Qatar's #1 Car<br>Marketplace <span>& Advisor</span></div>
+      <div class="hero-subtitle">Find your perfect car from 50+ brands · Free expert consulting · Compare side-by-side</div>
+      <div class="hero-tagline">✦ <span style="color:#f05a1a;font-weight:700;font-style:italic;letter-spacing:.5px">✦ Choose the car. Protect the dream. ✦</span> ✦</div>
+      <div class="hero-search">
+        <select class="hs-select" id="hsBrand"><option value="">Any Brand</option></select>
+        <select class="hs-select" id="hsType">
+          <option value="">Any Type</option>
+          <option value="suv">SUV</option><option value="sedan">Sedan</option>
+          <option value="pickup">Pickup</option><option value="luxury">Luxury</option>
+          <option value="ev">Electric</option><option value="mpv">MPV</option>
+          <option value="sports">Sports</option>
+        </select>
+        <select class="hs-select" id="hsBudget">
+          <option value="">Any Budget</option>
+          <option value="0-80000">Under QAR 80,000</option>
+          <option value="80000-150000">QAR 80K – 150K</option>
+          <option value="150000-300000">QAR 150K – 300K</option>
+          <option value="300000-9999999">Above QAR 300K</option>
+        </select>
+        <button class="hs-btn" onclick="doSearch()">Search Cars →</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><strong>50+</strong>Brands Available</div>
+        <div class="hstat"><strong>500+</strong>Brochures</div>
+        <div class="hstat"><strong>30+</strong>EV Charging Stations</div>
+        <div class="hstat"><strong>Free</strong>Consulting</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRAND STRIP -->
+  <div class="brand-strip"><div class="brand-strip-inner" id="brandStripGrid"></div></div>
+
+  <!-- FILTER CHIPS -->
+  <div class="filter-bar"><div class="filter-bar-inner" id="filterBar"></div></div>
+
+  <!-- SECTIONS -->
+  <div id="homeSections"></div>
+
+  <!-- CONSULT BANNER -->
+  <div style="background:linear-gradient(135deg,var(--navy),#0d1a3a);padding:48px 24px;text-align:center">
+    <div style="font-size:13px;color:var(--orange);font-weight:700;letter-spacing:2px;margin-bottom:10px">FREE SERVICE</div>
+    <div style="font-size:32px;font-weight:900;color:#fff;margin-bottom:10px">Not Sure Which Car is Right?</div>
+    <div style="color:rgba(255,255,255,.6);font-size:15px;margin-bottom:24px">Our Qatar experts shortlist the perfect car for your budget & lifestyle — 100% free, 100% independent</div>
+    <button class="hs-btn" onclick="showPage('consult')" style="font-size:16px;padding:14px 36px">Get Free Advice →</button>
+  </div>
+</div>
+
+<!-- ============ BROWSE PAGE ============ -->
+<div class="page" id="page-browse">
+  <div class="browse-header">
+    <div class="browse-filters">
+      <input type="text" class="browse-input" id="browseSearch" placeholder="🔍 Search cars..." oninput="renderBrowse()" style="width:220px">
+      <select class="browse-input" id="browseType" onchange="renderBrowse()">
+        <option value="">All Types</option>
+        <option value="suv">SUV</option><option value="sedan">Sedan</option>
+        <option value="pickup">Pickup</option><option value="luxury">Luxury</option>
+        <option value="ev">Electric</option><option value="mpv">MPV</option>
+        <option value="sports">Sports</option><option value="chinese">Chinese</option>
+      </select>
+      <select class="browse-input" id="browseBrand" onchange="renderBrowse()"><option value="">All Brands</option></select>
+      <select class="browse-input" id="browseBudget" onchange="renderBrowse()">
+        <option value="">Any Budget</option>
+        <option value="0-80000">Under QAR 80K</option>
+        <option value="80000-150000">QAR 80K–150K</option>
+        <option value="150000-300000">QAR 150K–300K</option>
+        <option value="300000-9999999">Above QAR 300K</option>
+      </select>
+      <div class="browse-count" id="browseCount"></div>
+    </div>
+  </div>
+  <div class="browse-grid" id="browseGrid"></div>
+</div>
+
+<!-- ============ EV HUB PAGE ============ -->
+<div class="page" id="page-ev">
+  <div class="ev-hub">
+    <div class="ev-hub-inner">
+      <div class="ev-hub-title">⚡ <span>EV Hub</span> Qatar</div>
+      <div class="ev-hub-sub">Electric vehicles, charging infrastructure & buyer's guide for Qatar</div>
+      <div class="ev-tabs">
+        <div class="ev-tab active" onclick="switchEvTab('ev-cars',this)">🚗 EV Cars</div>
+        <div class="ev-tab" onclick="switchEvTab('charging',this)">🔌 Charging Stations (30)</div>
+        <div class="ev-tab" onclick="switchEvTab('hybrids',this)">🔋 Hybrids & PHEV</div>
+        <div class="ev-tab" onclick="switchEvTab('guide',this)">📖 EV Guide</div>
+      </div>
+    </div>
+  </div>
+  <div class="ev-content">
+    <div id="evp-ev-cars" class="ev-tab-panel"><div class="browse-grid" id="evCarsGrid"></div></div>
+    <div id="evp-charging" class="ev-tab-panel" style="display:none"><div class="ev-grid" id="chargingGrid"></div></div>
+    <div id="evp-hybrids" class="ev-tab-panel" style="display:none"><div class="browse-grid" id="hybridsGrid"></div></div>
+    <div id="evp-guide" class="ev-tab-panel" style="display:none"><div style="max-width:800px;margin:0 auto;padding:0 24px" id="evGuideContent"></div></div>
+  </div>
+</div>
+
+<!-- ============ CONSULTING PAGE ============ -->
+<div class="page" id="page-consult">
+  <div class="consulting">
+    <div class="consulting-inner">
+      <div>
+        <div style="font-size:11px;color:var(--orange);font-weight:800;letter-spacing:2px;margin-bottom:8px">FREE · BRAND-NEUTRAL · QATAR-BASED</div>
+        <div class="cl-title">Not Sure Which Car<br>is <span>Right for You?</span></div>
+        <div class="cl-sub">Our Qatar-based car experts shortlist the perfect vehicle for your budget, lifestyle, and needs. We're 100% independent — we work for you, not the dealers.</div>
+        <div class="steps">
+          <div class="step-box"><div class="step-n">1</div><div class="step-t">Fill the Form</div><div class="step-s">2 minutes</div></div>
+          <div class="step-box"><div class="step-n">2</div><div class="step-t">Expert Calls</div><div class="step-s">Within 2 hours</div></div>
+          <div class="step-box"><div class="step-n">3</div><div class="step-t">3 Options</div><div class="step-s">With brochures</div></div>
+          <div class="step-box"><div class="step-n">4</div><div class="step-t">Test Drive</div><div class="step-s">We arrange it</div></div>
+        </div>
+        <div class="advisor-list">
+          <div class="advisor">
+            <div class="av-avatar" style="background:linear-gradient(135deg,var(--orange),var(--red))">GS</div>
+            <div><div class="av-name">Ganesh Singh Rathore</div><div class="av-role">Senior Car Consultant · 12 yrs experience</div></div>
+            <a href="https://wa.me/97450979699" class="av-wa">💬</a>
+          </div>
+          <div class="advisor">
+            <div class="av-avatar" style="background:linear-gradient(135deg,var(--navy),#2d4a8a)">SP</div>
+            <div><div class="av-name">Sushant Pupneja</div><div class="av-role">EV & Chinese Brands Specialist · 8 yrs experience</div></div>
+            <a href="https://wa.me/97433123457" class="av-wa">💬</a>
+          </div>
+        </div>
+        <div class="cta-btns">
+          <a href="https://wa.me/97450979699?text=Hi%20Automania%2C%20I%20need%20car%20consulting" class="btn-wa">💬 WhatsApp Us</a>
+          <a href="tel:+97450979699" class="btn-call">📞 Call Now</a>
+        </div>
+        <!-- PRICING -->
+        <div style="margin-bottom:8px;font-size:11px;color:var(--orange);font-weight:800;letter-spacing:2px">CONSULTATION PLANS</div>
+        <div class="pricing-grid">
+          <div class="price-card">
+            <div class="price-plan" style="color:var(--muted)">STARTER</div>
+            <div class="price-amt">Free</div>
+            <div class="price-desc">Top of funnel · Trust-building</div>
+            <div class="price-items">
+              <div class="price-item"><span class="price-item-dash">—</span>Weekly social media car tips</div>
+              <div class="price-item"><span class="price-item-dash">—</span>Free car comparison guides</div>
+              <div class="price-item"><span class="price-item-dash">—</span>Budget calculator tool</div>
+            </div>
+            <button class="price-btn" onclick="document.getElementById('page-consult').querySelector('form')?.submit()">Get Started</button>
+          </div>
+          <div class="price-card featured">
+            <div style="background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:8px;letter-spacing:1px">MOST POPULAR</div>
+            <div class="price-plan" style="color:var(--gold)">CAR MATCH</div>
+            <div class="price-amt">QAR 299</div>
+            <div class="price-desc">Core product · Featured</div>
+            <div class="price-items">
+              <div class="price-item"><span class="price-item-dash">—</span>60-min consultation session</div>
+              <div class="price-item"><span class="price-item-dash">—</span>3 personalised recommendations</div>
+              <div class="price-item"><span class="price-item-dash">—</span>Written summary report</div>
+              <div class="price-item"><span class="price-item-dash">—</span>1 follow-up Q&amp;A</div>
+            </div>
+            <button class="price-btn" onclick="submitConsult()">Book Car Match</button>
+          </div>
+          <div class="price-card">
+            <div class="price-plan" style="color:var(--muted)">FULL SERVICE</div>
+            <div class="price-amt">QAR 599</div>
+            <div class="price-desc">End-to-end buying support</div>
+            <div class="price-items">
+              <div class="price-item"><span class="price-item-dash">—</span>Everything in Car Match</div>
+              <div class="price-item"><span class="price-item-dash">—</span>Deal review &amp; negotiation</div>
+              <div class="price-item"><span class="price-item-dash">—</span>TCO report included</div>
+              <div class="price-item"><span class="price-item-dash">—</span>30-day support</div>
+            </div>
+            <button class="price-btn" onclick="submitConsult()">Book Full Service</button>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);text-align:center">Questions? <a href="mailto:hello@automania.qa" style="color:var(--orange);font-weight:700">hello@automania.qa</a></div>
+      </div>
+      <div class="consult-form">
+        <div class="cf-title">Get Your Free Car Advice</div>
+        <div class="cf-sub">Fill in below — our consultant calls within 2 hours</div>
+        <div class="cf-row">
+          <div class="cf-group"><label>Your Name</label><input type="text" id="cName" placeholder="Mohammed Ali"></div>
+          <div class="cf-group"><label>WhatsApp Number</label><input type="tel" id="cPhone" placeholder="+974 XXXX XXXX"></div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-group"><label>Budget (QAR)</label>
+            <select id="cBudget"><option value="">Select budget</option><option>Under QAR 60,000</option><option>QAR 60,000–120,000</option><option>QAR 120,000–250,000</option><option>QAR 250,000–500,000</option><option>Above QAR 500,000</option></select>
+          </div>
+          <div class="cf-group"><label>Usage Type</label>
+            <select><option>Select usage</option><option>Daily city commute</option><option>Family trips</option><option>Desert / off-road</option><option>Business / executive</option><option>Commercial / work</option></select>
+          </div>
+        </div>
+        <div class="cf-group"><label>Car Type Interest</label>
+          <div class="cf-cb-group">
+            <label class="cf-cb"><input type="checkbox"> SUV</label>
+            <label class="cf-cb"><input type="checkbox"> Sedan</label>
+            <label class="cf-cb"><input type="checkbox"> Pickup</label>
+            <label class="cf-cb"><input type="checkbox"> Luxury</label>
+            <label class="cf-cb"><input type="checkbox"> MPV/Van</label>
+            <label class="cf-cb"><input type="checkbox"> Electric</label>
+            <label class="cf-cb"><input type="checkbox"> Open to all</label>
+          </div>
+        </div>
+        <div class="cf-group"><label>Consultation Plan</label>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;padding:6px 0">
+            <label style="cursor:pointer;font-size:13px"><input type="radio" name="plan" value="Free Starter" style="margin-right:5px">Free Starter</label>
+            <label style="cursor:pointer;font-size:13px;font-weight:700;color:var(--orange)"><input type="radio" name="plan" value="Car Match QAR 299" checked style="margin-right:5px">Car Match (QAR 299)</label>
+            <label style="cursor:pointer;font-size:13px"><input type="radio" name="plan" value="Full Service QAR 599" style="margin-right:5px">Full Service (QAR 599)</label>
+          </div>
+        </div>
+        <div class="cf-group"><label>Additional Requirements</label>
+          <textarea id="cInterest" placeholder="e.g. 7-seater for family, good ground clearance, prefer hybrid..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="submitConsult()">🚗 Get My Car Recommendation</button>
+        <div class="cf-note">✅ 100% Free consultation · No obligation · Response within 2 hours</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Automania" style="height:40px;width:auto;filter:brightness(0) invert(1)">
+        <p>Qatar's premier automotive marketplace. 50+ brands, 500+ brochures, free expert consulting. <span style="color:#f05a1a;font-weight:700;font-style:italic;letter-spacing:.5px">✦ Choose the car. Protect the dream. ✦</span></p>
+        <div class="footer-socials" style="margin-top:14px">
+          <div class="fsoc">📘</div><div class="fsoc">📸</div><div class="fsoc">🐦</div><div class="fsoc">▶️</div>
+        </div>
+      </div>
+      <div class="fc"><h4>Browse</h4><ul><li onclick="showPageFilter('suv')">SUVs</li><li onclick="showPageFilter('sedan')">Sedans</li><li onclick="showPageFilter('pickup')">Pickups</li><li onclick="showPageFilter('luxury')">Luxury</li><li onclick="showPage('ev')">Electric</li><li onclick="showPageFilter('mpv')">MPV / Vans</li></ul></div>
+      <div class="fc"><h4>Services</h4><ul><li onclick="showPage('consult')">Free Consulting</li><li>Download Brochures</li><li onclick="openCompareModal()">Compare Cars</li><li>Book Test Drive</li><li>Car Finance</li><li>Insurance Quotes</li></ul></div>
+      <div class="fc"><h4>Contact</h4><ul><li>📞 +974 50979699</li><li>✉️ hello@automania.qa</li><li>📍 Doha, Qatar</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 Automania.qa · All Rights Reserved</div>
+      <div style="display:flex;gap:16px"><a href="#" style="color:inherit">Privacy</a><a href="#" style="color:inherit">Terms</a><a href="#" style="color:inherit">Sitemap</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+// ============ DATA ============
+const W='https://upload.wikimedia.org/wikipedia/commons/thumb/';
+const BRANDS=[
+  {name:'Toyota',color:'#eb0a1e'},{name:'Nissan',color:'#c3002f'},{name:'Kia',color:'#05141f'},
+  {name:'Hyundai',color:'#002c5f'},{name:'Honda',color:'#cc0000'},{name:'BYD',color:'#1db954'},
+  {name:'Ford',color:'#003478'},{name:'MG',color:'#a50000'},{name:'Mitsubishi',color:'#e60012'},
+  {name:'GMC',color:'#cd0000'},{name:'GWM',color:'#2c2c2c'},{name:'Geely',color:'#003087'},
+  {name:'Jetour',color:'#00457c'},{name:'EXEED',color:'#8b6914'},{name:'GAC Aion',color:'#0066cc'},
+  {name:'Mazda',color:'#ba0020'},{name:'Infiniti',color:'#1a2744'},{name:'Suzuki',color:'#0047ab'},
+  {name:'Isuzu',color:'#cc0000'},{name:'Changan',color:'#003087'},{name:'Haval',color:'#d4002b'},
+  {name:'Lexus',color:'#1a2744'},{name:'BMW',color:'#1c69d4'},{name:'Mercedes',color:'#1a1a1a'},
+  {name:'Audi',color:'#f50537'},{name:'Porsche',color:'#8b6914'},{name:'Land Rover',color:'#005a2b'},
+  {name:'LiAuto',color:'#c8a951'},{name:'Xpeng',color:'#0066ff'},{name:'NIO',color:'#00b0ff'},
+  {name:'Zeekr',color:'#0033cc'},{name:'Rivian',color:'#2fb5b5'},{name:'iCar',color:'#e63c00'},
+  {name:'Deepal',color:'#006633'},{name:'Denza',color:'#1a1a6e'},{name:'Leapmotor',color:'#0055cc'},
+  {name:'Maxus',color:'#003087'},{name:'Lynk & Co',color:'#0000cc'},
+];
+
+const CARS=[
+  // ─── POPULAR (featured:true) ───
+  {id:1,wiki:'Toyota Land Cruiser 300',brand:'Toyota',model:'Land Cruiser 300',type:'suv',badge:'Hybrid',price:280000,featured:true,pdf:'Toyota_Qatar/Land_Cruiser_Brochure.pdf',
+   img:'https://tmna.aemassets.toyota.com/is/image/toyota/toyota/jellies/relative/2027/landcruiser/base.png?wid=1140&hei=600&fmt=jpg&fit=crop',
+   specs:{Engine:'3.5L V6 Twin-Turbo',Power:'415 hp',Torque:'650 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Hybrid'}},
+  {id:2,wiki:'Nissan Patrol',brand:'Nissan',model:'Patrol 2025',type:'suv',badge:null,price:235000,featured:true,pdf:'Nissan/Nissan_Patrol_Catalogue.pdf',
+   img:'https://www.nissan-me.com/content/dam/Nissan/me/home-page/new_patrol/NissanPatrol2025_main.jpg',
+   specs:{Engine:'5.6L V8',Power:'400 hp',Torque:'560 Nm',Trans:'7-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+  {id:3,wiki:'Kia Telluride',brand:'Kia',model:'EV9',type:'ev',badge:'EV',price:240000,featured:true,pdf:'Kia_Qatar/Kia_EV9_Brochure.pdf',
+   img:'https://www.kia.com/content/dam/kwsovp/us/en/kia/ev9/2024/imagery/exterior/kia-ev9-2024-gallery-exterior-01-full.jpg',
+   specs:{Battery:'99.8 kWh',Range:'541 km',Power:'379 hp',Charge_DC:'240 kW',Drive:'AWD',Seats:'7'}},
+  {id:4,wiki:'Hyundai Tucson',brand:'Lexus',model:'LX 600',type:'luxury',badge:null,price:420000,featured:true,pdf:'Lexus/Lexus_LX_2025_Brochure.pdf',
+   img:'https://www.lexus.com/content/dam/lexus/images/models/lx/2024/lexus-lx-600-overview.jpg',
+   specs:{Engine:'3.5L V6 Twin-Turbo',Power:'415 hp',Torque:'650 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol'}},
+  {id:5,wiki:'BYD Atto 3',brand:'Toyota',model:'Hilux 2025',type:'pickup',badge:null,price:112000,featured:true,pdf:'Toyota_Qatar_Brochures/Toyota_Hilux_Brochure.pdf',
+   img:'https://global.toyota/pages/models/images/hilux/hilux_kv_w1920_02.jpg',
+   specs:{Engine:'2.8L Turbo Diesel',Power:'204 hp',Torque:'500 Nm',Trans:'6-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
+  // ─── UPCOMING ───
+  {id:6,wiki:'Kia EV6',brand:'Toyota',model:'Land Cruiser 70 (2025)',type:'suv',badge:null,price:185000,upcoming:true,pdf:'',
+   img:'https://global.toyota/pages/models/images/landcruiser70/landcruiser70_kv_w1920.jpg',
+   specs:{Engine:'2.8L Turbo Diesel',Power:'204 hp',Torque:'500 Nm',Trans:'6-speed Manual',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
+  {id:7,wiki:'Hyundai IONIQ 5',brand:'Kia',model:'EV3 2025',type:'ev',badge:'EV',price:135000,upcoming:true,pdf:'',
+   img:'https://www.kia.com/content/dam/kwsovp/int/models/ev3/2024/imagery/kia-ev3-2024-exterior-01.jpg',
+   specs:{Battery:'81.4 kWh',Range:'600 km',Power:'204 hp',Charge_DC:'135 kW',Drive:'FWD',Seats:'5'}},
+  {id:8,wiki:'Toyota bZ4X',brand:'Hyundai',model:'IONIQ 9 2025',type:'ev',badge:'EV',price:260000,upcoming:true,pdf:'',
+   img:'https://www.hyundainews.com/assets/images/original/2024/10/22/185456-HyundaiMotorRevealseIONIQ9.jpg',
+   specs:{Battery:'110 kWh',Range:'620 km',Power:'422 hp',Charge_DC:'350 kW',Drive:'AWD',Seats:'7'}},
+  {id:9,wiki:'BYD Seal',brand:'Nissan',model:'Patrol Nismo 2025',type:'suv',badge:null,price:295000,upcoming:true,pdf:'',
+   img:'https://www.nissan-arabianpeninsula.com/content/dam/Nissan/na-common/new-patrol/nismo/patrol-nismo-hero.jpg',
+   specs:{Engine:'5.6L V8 NISMO Tuned',Power:'428 hp',Torque:'570 Nm',Trans:'7-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+  {id:10,wiki:'Geely Galaxy E8',brand:'BYD',model:'Seagull 2025',type:'ev',badge:'EV',price:72000,upcoming:true,pdf:'',
+   img:'https://ev.byd.com/eu/content/dam/byd-eu/images/Seagull/seagull-overview-hero.jpg',
+   specs:{Battery:'38.9 kWh',Range:'405 km',Power:'74 hp',Charge_DC:'40 kW',Drive:'FWD',Seats:'5'}},
+  // ─── HYBRID / PHEV ───
+  {id:11,wiki:'Toyota Camry',brand:'Toyota',model:'Prado Hybrid 2024',type:'suv',badge:'Hybrid',price:195000,pdf:'Toyota_Qatar/Prado 2024 - Digital CLK copy.pdf',
+   img:'https://global.toyota/pages/models/images/landcruiserprado/landcruiserprado_kv_w1920.jpg',
+   specs:{Engine:'2.4L Turbo Hybrid',Power:'326 hp',Torque:'630 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Hybrid'}},
+  {id:12,wiki:'Honda Accord',brand:'Toyota',model:'Camry Hybrid',type:'sedan',badge:'Hybrid',price:95000,pdf:'Toyota_Qatar_Brochures/Toyota_Camry_Brochure.pdf',
+   img:'https://tmna.aemassets.toyota.com/is/image/toyota/toyota/jellies/relative/2026/camry/base.png?wid=1140&hei=600&fmt=jpg&fit=crop',
+   specs:{Engine:'2.5L Hybrid',Power:'218 hp',Trans:'e-CVT',Drive:'FWD',Seats:'5',Fuel:'Hybrid'}},
+  {id:13,wiki:'Toyota RAV4',brand:'Honda',model:'CR-V e:HEV',type:'suv',badge:'Hybrid',price:120000,pdf:'Honda_Qatar/Honda_CRV_Brochure.pdf',
+   img:'https://automobiles.honda.com/-/media/Honda-Automobiles/Vehicles/2026/CR-V/nonVLP/Global-Nav/MY26_CR-V_Hybrid_BAP_Jelly.png?sc_lang=en',
+   specs:{Engine:'2.0L i-MMD Hybrid',Power:'204 hp',Trans:'e-CVT',Drive:'AWD',Seats:'5',Fuel:'Hybrid'}},
+  {id:14,wiki:'Kia Sportage',brand:'Hyundai',model:'Santa Fe Hybrid',type:'suv',badge:'Hybrid',price:155000,pdf:'Hyundai_Qatar/Hyundai_SantaFe_Brochure.pdf',
+   img:'https://www.hyundai.com/content/dam/hyundai/master/en/data/find-a-car/suv/santa-fe/inquiry/pc/santa-fe-overview-exterior-pc.jpg',
+   specs:{Engine:'1.6L Turbo Hybrid',Power:'230 hp',Trans:'6-speed Auto',Drive:'AWD',Seats:'7',Fuel:'Hybrid'}},
+  {id:15,wiki:'Hyundai Santa Fe',brand:'BYD',model:'Shark 6 PHEV',type:'pickup',badge:'PHEV',price:155000,pdf:'BYD/BYD_SHARK6_DMO_Brochure.pdf',
+   img:'https://ev.byd.com/eu/content/dam/byd-eu/images/shark/byd-shark-overview.jpg',
+   specs:{Engine:'2.0T + Dual Motor',Power:'665 hp',Torque:'800 Nm',Drive:'4WD',Seats:'5',Fuel:'PHEV',EV_Range:'100 km'}},
+  // ─── EV ───
+  {id:16,wiki:'GMC Yukon',brand:'BYD',model:'ATTO 3',type:'ev',badge:'EV',price:130000,pdf:'BYD/BYD_ATTO3_Brochure.pdf',
+   img:'https://ev.byd.com/eu/content/dam/byd-eu/images/atto3/atto3-overview-exterior.jpg',
+   specs:{Battery:'60.5 kWh',Range:'400 km',Power:'204 hp',Charge_DC:'80 kW',Drive:'FWD',Seats:'5'}},
+  {id:17,wiki:'Toyota Fortuner',brand:'BYD',model:'SEAL',type:'ev',badge:'EV',price:145000,pdf:'BYD/BYD_SEAL_Brochure.pdf',
+   img:'https://ev.byd.com/eu/content/dam/byd-eu/images/seal/seal-overview-exterior.jpg',
+   specs:{Battery:'82.5 kWh',Range:'520 km',Power:'523 hp',Charge_DC:'150 kW',Drive:'AWD',Seats:'5'}},
+  {id:18,wiki:'Nissan Navara',brand:'Hyundai',model:'IONIQ 5',type:'ev',badge:'EV',price:175000,pdf:'Hyundai_Qatar/Hyundai_Ioniq5_Brochure.pdf',
+   img:'https://www.hyundai.com/content/dam/hyundai/master/en/data/find-a-car/passenger-car/ioniq5/inquiry/pc/ioniq5-overview-exterior-pc.jpg',
+   specs:{Battery:'77.4 kWh',Range:'481 km',Power:'325 hp',Charge_DC:'230 kW',Drive:'AWD',Seats:'5'}},
+  {id:19,wiki:'Mazda CX-60',brand:'Hyundai',model:'IONIQ 6',type:'ev',badge:'EV',price:185000,pdf:'Hyundai_Qatar/Hyundai_Ioniq6_Brochure.pdf',
+   img:'https://www.hyundai.com/content/dam/hyundai/master/en/data/find-a-car/passenger-car/ioniq6/inquiry/pc/ioniq6-overview-exterior-pc.jpg',
+   specs:{Battery:'77.4 kWh',Range:'614 km',Power:'325 hp',Charge_DC:'230 kW',Drive:'AWD',Seats:'5'}},
+  {id:20,wiki:'Infiniti QX80',brand:'Kia',model:'EV6',type:'ev',badge:'EV',price:180000,pdf:'Kia_Qatar/Kia_EV6_Brochure.pdf',
+   img:'https://www.kia.com/content/dam/kwsovp/us/en/kia/ev6/2024/imagery/exterior/kia-ev6-2024-gallery-exterior-01-full.jpg',
+   specs:{Battery:'77.4 kWh',Range:'528 km',Power:'577 hp',Charge_DC:'240 kW',Drive:'AWD',Seats:'5'}},
+  // ─── LUXURY ───
+  {id:21,wiki:'Suzuki Vitara',brand:'Land Rover',model:'Range Rover',type:'luxury',badge:null,price:520000,pdf:'LandRover/LandRover_RangeRover_Brochure.pdf',
+   img:'https://www.rangerover.com/content/dam/lrdx/global/l460/27my/int/L46027GL_303105263_WESTMINSTER_011_DX_ALT.jpg',
+   specs:{Engine:'4.4L V8',Power:'530 hp',Torque:'750 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
+  {id:22,brand:'Land Rover',model:'Defender 110',type:'luxury',badge:null,price:295000,pdf:'LandRover/LandRover_Defender_2024_SpecGuide.pdf',
+   img:'https://jlr.scene7.com/is/image/jlr/L66326GL_303104383_060_DX',
+   specs:{Engine:'3.0L Mild Hybrid',Power:'400 hp',Trans:'8-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol'}},
+  {id:23,brand:'GMC',model:'Yukon Denali',type:'luxury',badge:null,price:310000,pdf:'GMC/GMC_Yukon_2024_Brochure.pdf',
+   img:'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2026/suvs/yukon/overview/gallery/my26-yukon-mov-safety-gallery-preview4-2500x1248-25PGYK00037.jpg',
+   specs:{Engine:'6.2L V8',Power:'420 hp',Torque:'624 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+  {id:24,brand:'Infiniti',model:'QX80 2025',type:'luxury',badge:null,price:295000,pdf:'Infiniti/Infiniti_QX80_MY25_Brochure.pdf',
+   img:'https://www.infiniti-cdn.net/content/dam/Infiniti/entryway/vehicles/qx80/2026/overview/2026-infiniti-qx80-hero-video-d.jpg',
+   specs:{Engine:'3.5L V6 Hybrid',Power:'400 hp',Trans:'7-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+  {id:25,brand:'Porsche',model:'Cayenne PHEV',type:'luxury',badge:'PHEV',price:450000,pdf:'https://autocatalogarchive.com/wp-content/uploads/2022/10/Porsche-Cayenne-2021-INT.pdf',
+   img:'https://images.porsche.com/f/285489813253582/5000x1795/94e6583a68/model-9yaai1-side-shot_4d0897f6999243f281be5868f6992c04.png',
+   specs:{Engine:'4.0L V8 + Motor',Power:'739 hp',Torque:'1000 Nm',Drive:'AWD',Seats:'5',Fuel:'PHEV',EV_Range:'42 km'}},
+  // ─── CHINESE BRANDS ───
+  {id:26,wiki:'Toyota Land Cruiser 70 Series',brand:'BYD',model:'HAN EV',type:'chinese',badge:'EV',price:160000,pdf:'BYD/BYD_HAN-EV_Brochure.pdf',
+   img:'https://ev.byd.com/eu/content/dam/byd-eu/images/han/han-ev-overview-exterior.jpg',
+   specs:{Battery:'85.4 kWh',Range:'521 km',Power:'517 hp',Charge_DC:'120 kW',Drive:'AWD',Seats:'5'}},
+  {id:27,wiki:'Land Rover Defender',brand:'Geely',model:'Monjaro',type:'chinese',badge:null,price:125000,pdf:'Geely/Geely_Monjaro.pdf',
+   img:'https://www.geely.com/content/dam/geely-auto/models/monjaro/monjaro-hero.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'238 hp',Trans:'7-speed DCT',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
+  {id:28,wiki:'BMW X7',brand:'Jetour',model:'Traveller 8',type:'chinese',badge:null,price:155000,upcoming:false,pdf:'',
+   img:'https://www.jetourglobal.com/content/dam/jetour/models/traveller/traveller-overview-hero.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'261 hp',Trans:'8-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+  {id:29,wiki:'Mercedes-Benz GLS-Class',brand:'Zeekr',model:'001',type:'chinese',badge:'EV',price:195000,pdf:'Zeekr/Zeekr_001.pdf',
+   img:'https://www.zeekrlife.com/media/001/zeekr-001-exterior-front.jpg',
+   specs:{Battery:'100 kWh',Range:'620 km',Power:'544 hp',Charge_DC:'200 kW',Drive:'AWD',Seats:'4'}},
+  {id:30,wiki:'Porsche Cayenne',brand:'LiAuto',model:'L9',type:'chinese',badge:'PHEV',price:210000,pdf:'LiAuto/LiAuto_L9.pdf',
+   img:'https://www.lixiang.com/imgs/models/l9/l9-overview-exterior.jpg',
+   specs:{Engine:'1.5T + Dual Motor',Power:'449 hp',Drive:'AWD',Seats:'6',Fuel:'PHEV',EV_Range:'215 km'}},
+  // ─── MORE MODELS ───
+  {id:31,wiki:'Ford Ranger',brand:'Ford',model:'Ranger Raptor',type:'pickup',badge:null,price:148000,pdf:'Ford/Ford_Ranger_MY25_Spec.pdf',
+   img:'https://www.ford.com/acslibs/content/dam/na/ford/en_us/images/ranger/2025/general/Social_Lifestyle_Storytelling-Ranger_Raptor_9_fade.jpg',
+   specs:{Engine:'3.0L V6 Twin-Turbo',Power:'288 hp',Torque:'583 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
+  {id:32,wiki:'Ford Mustang',brand:'Ford',model:'Mustang GT',type:'sports',badge:null,price:185000,pdf:'Ford/Ford_Mustang_MY26_Spec.pdf',
+   img:'https://www.ford.com/acslibs/content/dam/na/ford/en_us/images/mustang/2026/general/ford-mustang-gt-2026-hero.jpg',
+   specs:{Engine:'5.0L V8 Coyote',Power:'486 hp','0-100':'4.3 s',Trans:'10-speed Auto',Drive:'RWD',Seats:'4',Fuel:'Petrol'}},
+  {id:33,wiki:'Honda Accord',brand:'Honda',model:'Accord e:HEV',type:'sedan',badge:'Hybrid',price:105000,pdf:'Honda_Qatar/Honda_Accord_HEV_Brochure.pdf',
+   img:'https://automobiles.honda.com/-/media/Honda-Automobiles/Vehicles/2026/accord-sedan/Non-VLP/NAV/MY26_ACCORD_Global-Nav_Jelly.png?sc_lang=en',
+   specs:{Engine:'2.0L i-MMD',Power:'204 hp',Trans:'e-CVT',Drive:'FWD',Seats:'5',Fuel:'Hybrid'}},
+  {id:34,wiki:'Kia Sorento',brand:'Kia',model:'Sorento',type:'suv',badge:null,price:145000,pdf:'Kia_Qatar/Kia_Sorento_Brochure.pdf',
+   img:'https://www.kia.com/content/dam/kwsovp/us/en/kia/sorento/2024/imagery/exterior/kia-sorento-2024-gallery-exterior-01-full.jpg',
+   specs:{Engine:'2.5L Turbo',Power:'281 hp',Trans:'8-speed DCT',Drive:'AWD',Seats:'7',Fuel:'Petrol'}},
+  {id:35,wiki:'Toyota HiAce',brand:'Toyota',model:'Granvia',type:'mpv',badge:null,price:165000,pdf:'Toyota_Qatar_Brochures/Toyota_Granvia_Brochure.pdf',
+   img:'https://global.toyota/pages/models/images/granvia/granvia_kv_w1920.jpg',
+   specs:{Engine:'2.8L Turbo Diesel',Power:'177 hp',Trans:'6-speed Auto',Drive:'RWD',Seats:'12',Fuel:'Diesel'}},
+  {id:36,wiki:'Lexus GX',brand:'Lexus',model:'GX 550',type:'luxury',badge:null,price:320000,pdf:'Lexus/Lexus_GX_2025_Brochure.pdf',
+   img:'https://www.lexus.com/content/dam/lexus/images/models/gx/2024/lexus-gx-550-overview-hero.jpg',
+   specs:{Engine:'3.4L V6 Twin-Turbo',Power:'349 hp',Trans:'10-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol'}},
+  {id:37,wiki:'Isuzu D-Max',brand:'Isuzu',model:'D-Max',type:'pickup',badge:null,price:95000,pdf:'Isuzu/Isuzu_Dmax_Catalogue.pdf',
+   img:'https://www.isuzu-global.com/product/dmax/images/dmax-hero.jpg',
+   specs:{Engine:'1.9L Turbo Diesel',Power:'163 hp',Trans:'6-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
+  {id:38,wiki:'Mitsubishi Outlander PHEV',brand:'Mitsubishi',model:'Outlander PHEV',type:'suv',badge:'PHEV',price:135000,pdf:'Mitsubishi/Mitsubishi_Outlander.pdf',
+   img:'https://www.mitsubishi-motors.com/content/dam/com/motorshowroom/en/outlander_phev/exterior-front.jpg',
+   specs:{Engine:'2.4L + Twin Motor',Power:'248 hp',Drive:'4WD',Seats:'7',Fuel:'PHEV',EV_Range:'87 km'}},
+  // ─── CHINESE BRANDS ───
+  {id:39,wiki:'Jetour T2',brand:'Jetour',model:'T2',type:'chinese',badge:null,price:146000,pdf:'Jetour/jetour-t2-2025my.pdf',
+   img:'https://www.jetourglobal.com/content/dam/jetour/models/t2/t2-overview-hero.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'254 hp',Torque:'390 Nm',Trans:'7-speed DCT',Drive:'4WD',Seats:'5',Fuel:'Petrol'}},
+  {id:40,brand:'Jetour',model:'G700',type:'chinese',badge:null,price:185000,pdf:'Jetour/jetour-g700-v2-brochure.pdf',
+   img:'https://jetourglobal.com/new-static/images/vehicles/cars/g700/p1_1.png',
+   specs:{Engine:'2.0T Turbo',Power:'254 hp',Torque:'390 Nm',Trans:'9-speed Auto',Drive:'AWD',Seats:'7',Fuel:'Petrol'}},
+  {id:41,brand:'Jetour',model:'Dashing',type:'chinese',badge:null,price:89000,pdf:'Jetour/2024-Dashing-Brochure.pdf',
+   img:'https://jetourglobal.com/new-static/images/vehicles/image/dashing.png',
+   specs:{Engine:'1.6T Turbo',Power:'197 hp',Torque:'290 Nm',Trans:'7-speed DCT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
+  {id:42,brand:'Jetour',model:'Traveller 8',type:'chinese',badge:null,price:210000,upcoming:true,pdf:'',
+   img:'https://carnewschina.com/wp-content/uploads/2026/04/img_20260424_120528-1-1500x844.jpg',
+   specs:{Engine:'2.4T Turbo',Power:'270 hp',Trans:'9-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol',Body:'Full-size MPV'}},
+  {id:43,brand:'iCar',model:'V23',type:'chinese',badge:'EV',price:54964,pdf:'https://autocatalogarchive.com/wp-content/uploads/2025/12/iCAUR-V23-2026-MY.pdf',
+   img:'https://www.icaur.com.my/_next/static/media/v23_front.414714b4.webp',
+   specs:{Motor:'Single/Dual',Power:'211 hp (AWD)',Range:'501 km',Battery:'64.7 kWh',Drive:'AWD',Seats:'5',Design:'Retro Boxy EV'}},
+  {id:44,wiki:'GWM Tank 300',brand:'GWM',model:'Tank 300',type:'chinese',badge:null,price:168000,pdf:'GWM/Brochure_tank300.pdf',
+   img:'https://www.gwm-global.com/content/dam/gwm/models/tank300/tank300-exterior-front.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'227 hp',Torque:'387 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Petrol',Type:'Off-Road Ladder Frame'}},
+  {id:45,wiki:'GWM Tank 500',brand:'GWM',model:'Tank 500 Hi4-T',type:'chinese',badge:'Hybrid',price:248000,pdf:'GWM/Brochure_tank500hybrid.pdf',
+   img:'https://www.gwm-global.com/content/dam/gwm/models/tank500/tank500-exterior-front.jpg',
+   specs:{Engine:'2.0T + Electric',Power:'340 hp System',Torque:'750 Nm',Trans:'9-speed Auto',Drive:'4WD',Seats:'7',Fuel:'PHEV',EV_Range:'100 km'}},
+  {id:46,brand:'Denza',model:'D9',type:'chinese',badge:'EV',price:265000,pdf:'Denza/Denza_B8_Flagship_6-Seater.pdf',
+   img:'https://media.byd.com/wp-content/uploads/2026/04/b2f42a83c2a8a8872e0183b47583ef3a-l.jpg',
+   specs:{Motor:'Dual',Power:'536 hp',Range:'620 km',Battery:'103 kWh',Drive:'AWD',Seats:'7',Body:'Premium MPV'}},
+  {id:47,brand:'Denza',model:'B5',type:'chinese',badge:'EV',price:175000,pdf:'Denza/Denza_B5_Deluxe.pdf',
+   img:'https://www.denza.com/material/denza-site/au/home/site-updates-2-december/B5-heroweb.webp',
+   specs:{Motor:'Single/Dual',Power:'402 hp (AWD)',Range:'526 km',Battery:'82 kWh',Drive:'FWD/AWD',Seats:'5',Body:'Electric SUV'}},
+  {id:48,brand:'Denza',model:'B8',type:'chinese',badge:'EV',price:235000,pdf:'Denza/Denza_B8_Flagship_6-Seater.pdf',
+   img:'https://www.denza.com/material/denza-site/au/home/site-updates-2-december/B8ReserveNowDesktop.webp',
+   specs:{Motor:'Dual',Power:'536 hp',Range:'520 km',Battery:'103 kWh',Drive:'AWD',Seats:'6/7',Body:'Large Electric SUV'}},
+  {id:49,brand:'Deepal',model:'S07',type:'chinese',badge:'EV',price:135000,pdf:'Deepal/Deepal_S07.pdf',
+   img:'https://i0.wp.com/changanuk.media/wp-content/uploads/2025/09/S07-19-1.jpg',
+   specs:{Motor:'Single',Power:'218 hp',Range:'520 km',Battery:'66.7 kWh',Drive:'RWD',Seats:'5',Body:'Electric Crossover'}},
+  {id:50,brand:'Deepal',model:'G318',type:'chinese',badge:'EV',price:168000,pdf:'Deepal/Deepal_G318.pdf',
+   img:'https://www.deepal-eg.com/media/products/G318_Exterior_1920_x_1113_g318.png',
+   specs:{Motor:'Dual',Power:'402 hp',Range:'460 km',Battery:'82 kWh',Drive:'AWD',Seats:'5',Body:'Adventure EV SUV'}},
+  {id:51,wiki:'MG4 EV',brand:'MG',model:'MG4 EV',type:'chinese',badge:'EV',price:89000,pdf:'MG/MG_4_EV.pdf',
+   img:'https://www.mgmotor.co.uk/content/dam/mg/mg4/mg4-electric-gallery-hero.jpg',
+   specs:{Motor:'Single',Power:'204 hp',Range:'435 km',Battery:'64 kWh',Drive:'RWD',Seats:'5',Body:'Compact Electric Hatch'}},
+  {id:52,brand:'MG',model:'MG7',type:'chinese',badge:null,price:98000,pdf:'MG/MG_7.pdf',
+   img:'https://media-hub-prod.mgmotor.me/api/v2/images/422/w/896/h/504.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'258 hp',Torque:'405 Nm',Trans:'8-speed Auto',Drive:'FWD',Seats:'5',Body:'Sport Sedan'}},
+  {id:53,brand:'Hongqi',model:'H9',type:'chinese',badge:null,price:295000,pdf:'Hongqi/Hongqi_H9.pdf',
+   img:'https://www.hongqi-auto.com/storage/faw/20250822_h9.webp',
+   specs:{Engine:'2.0T Turbo',Power:'252 hp',Trans:'8-speed Auto',Drive:'RWD/AWD',Seats:'5',Fuel:'Petrol',Body:'Luxury Flagship Sedan'}},
+  {id:54,brand:'Hongqi',model:'HS7',type:'chinese',badge:null,price:245000,pdf:'Hongqi/Hongqi_HS7.pdf',
+   img:'https://www.hongqi-auto.com/images/cartype/hs7_2025/kv.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'252 hp',Trans:'8-speed Auto',Drive:'AWD',Seats:'7',Fuel:'Petrol',Body:'Luxury Large SUV'}},
+  {id:55,brand:'BAIC',model:'BJ40 SE',type:'chinese',badge:null,price:128000,pdf:'BAIC/BAIC_BJ40SE.pdf',
+   img:'https://www.baicglobal.com/file/common/image/2024/12/16/DM_20241216155313_001_20241216160344A663.png',
+   specs:{Engine:'2.3T Turbo',Power:'224 hp',Torque:'340 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Petrol',Type:'Off-Road'}},
+  {id:56,brand:'Maxus',model:'D90 Pro',type:'chinese',badge:null,price:155000,pdf:'Maxus/Maxus_D90.pdf',
+   img:'https://maxus.sa/wp-content/uploads/2025/07/Maxus-D90-Pro.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'224 hp',Torque:'360 Nm',Trans:'6-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol',Body:'Flagship MPV'}},
+  {id:57,wiki:'Zeekr 7X',brand:'Zeekr',model:'7X',type:'chinese',badge:'EV',price:195000,pdf:'Zeekr/Zeekr_7X.pdf',
+   img:'https://www.zeekrlife.com/media/7x/zeekr-7x-exterior-front.jpg',
+   specs:{Motor:'Dual',Power:'544 hp','0-100':'3.8 s',Range:'605 km',Battery:'100 kWh',Drive:'AWD',Seats:'5',Body:'Performance Electric SUV'}},
+  {id:58,wiki:'Xpeng G9',brand:'Xpeng',model:'G9',type:'chinese',badge:'EV',price:215000,pdf:'Xpeng/Xpeng_G9.pdf',
+   img:'https://www.xpeng.com/content/dam/xpeng/models/g9/xpeng-g9-overview-hero.jpg',
+   specs:{Motor:'Dual',Power:'551 hp','0-100':'3.9 s',Range:'520 km',Battery:'98 kWh',Drive:'AWD',Seats:'6',Body:'Premium Electric SUV'}},
+  {id:59,brand:'LiAuto',model:'L9',type:'chinese',badge:'PHEV',price:335000,pdf:'LiAuto/Li_Auto_L9.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2026/05/e59bbee78987-55-e1778836967641-800x451.png',
+   specs:{Engine:'1.5T + Electric',Power:'449 hp System',Range:'1315 km',EV_Range:'215 km',Drive:'AWD',Seats:'6',Body:'6-Seat Flagship SUV'}},
+
+  // ─── GLOBAL NEW LAUNCHES (upcoming) ───
+  {id:60,wiki:'Slate Auto Truck',brand:'Slate',model:'Truck',type:'ev',badge:'EV',price:24950,upcoming:true,pdf:'',
+   img:'https://static.slateauto.com/media/slate-truck-hero.jpg',
+   specs:{Motor:'Single RWD',Power:'181 hp',Range:'240 km',Battery:'65 kWh LFP',Drive:'RWD',Seats:'2',Body:'Compact EV Pickup',Origin:'USA 2026'}},
+  {id:61,wiki:'Rivian R2',brand:'Rivian',model:'R2',type:'ev',badge:'EV',price:45000,upcoming:true,pdf:'',
+   img:'https://res.cloudinary.com/rivian-main/image/upload/f_auto/q_auto/v1/gold-iris/metadata/R2?_a=BAVHt2DY0',
+   specs:{Motor:'Dual AWD',Power:'~350 hp',Range:'530 km',Battery:'75 kWh',Drive:'AWD',Seats:'5',Body:'Compact Adventure SUV',Origin:'USA 2026'}},
+  {id:62,brand:'Scout',model:'Terra',type:'pickup',badge:'EV',price:218000,upcoming:true,pdf:'',
+   img:'https://blog.scoutmotors.com/wp-content/uploads/2025/01/Scout-Terra_Exterior-MJR_1022-sm.jpg',
+   specs:{Motor:'Dual AWD',Power:'~400 hp',Range:'480 km',Drive:'AWD',Seats:'5',Body:'Rugged EV Pickup',Origin:'USA/VW 2026'}},
+  {id:63,wiki:'Hyundai IONIQ 9',brand:'Hyundai',model:'IONIQ 9',type:'suv',badge:'EV',price:285000,upcoming:true,pdf:'',
+   img:'https://www.hyundainews.com/assets/images/original/2024/10/22/185456-HyundaiMotorRevealseIONIQ9.jpg',
+   specs:{Motor:'Dual AWD',Power:'422 hp','0-100':'5.0 s',Range:'620 km',Battery:'110.3 kWh',Drive:'AWD',Seats:'7/8',Body:'Full-size Electric SUV'}},
+  {id:64,wiki:'Kia EV3',brand:'Kia',model:'EV3',type:'suv',badge:'EV',price:105000,upcoming:true,pdf:'',
+   img:'https://www.kia.com/content/dam/kwsovp/int/models/ev3/2024/imagery/kia-ev3-2024-exterior-01.jpg',
+   specs:{Motor:'Single',Power:'201 hp',Range:'600 km',Battery:'81.4 kWh',Drive:'FWD',Seats:'5',Body:'Compact Electric SUV',Origin:'Global 2025'}},
+  {id:65,brand:'Toyota',model:'C-HR EV',type:'suv',badge:'EV',price:138000,upcoming:true,pdf:'',
+   img:'https://global.toyota/pages/news/images/2025/03/12/0801/001.jpg',
+   specs:{Motor:'Single/Dual',Power:'168/196 hp',Range:'400 km',Battery:'54 kWh',Drive:'FWD/AWD',Seats:'5',Body:'Crossover EV'}},
+];
+
+// UPCOMING extras (placeholder images will use SVG)
+const UPCOMING_IDS=[6,7,8,9,10,42,60,61,62,63,64,65];
+
+const CHARGING_STATIONS=[
+  {id:'c1',name:'Hamad International Airport',area:'Airport',network:'KAHRAMAA',type:'DC Fast',power:'150 kW',ports:4,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.2732,51.6096',free:true},
+  {id:'c2',name:'Shura Council HQ',area:'West Bay',network:'KAHRAMAA',type:'DC Fast',power:'150 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.3285,51.5316',free:true},
+  {id:'c3',name:'Qatar National Museum',area:'Al Corniche',network:'KAHRAMAA',type:'AC Fast',power:'22 kW',ports:4,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.2805,51.5500',free:true},
+  {id:'c4',name:'Qatar University Campus',area:'Al Tariq',network:'KAHRAMAA',type:'AC Fast',power:'22 kW',ports:6,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.3784,51.4919',free:true},
+  {id:'c5',name:'Aspire Zone',area:'Al Waab',network:'KAHRAMAA',type:'DC Fast',power:'100 kW',ports:4,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.2628,51.4447',free:true},
+  {id:'c6',name:'Lusail City Zone 66',area:'Lusail',network:'KAHRAMAA',type:'DC Fast',power:'150 kW',ports:6,connectors:['CCS2','CHAdeMO','Type2'],status:'available',maps:'https://maps.google.com/?q=25.4241,51.5047',free:false},
+  {id:'c7',name:'The Pearl – Porto Arabia',area:'The Pearl',network:'KAHRAMAA',type:'AC+DC',power:'50 kW',ports:8,connectors:['CCS2','Type2'],status:'available',maps:'https://maps.google.com/?q=25.3688,51.5514',free:false},
+  {id:'c8',name:'Msheireb Downtown',area:'Msheireb',network:'KAHRAMAA',type:'AC Fast',power:'22 kW',ports:6,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.2869,51.5330',free:false},
+  {id:'c9',name:'Education City – QSTP',area:'Education City',network:'KAHRAMAA',type:'AC Fast',power:'22 kW',ports:4,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.3163,51.4244',free:true},
+  {id:'c10',name:'Ministry of Environment',area:'Al Dafna',network:'KAHRAMAA',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2'],status:'available',maps:'https://maps.google.com/?q=25.3225,51.5300',free:true},
+  {id:'c11',name:'WOQOD Al Muntazah',area:'Al Muntazah',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.2726,51.5177',free:false},
+  {id:'c12',name:'WOQOD Al Waab',area:'Al Waab',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.2715,51.4534',free:false},
+  {id:'c13',name:'WOQOD Al Sadd',area:'Al Sadd',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'busy',maps:'https://maps.google.com/?q=25.2780,51.5078',free:false},
+  {id:'c14',name:'WOQOD West Bay',area:'West Bay',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.3269,51.5268',free:false},
+  {id:'c15',name:'WOQOD Al Gharafa',area:'Al Gharafa',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.3354,51.4889',free:false},
+  {id:'c16',name:'WOQOD Duhail',area:'Duhail',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.3521,51.5225',free:false},
+  {id:'c17',name:'WOQOD Al Wakra',area:'Al Wakra',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'busy',maps:'https://maps.google.com/?q=25.1726,51.6020',free:false},
+  {id:'c18',name:'WOQOD Al Khor',area:'Al Khor',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.6849,51.4960',free:false},
+  {id:'c19',name:'WOQOD Mesaieed',area:'Mesaieed',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=24.9948,51.5546',free:false},
+  {id:'c20',name:'WOQOD Old Airport Road',area:'Al Rayyan',network:'WOQOD',type:'DC Fast',power:'100 kW',ports:2,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.2627,51.5543',free:false},
+  {id:'c21',name:'Tesla Supercharger – Festival City',area:'Al Khor Rd',network:'Tesla',type:'V3 Supercharger',power:'250 kW',ports:8,connectors:['Tesla CCS'],status:'available',maps:'https://maps.google.com/?q=25.4046,51.5207',free:false},
+  {id:'c22',name:'Doha Festival City Mall',area:'Al Khor Rd',network:'Mall',type:'DC Fast',power:'100 kW',ports:6,connectors:['CCS2','CHAdeMO','Type2'],status:'available',maps:'https://maps.google.com/?q=25.4046,51.5207',free:false},
+  {id:'c23',name:'City Center Doha',area:'West Bay',network:'Mall',type:'AC Fast',power:'22 kW',ports:8,connectors:['CCS2','Type2'],status:'available',maps:'https://maps.google.com/?q=25.3395,51.5291',free:false},
+  {id:'c24',name:'Mall of Qatar',area:'Al Rayyan',network:'Mall',type:'DC Fast',power:'100 kW',ports:4,connectors:['CCS2','CHAdeMO','Type2'],status:'available',maps:'https://maps.google.com/?q=25.2919,51.4048',free:false},
+  {id:'c25',name:'Villaggio Mall',area:'Al Waab',network:'Mall',type:'AC Fast',power:'22 kW',ports:4,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.2618,51.4363',free:false},
+  {id:'c26',name:'Lagoona Mall',area:'West Bay Lagoon',network:'Mall',type:'AC Fast',power:'22 kW',ports:4,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.3444,51.5360',free:false},
+  {id:'c27',name:'Four Seasons Hotel',area:'West Bay',network:'Hotel',type:'AC',power:'22 kW',ports:4,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.3300,51.5400',free:true},
+  {id:'c28',name:'Sheraton Grand Doha',area:'West Bay',network:'Hotel',type:'AC',power:'7 kW',ports:2,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.3219,51.5385',free:true},
+  {id:'c29',name:'Marsa Malaz Kempinski',area:'The Pearl',network:'Hotel',type:'AC',power:'22 kW',ports:4,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.3688,51.5516',free:true},
+  {id:'c30',name:'Mondrian Doha',area:'West Bay Lagoon',network:'Hotel',type:'AC',power:'22 kW',ports:2,connectors:['Type2'],status:'available',maps:'https://maps.google.com/?q=25.3472,51.5371',free:true},
+];
+</script>
+<script>
+// ============ STATE ============
+let compareList=[], activeEvTab='ev-cars';
+let browseFilters={search:'',type:'',brand:'',minP:0,maxP:9999999};
+
+// ============ UTILS ============
+function fmt(n){return'QAR '+n.toLocaleString();}
+function getCarById(id){return CARS.find(c=>c.id===id);}
+function showToast(msg,ok){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.background=ok===false?'#e8340a':'#1a2744';
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ============ SVG FALLBACK ============
+function genCarSvg(brand,model,color){
+  const c=color||'#f05a1a';
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="200" viewBox="0 0 360 200">
+  <rect width="360" height="200" fill="#f5f2ee"/>
+  <rect x="0" y="0" width="360" height="3" fill="${c}"/>
+  <path d="M55 132 L70 132 L82 104 C88 91 106 80 136 76 L195 74 C225 73 248 80 262 96 L278 112 L285 132 Z" fill="${c}" opacity="0.18" stroke="${c}" stroke-width="1.5" stroke-opacity="0.4"/>
+  <path d="M124 76 L144 52 C149 44 162 41 180 40 L208 40 C226 40 238 46 246 55 L260 76 Z" fill="${c}" opacity="0.25"/>
+  <line x1="192" y1="76" x2="190" y2="132" stroke="${c}" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="265" y="98" width="15" height="9" rx="2" fill="${c}" opacity="0.6"/>
+  <rect x="268" y="110" width="10" height="5" rx="1" fill="${c}" opacity="0.35"/>
+  <rect x="51" y="98" width="13" height="9" rx="2" fill="${c}" opacity="0.5"/>
+  <circle cx="120" cy="144" r="22" fill="#e8e3dc" stroke="${c}" stroke-width="3" opacity="0.7"/>
+  <circle cx="120" cy="144" r="11" fill="#f0ede8" stroke="${c}" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="120" cy="144" r="4" fill="${c}" opacity="0.5"/>
+  <circle cx="243" cy="144" r="22" fill="#e8e3dc" stroke="${c}" stroke-width="3" opacity="0.7"/>
+  <circle cx="243" cy="144" r="11" fill="#f0ede8" stroke="${c}" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="243" cy="144" r="4" fill="${c}" opacity="0.5"/>
+  <line x1="30" y1="167" x2="330" y2="167" stroke="${c}" stroke-width="1" stroke-opacity="0.1"/>
+  <text x="180" y="188" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="14" letter-spacing="3" fill="${c}" opacity="0.7">${brand.toUpperCase()}</text>
+</svg>`;
+  return'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+}
+
+// ============ NAV ============
+function showPage(pageId,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=document.getElementById('page-'+pageId);
+  if(pg)pg.classList.add('active');
+  document.querySelectorAll('.hn-item').forEach(n=>n.classList.remove('active'));
+  if(el)el.classList.add('active');
+  window.scrollTo(0,0);
+  if(pageId==='home'){renderBrandStrip();renderHomeSections();}
+  if(pageId==='browse'){renderBrowse();}
+  if(pageId==='ev'){renderEvCars();}
+}
+function showPageFilter(type){
+  browseFilters={search:'',type,brand:'',minP:0,maxP:9999999};
+  showPage('browse');
+}
+function filterByBrand(b){
+  browseFilters={search:'',type:'',brand:b,minP:0,maxP:9999999};
+  showPage('browse');
+}
+
+// ============ BRAND STRIP ============
+function renderBrandStrip(){
+  const el=document.getElementById('brandStripGrid');if(!el)return;
+  el.innerHTML=BRANDS.map(b=>`<div class="brand-pill" onclick="filterByBrand('${b.name}')">${b.name}</div>`).join('');
+}
+
+// ============ FILTER CHIPS ============
+function initFilterChips(){
+  const el=document.getElementById('filterBar');if(!el)return;
+  const chips=[
+    {l:'All',f:''},{l:'SUV',f:'suv'},{l:'Sedan',f:'sedan'},{l:'Pickup',f:'pickup'},
+    {l:'Luxury',f:'luxury'},{l:'⚡ Electric',f:'ev'},{l:'🔋 Hybrid',f:'hybrid'},
+    {l:'MPV',f:'mpv'},{l:'Sports',f:'sports'},{l:'Chinese',f:'chinese'},
+  ];
+  el.innerHTML=chips.map(c=>`<button class="fchip${c.f===''?' active':''}" data-filter="${c.f}" onclick="applyChip('${c.f}',this)">${c.l}</button>`).join('');
+}
+function applyChip(filter,el){
+  document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderHomeSections(filter);
+}
+
+// ============ CAR CARD ============
+function badgeHtml(b){
+  if(!b)return'';
+  const map={EV:'#10b981',Hybrid:'#3b82f6',PHEV:'#8b5cf6'};
+  return`<div class="car-badge" style="background:${map[b]||'#f05a1a'}">${b}</div>`;
+}
+function cardHtml(c){
+  const bc=BRANDS.find(b=>b.name===c.brand);
+  const bcolor=bc?bc.color:'#f05a1a';
+  const inCmp=compareList.some(x=>x.id===c.id);
+  const svgSrc=genCarSvg(c.brand,c.model,bcolor);
+  const localImg=`images/car-${c.id}.jpg`;
+  const primarySrc=c.img||localImg;
+  return`<div class="car-card" id="card-${c.id}">
+    <div class="car-img-wrap" onclick="openCarModal(${c.id})">
+      <img src="${primarySrc}" data-wiki="${c.wiki||''}" alt="${c.brand} ${c.model}"
+        style="width:100%;height:100%;object-fit:cover"
+        onerror="if(this.src!=='${localImg}'){this.onerror=null;this.src='${localImg}';}else{this.onerror=null;this.src='${svgSrc}';}">
+      ${badgeHtml(c.badge)}
+      ${c.upcoming?'<div class="upcoming-badge">Coming Soon</div>':''}
+    </div>
+    <div class="car-info">
+      <div class="car-brand-tag">${c.brand}</div>
+      <div class="car-model">${c.model}</div>
+      <div class="car-price">${fmt(c.price)}</div>
+      <div class="car-price-sub">${c.upcoming?'Expected price':'Starting price'} · Contact for final quote</div>
+      <div class="car-actions">
+        <button class="btn-details" onclick="openCarModal(${c.id})">View Details</button>
+        <button class="btn-cmp${inCmp?' added':''}" onclick="addToCompare(${c.id},event)">${inCmp?'✓':'⊕'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============ HOME SECTIONS ============
+const SECTIONS=[
+  {id:'popular',title:'Popular Cars in',highlight:'Qatar',filter:c=>c.featured,max:5,viewType:'',icon:'🔥'},
+  {id:'upcoming',title:'Upcoming Cars',highlight:'2025',filter:c=>c.upcoming,max:5,viewType:'',icon:'🆕'},
+  {id:'hybrid',title:'Hybrid &',highlight:'PHEV',filter:c=>c.badge==='Hybrid'||c.badge==='PHEV',max:5,viewType:'hybrid',icon:'🔋'},
+  {id:'ev',title:'Electric',highlight:'Vehicles',filter:c=>c.badge==='EV',max:5,viewType:'ev',icon:'⚡'},
+  {id:'luxury',title:'Luxury &',highlight:'Premium',filter:c=>c.type==='luxury',max:5,viewType:'luxury',icon:'👑'},
+  {id:'chinese',title:'Chinese',highlight:'Brands',filter:c=>c.type==='chinese',max:5,viewType:'chinese',icon:'🇨🇳'},
+];
+
+function renderHomeSections(activeFilter){
+  const el=document.getElementById('homeSections');if(!el)return;
+  let html='';
+  SECTIONS.forEach(sec=>{
+    let cars=CARS.filter(sec.filter).slice(0,sec.max);
+    if(activeFilter&&activeFilter!=='hybrid'){
+      // When filter chip active, only show that section or cross-filter
+      if(activeFilter==='ev'&&sec.id!=='ev')return;
+      if(activeFilter==='suv'&&sec.id==='ev')return;
+    }
+    if(!cars.length)return;
+    html+=`<div class="section" style="background:${sec.id==='upcoming'?'#f5f2ee':'#fff'}">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-title">${sec.icon} ${sec.title} <span>${sec.highlight}</span></div>
+          <div class="view-all" onclick="showPageFilter('${sec.viewType}')">View All →</div>
+        </div>
+        <div class="section-scroll">${cars.map(c=>cardHtml(c)).join('')}</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+  tryLoadRealImages();
+}
+
+// ============ BROWSE ============
+function initBrowseDropdowns(){
+  const bd=document.getElementById('browseBrand');
+  if(bd)bd.innerHTML='<option value="">All Brands</option>'+[...new Set(CARS.map(c=>c.brand))].sort().map(b=>`<option value="${b}">${b}</option>`).join('');
+  const hb=document.getElementById('hsBrand');
+  if(hb)hb.innerHTML='<option value="">Any Brand</option>'+[...new Set(CARS.map(c=>c.brand))].sort().map(b=>`<option value="${b}">${b}</option>`).join('');
+}
+function applyBrowseBudget(val){
+  if(!val){browseFilters.minP=0;browseFilters.maxP=9999999;return;}
+  const[a,b]=val.split('-');browseFilters.minP=+a;browseFilters.maxP=+b;
+}
+function renderBrowse(){
+  const _se=document.getElementById('browseSearch');
+  const _te=document.getElementById('browseType');
+  const _be=document.getElementById('browseBrand');
+  const _bue=document.getElementById('browseBudget');
+  // Sync dropdowns to pre-set browseFilters (e.g. from brand pill or type chip clicks)
+  if(_te&&browseFilters.type)_te.value=browseFilters.type;
+  if(_be&&browseFilters.brand)_be.value=browseFilters.brand;
+  // Now read back from DOM (user changes OR synced values above)
+  browseFilters.search=(_se?.value||'').toLowerCase();
+  browseFilters.type=_te?.value||'';
+  browseFilters.brand=_be?.value||'';
+  const budgetVal=_bue?.value||'';
+  applyBrowseBudget(budgetVal);
+  let cars=CARS.filter(c=>{
+    if(browseFilters.search&&!(c.brand+' '+c.model).toLowerCase().includes(browseFilters.search))return false;
+    if(browseFilters.type&&c.type!==browseFilters.type&&!(browseFilters.type==='hybrid'&&(c.badge==='Hybrid'||c.badge==='PHEV')))return false;
+    if(browseFilters.brand&&c.brand!==browseFilters.brand)return false;
+    if(c.price<browseFilters.minP||c.price>browseFilters.maxP)return false;
+    return true;
+  });
+  const el=document.getElementById('browseGrid');if(!el)return;
+  el.innerHTML=cars.length?cars.map(c=>cardHtml(c)).join(''):'<div style="grid-column:1/-1;padding:60px;text-align:center;color:#888">No cars match your filters.</div>';
+  const cnt=document.getElementById('browseCount');if(cnt)cnt.textContent=cars.length+' cars';
+  tryLoadRealImages();
+}
+
+// ============ HERO SEARCH ============
+function doSearch(){
+  const brand=document.getElementById('hsBrand')?.value||'';
+  const type=document.getElementById('hsType')?.value||'';
+  const budget=document.getElementById('hsBudget')?.value||'';
+  browseFilters={search:'',type,brand,minP:0,maxP:9999999};
+  applyBrowseBudget(budget);
+  showPage('browse');
+  document.querySelectorAll('.hn-item')[1]?.classList.add('active');
+}
+
+// ============ SEARCH ============
+function liveSearch(q){
+  const box=document.getElementById('searchResults');
+  if(!q||q.length<2){box.style.display='none';return;}
+  const res=CARS.filter(c=>(c.brand+' '+c.model).toLowerCase().includes(q.toLowerCase())).slice(0,6);
+  if(!res.length){box.style.display='none';return;}
+  const bc=n=>{const b=BRANDS.find(x=>x.name===n);return b?b.color:'#f05a1a';};
+  box.innerHTML=res.map(c=>`<div class="search-result-item" onclick="openCarModal(${c.id});hideSearch()">
+    <img src="${genCarSvg(c.brand,c.model,bc(c.brand))}" style="width:56px;height:36px;object-fit:cover;border-radius:4px" data-src="${c.img||''}">
+    <div><div style="font-weight:700;font-size:13px">${c.brand} ${c.model}</div>
+    <div style="font-size:11px;color:#888">${c.type.toUpperCase()} · ${fmt(c.price)}</div></div>
+  </div>`).join('');
+  box.style.display='block';
+  tryLoadRealImages();
+}
+function hideSearch(){const b=document.getElementById('searchResults');if(b)b.style.display='none';}
+
+// ============ IMAGE LAZY LOAD ============
+function tryLoadRealImages(){
+  document.querySelectorAll('img[data-wiki]').forEach(img=>{
+    const wiki=img.dataset.wiki;
+    if(!wiki||img.dataset.wikiLoaded)return;
+    img.dataset.wikiLoaded='1';
+    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(wiki))
+      .then(r=>r.json())
+      .then(d=>{
+        const src=d.thumbnail?.source||d.originalimage?.source;
+        if(!src)return;
+        const t=new Image();
+        t.onload=()=>{img.src=src;img.style.objectPosition='center';};
+        t.src=src;
+      }).catch(()=>{});
+  });
+  // Also try data-src fallback
+  document.querySelectorAll('img[data-src]').forEach(img=>{
+    const src=img.dataset.src;
+    if(!src||img.dataset.loaded)return;
+    img.dataset.loaded='1';
+    const t=new Image();
+    t.onload=()=>{img.src=src;};
+    t.onerror=()=>{};
+    t.src=src;
+  });
+}
+
+// ============ COMPARE ============
+function addToCompare(carId,e){
+  if(e)e.stopPropagation();
+  const car=getCarById(carId);if(!car)return;
+  if(compareList.some(c=>c.id===carId)){removeFromCompare(compareList.findIndex(c=>c.id===carId));return;}
+  if(compareList.length>=3){showToast('Max 3 cars — remove one first',false);return;}
+  compareList.push(car);
+  updateCompareBar();
+  showToast(car.brand+' '+car.model+' added to compare ✓');
+  const btn=document.querySelector(`#card-${carId} .btn-cmp`);
+  if(btn){btn.textContent='✓';btn.classList.add('added');}
+}
+function removeFromCompare(idx){
+  if(idx<0||idx>=compareList.length)return;
+  const car=compareList[idx];
+  compareList.splice(idx,1);
+  updateCompareBar();
+  if(car){const btn=document.querySelector(`#card-${car.id} .btn-cmp`);if(btn){btn.textContent='⊕';btn.classList.remove('added');}}
+}
+function clearCompare(){
+  compareList.forEach(car=>{const b=document.querySelector(`#card-${car.id} .btn-cmp`);if(b){b.textContent='⊕';b.classList.remove('added');}});
+  compareList=[];
+  updateCompareBar();
+  closeCompareModal();
+}
+function updateCompareBar(){
+  const bar=document.getElementById('compareBar');
+  const cnt=document.getElementById('cmpCnt');
+  if(cnt){cnt.textContent=compareList.length;cnt.style.display=compareList.length?'flex':'none';}
+  [0,1,2].forEach(i=>{
+    const slot=document.getElementById('cslot'+i);if(!slot)return;
+    const car=compareList[i];
+    if(car){
+      const bc=BRANDS.find(b=>b.name===car.brand);
+      const col=bc?bc.color:'#f05a1a';
+      slot.classList.add('filled');
+      slot.innerHTML=`<img src="images/car-${car.id}.jpg" style="width:72px;height:45px;object-fit:cover;border-radius:6px" onerror="this.onerror=null;this.src='${genCarSvg(car.brand,car.model,col)}'">
+        <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${car.brand}</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${car.model}</div></div>
+        <button onclick="removeFromCompare(${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;flex-shrink:0;padding:0 4px">×</button>`;
+      tryLoadRealImages();
+    } else {
+      slot.classList.remove('filled');
+      slot.innerHTML='<div class="slot-empty"><span class="slot-empty-plus">+</span><span>Add a car</span></div>';
+    }
+  });
+  if(bar)bar.classList.toggle('visible',compareList.length>0);
+}
+
+function openCompareModal(){
+  if(compareList.length<2){showToast('Add at least 2 cars to compare',false);return;}
+  const modal=document.getElementById('compareModal');
+  const body=document.getElementById('compareBody');
+  const allKeys=[...new Set(compareList.flatMap(c=>Object.keys(c.specs)))];
+  const bc=n=>{const b=BRANDS.find(x=>x.name===n);return b?b.color:'#f05a1a';};
+  body.innerHTML=`<div style="overflow-x:auto">
+    <table class="cmp-table">
+      <thead><tr>
+        <th class="row-label" style="width:130px">SPEC</th>
+        ${compareList.map(c=>`<th class="car-head">
+          <img src="images/car-${c.id}.jpg" style="width:160px;height:100px;object-fit:cover;border-radius:8px;margin:0 auto 8px;display:block" onerror="this.onerror=null;this.src='${genCarSvg(c.brand,c.model,bc(c.brand))}'" >
+          <div>${c.brand} ${c.model}</div>
+          <div style="color:var(--orange);font-size:14px;font-weight:900">${fmt(c.price)}</div>
+          <button onclick="removeFromCompare(${compareList.indexOf(c)});if(compareList.length>=2)openCompareModal();else closeCompareModal()"
+            style="margin-top:8px;background:none;border:1px solid var(--border2);padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;color:var(--muted)">Remove</button>
+        </th>`).join('')}
+      </tr></thead>
+      <tbody>
+        <tr><td class="row-label">TYPE</td>${compareList.map(c=>`<td>${c.type.toUpperCase()}</td>`).join('')}</tr>
+        ${allKeys.map((k,ki)=>`<tr style="${ki%2===0?'':'background:var(--bg2)'}">
+          <td class="row-label">${k.replace(/_/g,' ')}</td>
+          ${compareList.map(c=>`<td style="font-weight:${c.specs[k]?'700':'400'};color:${c.specs[k]?'var(--text)':'#ccc'}">${c.specs[k]||'—'}</td>`).join('')}
+        </tr>`).join('')}
+      </tbody>
+    </table></div>
+  <div style="display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap">
+    ${compareList.map(c=>`<button class="btn-details" onclick="openCarModal(${c.id});closeCompareModal()" style="padding:10px 20px">${c.model}</button>`).join('')}
+    <button onclick="clearCompare()" style="padding:10px 20px;border:1.5px solid var(--border2);border-radius:8px;background:#fff;cursor:pointer;font-weight:600">Clear All</button>
+  </div>`;
+  modal.style.display='flex';
+  document.body.style.overflow='hidden';
+  tryLoadRealImages();
+}
+function closeCompareModal(){document.getElementById('compareModal').style.display='none';document.body.style.overflow='';}
+
+// ============ CAR MODAL ============
+function openCarModal(carId){
+  const car=getCarById(carId);if(!car)return;
+  const bc=BRANDS.find(b=>b.name===car.brand);
+  const bcolor=bc?bc.color:'#f05a1a';
+  const specs=Object.entries(car.specs).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k.replace(/_/g,' ')}</span><span class="spec-val">${v}</span></div>`).join('');
+  document.getElementById('carModalBody').innerHTML=`
+    <img src="${car.img||'images/car-'+car.id+'.jpg'}" data-wiki="${car.wiki||''}" onerror="this.onerror=null;this.src='images/car-${car.id}.jpg'||this.src='${genCarSvg(car.brand,car.model,bcolor)}'"
+      style="width:100%;height:260px;object-fit:cover;border-radius:12px;margin-bottom:20px" loading="lazy">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-size:11px;color:var(--orange);font-weight:800;letter-spacing:1px;text-transform:uppercase">${car.brand}${car.upcoming?' · UPCOMING':''}</div>
+        <div style="font-size:26px;font-weight:900;margin:4px 0 8px">${car.model}</div>
+        <div style="font-size:22px;font-weight:900;color:var(--navy)">${fmt(car.price)}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${car.upcoming?'Expected price':'Starting price'} · Contact dealer for final</div>
+        <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+          <button class="btn-details" style="padding:10px 18px" onclick="addToCompare(${car.id})">⊕ Compare</button>
+          ${car.pdf?`<a href="${car.pdf}" target="_blank" class="btn-details" style="background:var(--navy);padding:10px 18px;text-decoration:none">📄 Brochure</a>`:''}
+          <a href="https://wa.me/97450979699?text=Hi%2C%20interested%20in%20${encodeURIComponent(car.brand+' '+car.model)}" target="_blank" class="btn-wa" style="padding:10px 16px;font-size:13px">💬 WhatsApp</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:800;color:var(--orange);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Specifications</div>
+        <div style="background:var(--bg2);border-radius:10px;padding:4px 14px">${specs}</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;background:var(--bg2);border-radius:12px;padding:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div><div style="font-weight:800;margin-bottom:2px">💡 Not sure this is the right car?</div>
+      <div style="font-size:13px;color:var(--muted)">Get free expert advice from our Qatar-based consultants</div></div>
+      <button class="btn-details" onclick="closeModal();showPage('consult')" style="padding:10px 20px">Free Consultation →</button>
+    </div>`;
+  document.getElementById('carModal').style.display='flex';
+  document.body.style.overflow='hidden';
+  tryLoadRealImages();
+}
+function closeModal(){document.getElementById('carModal').style.display='none';document.body.style.overflow='';}
+
+// ============ EV HUB ============
+function switchEvTab(tab,el){
+  activeEvTab=tab;
+  document.querySelectorAll('.ev-tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.ev-tab-panel').forEach(p=>p.style.display='none');
+  const panel=document.getElementById('evp-'+tab);if(panel)panel.style.display='';
+  if(tab==='ev-cars')renderEvCars();
+  if(tab==='charging')renderChargingStations();
+  if(tab==='hybrids')renderHybrids();
+  if(tab==='guide')renderEvGuide();
+}
+function renderEvCars(){
+  const el=document.getElementById('evCarsGrid');if(!el)return;
+  el.innerHTML=CARS.filter(c=>c.badge==='EV').map(c=>cardHtml(c)).join('');
+  tryLoadRealImages();
+}
+function renderHybrids(){
+  const el=document.getElementById('hybridsGrid');if(!el)return;
+  el.innerHTML=CARS.filter(c=>c.badge==='Hybrid'||c.badge==='PHEV').map(c=>cardHtml(c)).join('');
+  tryLoadRealImages();
+}
+function netColor(n){return{KAHRAMAA:'#10b981',WOQOD:'#f59e0b',Tesla:'#cc0000',Mall:'#3b82f6',Hotel:'#8b5cf6'}[n]||'#888';}
+function statusDot(s){const c={available:'#10b981',busy:'#f59e0b',offline:'#ef4444'}[s]||'#888';return`<span class="status-dot" style="background:${c}"></span>`;}
+function renderChargingStations(){
+  const el=document.getElementById('chargingGrid');if(!el)return;
+  el.innerHTML=CHARGING_STATIONS.map(s=>`<div class="charging-card">
+    <div class="charging-net" style="background:${netColor(s.network)}15;color:${netColor(s.network)};border:1px solid ${netColor(s.network)}30">${s.network}</div>
+    <div class="charging-name">${s.name}</div>
+    <div class="charging-area">📍 ${s.area}</div>
+    <div class="charging-row"><span>Type</span><span>${s.type}</span></div>
+    <div class="charging-row"><span>Power</span><span>⚡ ${s.power}</span></div>
+    <div class="charging-row"><span>Connectors</span><span>${s.connectors.join(', ')}</span></div>
+    <div class="charging-row"><span>Ports</span><span>${s.ports} ports</span></div>
+    <div class="charging-row"><span>Status</span><span>${statusDot(s.status)}${s.status.charAt(0).toUpperCase()+s.status.slice(1)}</span></div>
+    <div class="charging-row"><span>Cost</span><span>${s.free?'🆓 Free':'💳 Paid'}</span></div>
+    <a href="${s.maps}" target="_blank" class="btn-details" style="display:inline-block;margin-top:12px;text-decoration:none;padding:8px 16px;font-size:12px">📍 Get Directions</a>
+  </div>`).join('');
+}
+function renderEvGuide(){
+  const el=document.getElementById('evGuideContent');if(!el)return;
+  el.innerHTML=`
+    <h2 style="font-size:24px;font-weight:900;margin:0 0 20px;color:var(--navy)">⚡ EV Buyer's Guide for Qatar</h2>
+    <div class="guide-section"><h3>Why Go Electric in Qatar?</h3><p>Qatar's flat terrain, short urban distances, and rapidly expanding KAHRAMAA/WOQOD charging network make it ideal for EVs. Subsidised electricity makes running costs very low — annual savings vs petrol can reach QAR 8,000–15,000.</p></div>
+    <div class="guide-section"><h3>Charging Types in Qatar</h3><ul>
+      <li><strong>AC Level 2 (7–22 kW)</strong> — Home/hotel charging. Adds ~100–200 km overnight.</li>
+      <li><strong>DC Fast (50–150 kW)</strong> — WOQOD & KAHRAMAA stations. 20–80% in 30–45 min.</li>
+      <li><strong>Ultra-Fast DC (150–350 kW)</strong> — Tesla V3, Kia/Hyundai 800V. 10–80% in under 20 min.</li>
+    </ul></div>
+    <div class="guide-section"><h3>Connector Standards</h3><ul>
+      <li><strong>CCS2</strong> — European standard, used by BYD, Kia, Hyundai, most new EVs</li>
+      <li><strong>CHAdeMO</strong> — Japanese standard, older Nissan & Mitsubishi models</li>
+      <li><strong>Type 2 (AC)</strong> — Universal AC charging</li>
+      <li><strong>Tesla CCS</strong> — Tesla Supercharger V3 network</li>
+    </ul></div>
+    <div class="guide-section"><h3>Top EV Picks for Qatar 2025</h3><ul>
+      <li>🥇 <strong>Kia EV9</strong> — Best family SUV EV, 541 km, 240 kW fast charging</li>
+      <li>🥈 <strong>Hyundai IONIQ 6</strong> — Longest range (614 km), elegant design</li>
+      <li>🥉 <strong>BYD SEAL</strong> — Best value performance, 520 km</li>
+      <li>⭐ <strong>Zeekr 001</strong> — Premium Chinese EV, 620 km range</li>
+    </ul></div>`;
+}
+
+// ============ CONSULTING ============
+function submitConsult(){
+  const name=document.getElementById('cName')?.value.trim();
+  const phone=document.getElementById('cPhone')?.value.trim();
+  if(!name||!phone){showToast('Please fill your name and phone number',false);return;}
+  const plan=document.querySelector('input[name="plan"]:checked')?.value||'Car Match QAR 299';
+  const budget=document.getElementById('cBudget')?.value||'Not specified';
+  const msg=`Hi AUTOMANIA.QA! I need car consulting.%0AName: ${encodeURIComponent(name)}%0APhone: ${phone}%0APlan: ${encodeURIComponent(plan)}%0ABudget: ${encodeURIComponent(budget)}%0ARequirements: ${encodeURIComponent(document.getElementById('cInterest')?.value||'')}`;
+  window.open(`https://wa.me/97450979699?text=${msg}`,'_blank');
+  showToast('Redirecting to WhatsApp! ✓');
+}
+
+// ============ INIT ============
+document.addEventListener('DOMContentLoaded',function(){
+  initBrowseDropdowns();
+  initFilterChips();
+  renderBrandStrip();
+  renderHomeSections();
+  // Modal backdrop close
+  document.getElementById('carModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+  document.getElementById('compareModal').addEventListener('click',function(e){if(e.target===this)closeCompareModal();});
+});
+</script>
+</body>
+</html>
