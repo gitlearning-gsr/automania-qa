@@ -599,7 +599,32 @@ const BRANDS=[
   {name:'Maxus',color:'#003087'},{name:'Lynk & Co',color:'#0000cc'},
 ];
 
-const CARS=[
+// ── Supabase Config ──────────────────────────────────────────────────────────
+// Replace these two values with your own from Supabase → Settings → API
+const SUPABASE_URL = 'https://jqtdcfbecagpdtzfvvow.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdGRjZmJlY2FncGR0emZ2dm93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDA1NDksImV4cCI6MjA5ODQ3NjU0OX0.wGSSqcfjM9ys8OUNdFWKv2O5DG1vZD0PDoFPNOC4Rf4';
+
+let CARS = [];  // populated from Supabase on load
+
+async function loadCarsFromSupabase() {
+  try {
+    const res = await fetch(
+      SUPABASE_URL + '/rest/v1/cars?select=*&order=id.asc',
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+    );
+    if (!res.ok) throw new Error('Supabase fetch failed: ' + res.status);
+    CARS = await res.json();
+  } catch(err) {
+    console.warn('Supabase unavailable, using local fallback:', err.message);
+    CARS = LOCAL_CARS_FALLBACK;  // defined below as backup
+  }
+  initBrowseDropdowns();
+  renderBrandStrip();
+  renderHomeSections();
+  renderEvCars();
+}
+
+const LOCAL_CARS_FALLBACK=[
   // ─── POPULAR (featured:true) ───
   {id:1,wiki:'Toyota Land Cruiser 300',brand:'Toyota',model:'Land Cruiser 300',type:'suv',badge:'Hybrid',price:280000,featured:true,pdf:'Toyota_Qatar/Land_Cruiser_Brochure.pdf',
    img:'https://tmna.aemassets.toyota.com/is/image/toyota/toyota/jellies/relative/2027/landcruiser/base.png?wid=1140&hei=600&fmt=jpg&fit=crop',
@@ -1285,11 +1310,11 @@ function submitConsult(){
 }
 
 // ============ INIT ============
-document.addEventListener('DOMContentLoaded',function(){
-  initBrowseDropdowns();
+document.addEventListener('DOMContentLoaded', async function(){
+  // Load cars from Supabase (falls back to LOCAL_CARS_FALLBACK if unavailable)
+  await loadCarsFromSupabase();
+  // UI init that doesn't depend on CARS data
   initFilterChips();
-  renderBrandStrip();
-  renderHomeSections();
   // Modal backdrop close
   document.getElementById('carModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
   document.getElementById('compareModal').addEventListener('click',function(e){if(e.target===this)closeCompareModal();});
