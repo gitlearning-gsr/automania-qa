@@ -277,7 +277,27 @@ img{max-width:100%;display:block}
   .header-nav .hn-item:not(.btn-consult){display:none}
   .compare-slots{flex-direction:column}
   .cf-row{grid-template-columns:1fr}
+  .nl-grid{grid-template-columns:1fr!important}
 }
+
+/* ── CAR NEWSLETTER SECTION ── */
+.nl-section{padding:48px 24px;background:var(--bg)}
+.nl-section-inner{max-width:1400px;margin:0 auto}
+.nl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:12px}
+.nl-badge{background:linear-gradient(135deg,#f05a1a,#e8340a);color:#fff;font-size:11px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px}
+.nl-desc{color:var(--muted);font-size:14px;margin-bottom:28px}
+.nl-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.nl-tab{padding:7px 18px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border2);color:var(--muted);background:var(--bg2);transition:all .2s}
+.nl-tab.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.nl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.nl-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit}
+.nl-card:hover{border-color:var(--orange);box-shadow:var(--sh2);transform:translateY(-2px)}
+.nl-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;font-weight:900}
+.nl-info{flex:1;min-width:0}
+.nl-name{font-size:14px;font-weight:800;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nl-region{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--orange);margin-bottom:5px}
+.nl-blurb{font-size:12px;color:var(--muted);line-height:1.5}
+.nl-link{font-size:11px;color:var(--orange);font-weight:700;margin-top:6px;display:block}
 </style>
 </head>
 <body>
@@ -316,6 +336,7 @@ img{max-width:100%;display:block}
       <div class="hn-item" onclick="showPage('browse',this)">Browse Cars</div>
       <div class="hn-item" onclick="showPage('ev',this)">⚡ EV Hub</div>
       <div class="hn-item" onclick="openCompareModal()">⊕ Compare <span class="compare-count" id="cmpCnt" style="display:none">0</span></div>
+      <div class="hn-item" onclick="showPage('home',this);setTimeout(()=>document.getElementById('newsletterSection')?.scrollIntoView({behavior:'smooth'}),200)">📰 News</div>
       <div class="hn-item btn-consult" onclick="showPage('consult',this)">🚗 Free Consulting</div>
     </div>
   </div>
@@ -391,6 +412,31 @@ img{max-width:100%;display:block}
 
   <!-- SECTIONS -->
   <div id="homeSections"></div>
+
+  <!-- CAR NEWSLETTER SECTION -->
+  <div class="nl-section" id="newsletterSection">
+    <div class="nl-section-inner">
+      <div class="nl-header">
+        <div>
+          <div class="section-title">📰 Car <span>Newsletter & News</span></div>
+          <div class="nl-desc">Stay updated with the latest car launches, reviews &amp; automotive news</div>
+        </div>
+        <div class="nl-badge">LIVE SOURCES</div>
+      </div>
+      <div class="nl-tabs">
+        <div class="nl-tab active" onclick="filterNL(this,'all')">All Sources</div>
+        <div class="nl-tab" onclick="filterNL(this,'global')">🌍 Global</div>
+        <div class="nl-tab" onclick="filterNL(this,'middle-east')">🇶🇦 Middle East</div>
+        <div class="nl-tab" onclick="filterNL(this,'china')">🇨🇳 China EV</div>
+      </div>
+      <div class="nl-grid" id="nlGrid">
+        <!-- Cards injected by renderNewsletter() -->
+      </div>
+      <div style="margin-top:18px;font-size:11px;color:var(--muted2);text-align:center">
+        Clicking any source opens the website in a new tab. Automania.qa is not affiliated with any listed publication.
+      </div>
+    </div>
+  </div>
 
   <!-- CONSULT BANNER -->
   <div style="background:linear-gradient(135deg,var(--navy),#0d1a3a);padding:48px 24px;text-align:center">
@@ -602,6 +648,9 @@ const BRANDS=[
   {name:'Zeekr',color:'#0033cc'},{name:'Rivian',color:'#2fb5b5'},{name:'iCar',color:'#e63c00'},
   {name:'Deepal',color:'#006633'},{name:'Denza',color:'#1a1a6e'},{name:'Leapmotor',color:'#0055cc'},
   {name:'Maxus',color:'#003087'},{name:'Lynk & Co',color:'#0000cc'},
+  {name:'Xiaomi',color:'#ff6900'},{name:'Avatr',color:'#00b4d8'},{name:'Maextro',color:'#7c2d8e'},
+  {name:'SAIC',color:'#003087'},{name:'Hongqi',color:'#c8001b'},{name:'BAIC',color:'#005bac'},
+  {name:'Slate',color:'#2d2d2d'},{name:'Scout',color:'#4a2f00'},
 ];
 
 // ── Supabase Config ──────────────────────────────────────────────────────────
@@ -611,6 +660,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 let CARS = [];  // populated from Supabase on load
 
+// New Chinese models sourced from auto-china.com (merged after Supabase load)
+const LOCAL_CHINA_EXTRAS = LOCAL_CARS_FALLBACK.filter(c => c.id >= 66 && c.id <= 79);
+
 async function loadCarsFromSupabase() {
   try {
     const res = await fetch(
@@ -618,7 +670,11 @@ async function loadCarsFromSupabase() {
       { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
     );
     if (!res.ok) throw new Error('Supabase fetch failed: ' + res.status);
-    CARS = await res.json();
+    const supabaseCars = await res.json();
+    // Merge: keep Supabase data, append local extras not already in Supabase
+    const supabaseIds = new Set(supabaseCars.map(c => c.id));
+    const extras = LOCAL_CHINA_EXTRAS.filter(c => !supabaseIds.has(c.id));
+    CARS = [...supabaseCars, ...extras];
   } catch(err) {
     console.warn('Supabase unavailable, using local fallback:', err.message);
     CARS = LOCAL_CARS_FALLBACK;  // defined below as backup
@@ -817,6 +873,50 @@ const LOCAL_CARS_FALLBACK=[
    img:'https://carnewschina.com/wp-content/uploads/2026/05/e59bbee78987-55-e1778836967641-800x451.png',
    specs:{Engine:'1.5T + Electric',Power:'449 hp System',Range:'1315 km',EV_Range:'215 km',Drive:'AWD',Seats:'6',Body:'6-Seat Flagship SUV'}},
 
+  // ─── NEW CHINESE MODELS (from auto-china.com · prices est. from EUR @ 4.20 QAR) ───
+  {id:66,wiki:'Xiaomi SU7',brand:'Xiaomi',model:'SU7 Max',type:'chinese',badge:'EV',price:252000,priceEst:true,pdf:'',
+   img:'https://s3.auto-china.com/auto-china/xiaomi-su7/su7_1.webp',
+   specs:{Motor:'Dual AWD',Power:'673 hp','0-100':'2.78 s',Range:'810 km',Battery:'101 kWh',Drive:'AWD',Seats:'5',Body:'Performance Sedan',Origin:'China · from €59,900'}},
+  {id:67,wiki:'Xiaomi SU7 Ultra',brand:'Xiaomi',model:'SU7 Ultra',type:'chinese',badge:'EV',price:353000,priceEst:true,pdf:'',
+   img:'https://s3.auto-china.com/auto-china/xiaomi-su7-ultra/home.webp',
+   specs:{Motor:'Tri-Motor',Power:'1,548 hp','0-100':'2.0 s',Range:'630 km',TopSpeed:'350+ km/h',Drive:'AWD',Seats:'5',Body:'Hypercar Sedan',Origin:'China · from €83,950'}},
+  {id:68,wiki:'Xiaomi YU7',brand:'Xiaomi',model:'YU7',type:'chinese',badge:'EV',price:247000,priceEst:true,pdf:'',
+   img:'https://s3.auto-china.com/auto-china/xiaomi-yu7/1.webp',
+   specs:{Motor:'Dual AWD',Power:'673 hp','0-100':'3.23 s',Range:'835 km',Battery:'96.3 kWh',Drive:'AWD',Seats:'5',Body:'Performance Electric SUV',Origin:'China · from €58,740'}},
+  {id:69,wiki:'BYD Seal',brand:'BYD',model:'Seal 05 DM-i',type:'chinese',badge:'Hybrid',price:88000,priceEst:true,pdf:'BYD/BYD_SEAL_Brochure.pdf',
+   img:'https://s3.auto-china.com/auto-china/byd-seal-05/main.webp',
+   specs:{Engine:'1.5L + Electric',Power:'218 hp System',EV_Range:'150 km',Range:'1,300 km',Trans:'E-CVT',Drive:'FWD',Seats:'5',Body:'Plug-in Hybrid Sedan',Origin:'China · from €20,920'}},
+  {id:70,wiki:'BYD Song Plus',brand:'BYD',model:'Song Plus DM-i',type:'chinese',badge:'Hybrid',price:117000,priceEst:true,pdf:'BYD/BYD_Song_Plus.pdf',
+   img:'https://s3.auto-china.com/auto-china/byd-song-plus/main.webp',
+   specs:{Engine:'1.5L + Electric',Power:'218 hp System',EV_Range:'150 km',Range:'1,300 km',Trans:'E-CVT',Drive:'FWD',Seats:'5/7',Body:'Plug-in Hybrid SUV',Origin:'China · from €27,900'}},
+  {id:71,wiki:'Jetour T2',brand:'Jetour',model:'T2 i-DM',type:'chinese',badge:'Hybrid',price:141000,priceEst:true,pdf:'Jetour/jetour-t2-2025my.pdf',
+   img:'https://s3.auto-china.com/auto-china/jetour-t2/main.webp',
+   specs:{Engine:'1.5T + Electric',Power:'258 hp System',EV_Range:'120 km',Range:'1,200 km',Drive:'AWD',Seats:'5',Body:'Super-Hybrid Off-Road SUV',Origin:'China · from €33,530'}},
+  {id:72,wiki:'Li Auto L6',brand:'LiAuto',model:'L6',type:'chinese',badge:'Hybrid',price:176000,priceEst:true,pdf:'LiAuto/Li_Auto_L9.pdf',
+   img:'https://s3.auto-china.com/auto-china/liauto-l6/0.webp',
+   specs:{Engine:'1.5T EREV',Power:'449 hp System',EV_Range:'215 km',Range:'1,300+ km',Drive:'AWD',Seats:'5',Body:'Extended-Range Electric SUV',Origin:'China · from €41,930'}},
+  {id:73,wiki:'Zeekr 009',brand:'Zeekr',model:'009',type:'chinese',badge:'EV',price:277000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
+   img:'https://s3.auto-china.com/auto-china/zeekr-009/4.webp',
+   specs:{Motor:'Dual',Power:'536 hp','0-100':'4.5 s',Range:'822 km',Battery:'140 kWh',Drive:'AWD',Seats:'6',Body:'Ultra-Luxury Electric MPV',Origin:'China · from €65,900'}},
+  {id:74,wiki:'Zeekr X',brand:'Zeekr',model:'X',type:'chinese',badge:'EV',price:155000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
+   img:'https://s3.auto-china.com/auto-china/zeekr-x/listing.webp',
+   specs:{Motor:'Single/Dual',Power:'268/420 hp',Range:'560 km',Battery:'66 kWh',Drive:'FWD/AWD',Seats:'5',Body:'Premium Compact Electric SUV',Origin:'China · from €36,990'}},
+  {id:75,wiki:'Zeekr 8X',brand:'Zeekr',model:'8X',type:'chinese',badge:'Hybrid',price:351000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
+   img:'https://s3.auto-china.com/auto-china/zeekr-8x/main.webp',
+   specs:{Engine:'2.0T + Electric (Super-Hybrid)',Power:'1,416 hp System',EV_Range:'410 km',Range:'1,416 km',Drive:'AWD',Seats:'6',Body:'Flagship Super-Hybrid SUV',Origin:'China · from €83,490'}},
+  {id:76,wiki:'Zeekr 9X',brand:'Zeekr',model:'9X',type:'chinese',badge:'EV',price:353000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
+   img:'https://s3.auto-china.com/auto-china/zeekr-9x/main.webp',
+   specs:{Motor:'Quad',Power:'1,381 hp','0-100':'2.5 s',Range:'600+ km',Battery:'100 kWh',Drive:'AWD',Seats:'6',Body:'Flagship Electric Performance SUV',Origin:'China · from €83,950'}},
+  {id:77,wiki:'Avatr 12',brand:'Avatr',model:'12',type:'chinese',badge:'EV',price:282000,priceEst:true,pdf:'',
+   img:'https://s3.auto-china.com/auto-china/avatr-12/banner.webp',
+   specs:{Motor:'Dual',Power:'536 hp','0-100':'3.4 s',Range:'700 km',Battery:'116.6 kWh',Drive:'AWD',Seats:'5',Body:'Luxury Electric GT Sedan',Origin:'China · from €67,140'}},
+  {id:78,wiki:'Maextro S800',brand:'Maextro',model:'S800',type:'chinese',badge:'Hybrid',price:528000,priceEst:true,pdf:'',
+   img:'https://s3.auto-china.com/auto-china/maextro-s800/main.webp',
+   specs:{Engine:'EREV + Electric',Power:'523 hp',EV_Range:'300 km',Range:'1,000+ km',Drive:'AWD',Seats:'4/5',Body:'Ultra-Luxury Flagship Sedan',Origin:'China · from €125,630'}},
+  {id:79,wiki:'SAIC Maxus',brand:'SAIC',model:'Z7T',type:'chinese',badge:'EV',price:247000,priceEst:true,pdf:'',
+   img:'https://s3.auto-china.com/auto-china/saic-z7t/4.webp',
+   specs:{Motor:'Dual',Power:'536 hp','0-100':'3.4 s',Range:'700 km',Battery:'103 kWh',Drive:'AWD',Seats:'5',Body:'Performance Electric Sedan',Origin:'China · from €58,790'}},
+
   // ─── GLOBAL NEW LAUNCHES (upcoming) ───
   {id:60,wiki:'Slate Auto Truck',brand:'Slate',model:'Truck',type:'ev',badge:'EV',price:24950,upcoming:true,pdf:'',
    img:'https://static.slateauto.com/media/slate-truck-hero.jpg',
@@ -1007,8 +1107,8 @@ function cardHtml(c){
     <div class="car-info">
       <div class="car-brand-tag">${c.brand}</div>
       <div class="car-model">${c.model}</div>
-      <div class="car-price">${fmt(c.price)}</div>
-      <div class="car-price-sub">${c.upcoming?'Expected price':'Starting price'} · Contact for final quote</div>
+      <div class="car-price">${fmt(c.price)}${c.priceEst?'<span style="color:var(--orange);font-size:14px;font-weight:700" title="Estimated price converted from EUR. Actual Qatar launch price may differ.">*</span>':''}</div>
+      <div class="car-price-sub">${c.priceEst?'Est. price (EUR→QAR) · Actual may vary*':c.upcoming?'Expected price':'Starting price'} · Contact for quote</div>
       <div class="car-actions">
         <button class="btn-details" onclick="openCarModal(${c.id})">View Details</button>
         <button class="btn-cmp${inCmp?' added':''}" onclick="addToCompare(${c.id},event)">${inCmp?'✓':'⊕'}</button>
@@ -1367,6 +1467,61 @@ function submitConsult(){
   showToast('Redirecting to WhatsApp! ✓');
 }
 
+// ============ CAR NEWSLETTER ============
+const NEWS_SOURCES=[
+  // Global
+  {name:'Autocar',url:'https://www.autocar.co.uk',region:'global',icon:'🏁',color:'#cc0000',
+   blurb:"World's oldest car magazine. Road tests, news and buyer's guides since 1895."},
+  {name:'Motor1',url:'https://www.motor1.com',region:'global',icon:'🚗',color:'#f05a1a',
+   blurb:'Global automotive news, reviews, spy shots and new model reveals from 15+ editions worldwide.'},
+  {name:'Car and Driver',url:'https://www.caranddriver.com',region:'global',icon:'🏎️',color:'#003478',
+   blurb:'Authoritative US car magazine with long-term tests, comparisons and industry deep-dives.'},
+  {name:'Top Gear',url:'https://www.topgear.com',region:'global',icon:'⚡',color:'#1a2744',
+   blurb:"BBC's iconic car brand. Bold reviews, supercar features and the world's most entertaining automotive content."},
+  {name:'Autocar India',url:'https://www.autocarindia.com',region:'global',icon:'🌐',color:'#e8340a',
+   blurb:'Leading South Asian car publication — relevant to GCC buyers tracking regional launch timelines and India-spec models.'},
+  // Middle East
+  {name:'Drive Arabia',url:'https://www.drivearabia.com',region:'middle-east',icon:'🇦🇪',color:'#006600',
+   blurb:'Leading Middle East car news portal covering UAE, Qatar, Saudi Arabia, Kuwait, Bahrain and Oman launches.'},
+  {name:'Motoring Middle East',url:'https://www.motoringme.com',region:'middle-east',icon:'🇶🇦',color:'#8d1b3d',
+   blurb:'GCC-focused car news, reviews and buying guides with local pricing and dealer information.'},
+  {name:'Maqina',url:'https://www.maqinaonline.com',region:'middle-east',icon:'🏆',color:'#005bac',
+   blurb:'Dedicated Middle East automotive news covering brand appointments, regional premieres and market data.'},
+  {name:'Gulf News Auto',url:'https://gulfnews.com/auto',region:'middle-east',icon:'🗞️',color:'#003087',
+   blurb:'Gulf News automotive section — GCC car launches, policy changes and market trends from a trusted regional news brand.'},
+  // China EV
+  {name:'Car News China',url:'https://carnewschina.com',region:'china',icon:'🇨🇳',color:'#c8001b',
+   blurb:'#1 English source for Chinese automotive news. Covers every Chinese brand — EV, ICE, spy shots and auto shows.'},
+  {name:'CnEVPost',url:'https://cnevpost.com',region:'china',icon:'⚡',color:'#00b4d8',
+   blurb:'Fast, credible China EV data, insights and news. The go-to tracker for BYD, NIO, Xpeng, Zeekr and more.'},
+  {name:'Gasgoo Auto News',url:'https://autonews.gasgoo.com',region:'china',icon:'📊',color:'#333',
+   blurb:'Premier China auto industry intelligence — sales data, factory news, supply chain and OEM developments in English.'},
+  {name:'ChinaPEV',url:'https://www.chinapev.com',region:'china',icon:'🔋',color:'#006633',
+   blurb:'China plug-in EV market tracker with weekly sales rankings, new model news and policy updates.'},
+];
+
+let nlActiveFilter='all';
+function renderNewsletter(){
+  const grid=document.getElementById('nlGrid');if(!grid)return;
+  const src=nlActiveFilter==='all'?NEWS_SOURCES:NEWS_SOURCES.filter(s=>s.region===nlActiveFilter);
+  grid.innerHTML=src.map(s=>`
+    <a class="nl-card" href="${s.url}" target="_blank" rel="noopener">
+      <div class="nl-icon" style="background:${s.color}22;color:${s.color}">${s.icon}</div>
+      <div class="nl-info">
+        <div class="nl-name">${s.name}</div>
+        <div class="nl-region">${s.region==='middle-east'?'MIDDLE EAST':s.region==='china'?'CHINA EV':'GLOBAL'}</div>
+        <div class="nl-blurb">${s.blurb}</div>
+        <span class="nl-link">Visit ${s.name} →</span>
+      </div>
+    </a>`).join('');
+}
+function filterNL(btn,region){
+  document.querySelectorAll('.nl-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  nlActiveFilter=region;
+  renderNewsletter();
+}
+
 // ============ INIT ============
 // ============ HERO SLIDESHOW ============
 function initHeroSlideshow(){
@@ -1398,6 +1553,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   await loadCarsFromSupabase();
   // UI init that doesn't depend on CARS data
   initFilterChips();
+  renderNewsletter();
   // Modal backdrop close
   document.getElementById('carModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
   document.getElementById('compareModal').addEventListener('click',function(e){if(e.target===this)closeCompareModal();});
