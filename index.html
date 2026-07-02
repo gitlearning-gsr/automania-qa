@@ -76,8 +76,12 @@ img{max-width:100%;display:block}
 
 /* HERO */
 .hero{background:linear-gradient(135deg,var(--navy) 0%,#0d1a3a 60%,#1a2744 100%);padding:56px 24px 48px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-.hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.hero::before{content:'';position:absolute;inset:0;z-index:3;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+#heroBgSlides{position:absolute;inset:0;z-index:0}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease}
+.hero-slide.active{opacity:1}
+#heroOverlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(0,8,35,.82)0%,rgba(5,15,55,.72)100%);pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:4}
 .hero-title{font-size:44px;font-weight:900;color:#fff;line-height:1.15;margin-bottom:10px}
 .hero-title span{color:var(--orange)}
 .hero-subtitle{color:rgba(255,255,255,.7);font-size:16px;margin-bottom:16px}
@@ -286,7 +290,6 @@ img{max-width:100%;display:block}
   <div class="topbar-right">
     <a href="tel:+97450979699">📞 +974 50979699</a>
     <a href="mailto:hello@automania.qa">✉️ hello@automania.qa</a>
-    <a href="#" onclick="showPage('consult')">🚗 Free Consulting</a>
   </div>
 </div>
 
@@ -347,6 +350,8 @@ img{max-width:100%;display:block}
 
   <!-- HERO -->
   <div class="hero">
+    <div id="heroBgSlides"></div>
+    <div id="heroOverlay"></div>
     <div class="hero-inner">
       <div class="hero-title">Qatar's #1 Car<br>Marketplace <span>& Advisor</span></div>
       <div class="hero-subtitle">Find your perfect car from 50+ brands · Free expert consulting · Compare side-by-side</div>
@@ -621,6 +626,7 @@ async function loadCarsFromSupabase() {
   initBrowseDropdowns();
   renderBrandStrip();
   renderHomeSections();
+  initHeroSlideshow();
   renderEvCars();
 }
 
@@ -955,6 +961,33 @@ function badgeHtml(b){
   const map={EV:'#10b981',Hybrid:'#3b82f6',PHEV:'#8b5cf6'};
   return`<div class="car-badge" style="background:${map[b]||'#f05a1a'}">${b}</div>`;
 }
+// Corrections for cars whose Supabase wiki field points to wrong Wikipedia articles
+const WIKI_CORRECTIONS={
+  3:'Kia EV9',
+  4:'Lexus LX',
+  5:'Toyota Hilux',
+  6:null,
+  7:null,
+  8:'Hyundai IONIQ 9',
+  9:'Nissan Patrol',
+  10:'BYD Seagull',
+  11:'Toyota Land Cruiser Prado',
+  12:'Toyota Camry',
+  13:'Honda CR-V',
+  14:'Hyundai Santa Fe',
+  15:null,
+  16:'BYD Atto 3',
+  17:'BYD Seal',
+  18:'Hyundai IONIQ 5',
+  19:'Hyundai IONIQ 6',
+  20:'Kia EV6',
+  21:'Range Rover',
+  26:'BYD Han',
+  27:null,
+  28:null,
+  29:null,
+  30:null,
+};
 function cardHtml(c){
   const bc=BRANDS.find(b=>b.name===c.brand);
   const bcolor=bc?bc.color:'#f05a1a';
@@ -962,9 +995,10 @@ function cardHtml(c){
   const svgSrc=genCarSvg(c.brand,c.model,bcolor);
   const localImg=`images/car-${c.id}.jpg`;
   const primarySrc=c.img||localImg;
+  const wikiVal=Object.prototype.hasOwnProperty.call(WIKI_CORRECTIONS,c.id)?WIKI_CORRECTIONS[c.id]:c.wiki;
   return`<div class="car-card" id="card-${c.id}">
     <div class="car-img-wrap" onclick="openCarModal(${c.id})">
-      <img src="${primarySrc}" data-wiki="${c.wiki||''}" alt="${c.brand} ${c.model}"
+      <img src="${primarySrc}" data-wiki="${wikiVal||''}" alt="${c.brand} ${c.model}"
         style="width:100%;height:100%;object-fit:cover"
         onerror="if(this.src!=='${localImg}'){this.onerror=null;this.src='${localImg}';}else{this.onerror=null;this.src='${svgSrc}';}">
       ${badgeHtml(c.badge)}
@@ -996,24 +1030,48 @@ const SECTIONS=[
 function renderHomeSections(activeFilter){
   const el=document.getElementById('homeSections');if(!el)return;
   let html='';
-  SECTIONS.forEach(sec=>{
-    let cars=CARS.filter(sec.filter).slice(0,sec.max);
-    if(activeFilter&&activeFilter!=='hybrid'){
-      // When filter chip active, only show that section or cross-filter
-      if(activeFilter==='ev'&&sec.id!=='ev')return;
-      if(activeFilter==='suv'&&sec.id==='ev')return;
+  if(activeFilter){
+    // Show all matching cars for the selected chip, split by available / upcoming
+    const CHIP_DEF={
+      ev:    {title:'Electric',   highlight:'Vehicles', icon:'⚡',  filter:c=>c.badge==='EV'},
+      suv:   {title:'SUV',        highlight:'Cars',     icon:'🚙',  filter:c=>c.type==='suv'},
+      sedan: {title:'Sedan',      highlight:'Cars',     icon:'🚗',  filter:c=>c.type==='sedan'},
+      pickup:{title:'Pickup',     highlight:'Trucks',   icon:'🛻',  filter:c=>c.type==='pickup'},
+      luxury:{title:'Luxury &',   highlight:'Premium',  icon:'👑',  filter:c=>c.type==='luxury'},
+      hybrid:{title:'Hybrid &',   highlight:'PHEV',     icon:'🔋',  filter:c=>c.badge==='Hybrid'||c.badge==='PHEV'},
+      mpv:   {title:'MPV',        highlight:'Vans',     icon:'🚐',  filter:c=>c.type==='mpv'},
+      sports:{title:'Sports',     highlight:'Cars',     icon:'🏎️', filter:c=>c.type==='sports'},
+      chinese:{title:'Chinese',   highlight:'Brands',   icon:'🇨🇳', filter:c=>c.type==='chinese'},
+    };
+    const def=CHIP_DEF[activeFilter];
+    if(def){
+      const avail=CARS.filter(c=>def.filter(c)&&!c.upcoming);
+      const coming=CARS.filter(c=>def.filter(c)&&c.upcoming);
+      if(avail.length)html+=`<div class="section" style="background:#fff"><div class="section-inner">
+        <div class="section-header"><div class="section-title">${def.icon} ${def.title} <span>${def.highlight}</span></div>
+        <div class="view-all" onclick="showPageFilter('${activeFilter}')">View All →</div></div>
+        <div class="section-scroll">${avail.map(c=>cardHtml(c)).join('')}</div></div></div>`;
+      if(coming.length)html+=`<div class="section" style="background:#f5f2ee"><div class="section-inner">
+        <div class="section-header"><div class="section-title">🆕 Upcoming <span>${def.highlight}</span></div></div>
+        <div class="section-scroll">${coming.map(c=>cardHtml(c)).join('')}</div></div></div>`;
     }
-    if(!cars.length)return;
-    html+=`<div class="section" style="background:${sec.id==='upcoming'?'#f5f2ee':'#fff'}">
-      <div class="section-inner">
-        <div class="section-header">
-          <div class="section-title">${sec.icon} ${sec.title} <span>${sec.highlight}</span></div>
-          <div class="view-all" onclick="showPageFilter('${sec.viewType}')">View All →</div>
+    if(!html)html='<div style="padding:60px;text-align:center;color:#888">No cars found for this filter.</div>';
+  } else {
+    // Default view — predefined curated sections with 5-car previews
+    SECTIONS.forEach(sec=>{
+      let cars=CARS.filter(sec.filter).slice(0,sec.max);
+      if(!cars.length)return;
+      html+=`<div class="section" style="background:${sec.id==='upcoming'?'#f5f2ee':'#fff'}">
+        <div class="section-inner">
+          <div class="section-header">
+            <div class="section-title">${sec.icon} ${sec.title} <span>${sec.highlight}</span></div>
+            <div class="view-all" onclick="showPageFilter('${sec.viewType}')">View All →</div>
+          </div>
+          <div class="section-scroll">${cars.map(c=>cardHtml(c)).join('')}</div>
         </div>
-        <div class="section-scroll">${cars.map(c=>cardHtml(c)).join('')}</div>
-      </div>
-    </div>`;
-  });
+      </div>`;
+    });
+  }
   el.innerHTML=html;
   tryLoadRealImages();
 }
@@ -1204,7 +1262,7 @@ function openCarModal(carId){
   const bcolor=bc?bc.color:'#f05a1a';
   const specs=Object.entries(car.specs).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k.replace(/_/g,' ')}</span><span class="spec-val">${v}</span></div>`).join('');
   document.getElementById('carModalBody').innerHTML=`
-    <img src="${car.img||'images/car-'+car.id+'.jpg'}" data-wiki="${car.wiki||''}" onerror="this.onerror=null;this.src='images/car-${car.id}.jpg'||this.src='${genCarSvg(car.brand,car.model,bcolor)}'"
+    <img src="${car.img||'images/car-'+car.id+'.jpg'}" data-wiki="${(Object.prototype.hasOwnProperty.call(WIKI_CORRECTIONS,car.id)?WIKI_CORRECTIONS[car.id]:car.wiki)||''}" onerror="this.onerror=null;this.src='images/car-${car.id}.jpg'||this.src='${genCarSvg(car.brand,car.model,bcolor)}'"
       style="width:100%;height:260px;object-fit:cover;border-radius:12px;margin-bottom:20px" loading="lazy">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
       <div>
@@ -1310,6 +1368,31 @@ function submitConsult(){
 }
 
 // ============ INIT ============
+// ============ HERO SLIDESHOW ============
+function initHeroSlideshow(){
+  const cont=document.getElementById('heroBgSlides');
+  if(!cont||!CARS.length)return;
+  // Pull featured available cars + upcoming cars that have image URLs
+  const featured=CARS.filter(c=>c.featured&&!c.upcoming&&c.img);
+  const upcoming=CARS.filter(c=>c.upcoming&&c.img);
+  // Interleave: pick up to 8 featured + all upcoming, deduplicated
+  let pool=[...featured,...upcoming].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i);
+  // Shuffle for variety
+  pool=pool.sort(()=>Math.random()-0.5);
+  if(!pool.length)return;
+  // Build slide divs (max 20)
+  const slides=pool.slice(0,20);
+  cont.innerHTML=slides.map((c,i)=>`<div class="hero-slide${i===0?' active':''}" style="background-image:url('${c.img}')" title="${c.brand} ${c.model}"></div>`).join('');
+  let cur=0;
+  setInterval(()=>{
+    const all=cont.querySelectorAll('.hero-slide');
+    if(!all.length)return;
+    all[cur].classList.remove('active');
+    cur=(cur+1)%all.length;
+    all[cur].classList.add('active');
+  },2000);
+}
+
 document.addEventListener('DOMContentLoaded', async function(){
   // Load cars from Supabase (falls back to LOCAL_CARS_FALLBACK if unavailable)
   await loadCarsFromSupabase();
