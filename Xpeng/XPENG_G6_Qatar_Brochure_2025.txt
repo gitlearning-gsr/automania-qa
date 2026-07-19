@@ -1,0 +1,253 @@
+SOURCE: https://www.xpeng.com/qa/wp-content/uploads/2025/12/Brochure_EUG6.pdf
+BRAND: XPENG | MODEL: G6 (Intelligent Coupe SUV) | MARKET: Qatar
+EXTRACTED: 2026-07-05
+NOTE: 134-page comprehensive technical brochure. Highest-value source for
+      database ingestion. Full text extracted below.
+
+======================================================================
+XPENG G6 — ELECTRIC PERFORMANCE & SAFETY
+======================================================================
+
+PLATFORM
+- SEPA 2.0 "Fuyao" full-featured intelligent evolution architecture
+- Front and rear unibody aluminum die-cast body + CIB battery-body integration
+- 800V full-featured high-voltage SiC platform (China's first mass-produced)
+- X-EEA electronic electrical architecture + Xmart OS
+
+======================================================================
+TRIMS / VARIANTS
+======================================================================
+1) Standard Range 2WD (RWD)
+2) Long Range 2WD (RWD)
+3) Long Range 4WD (AWD)
+
+======================================================================
+BATTERY, RANGE & CHARGING (WLTP)
+======================================================================
+                                    | Std Range 2WD | LR 2WD | LR 4WD
+Battery capacity (kWh)              |      66       |  87.5  |  87.5
+Range WLTP (km)                     |     435       |   570  |   550
+Consumption (kWh/100km)             |     17.5      |  17.5  |  17.9
+Max charging power (kW)             |     215       |   280  |   280
+10–80% SOC charging time (min)      |      —        |   20   |    20
+
+- Compatible with 4C battery cells: 5-min charge adds up to 120 km
+- 280 kW super-fast charging; +230 km in 10-minute charge
+- X-HP 3.0 intelligent thermal management
+- Heat pump A/C (eliminates PTC heating, reduces winter energy consumption)
+- Winter range: +15%; heating rate: 2x traditional PTC
+- Operating range: -30°C to +55°C
+
+======================================================================
+PERFORMANCE
+======================================================================
+                                    | Std Range 2WD | LR 2WD | LR 4WD
+Total power (kW)                    |     190       |   200  |   350
+Total torque (Nm)                   |     440       |     —  |   660
+0-100 km/h (s)                      |     6.9       |   6.7  |   4.1
+Top speed (km/h)                    |      —        |   210  |   180
+Drive system efficiency (WLTP)      |      —        |    —   |  >92%
+
+- 800V XPower electric drive system
+- Rear motor power density: 2.6 kW/kg
+- Front motor: 1 kg lighter than Model Y
+- SiC power module, oil-cooled flat-wire winding
+- Motor efficiency: >98%; peak system efficiency: 95%
+- 4WD torque distribution ≤±5% accuracy, 22 ms switch response
+
+DRIVE MODES (5)
+- Sport (high power)
+- Launch (peak power)
+- Standard (balanced)
+- Eco (long range)
+- All Terrain (AWD only; wet/snow/sand/closed roads)
+
+======================================================================
+CHASSIS & HANDLING
+======================================================================
+- Tuned by German professional team
+- 50:50 front/rear axle load ratio (LR 4WD)
+- 540 mm center of gravity (comparable to BMW M3, AMG-A, etc.)
+- Body torsional stiffness: 41,600 N·m/deg
+- Max lateral G in cornering: 0.94g
+- Suspension: Front double-wishbone (all-aluminum) + Rear 5-link
+- Anti-roll bars front and rear
+
+BRAKES
+- Bosch iBooster ONEBOX integrated system
+- 100–0 km/h in 33.4 m
+- Brake response: 0.15 s
+- Max brake pressure: 22 MPa
+- Brake-by-wire pedal, 3 adjustable pedal-force settings
+
+======================================================================
+SAFETY
+======================================================================
+BODY
+- 26% high-strength steel
+- 51% aluminum content
+- Roof compressive strength: 4.83× vehicle weight
+- 155 high-strength connection points
+- 16-channel ring safety design (cage-type body)
+- Battery pack: IP68 (48 hrs submerged, no water ingress)
+- Sealed with 3-layer collision protection (500 kN threshold + 8 collision compartments + 85 mm extruded aluminum frame)
+- E-NCAP 5-star rating
+
+ACTIVE SAFETY (13 items — vs Model Y's 9):
+Forward (5):
+- FDM Forward Distance Monitoring
+- FCW Forward Collision Warning
+- AEB Autonomous Emergency Braking
+- IHB Intelligent High Beam
+- TSR Traffic Sign Recognition
+
+Lateral (6):
+- LDW Lane Departure Warning
+- BSD Blind Spot Detection
+- LCA Lane Change Warning
+- LKA Lane Keep Assistance
+- ELK Emergency Lane Keep Assistance
+- DOW Door Open Warning
+
+Rearward (2):
+- RCTA Rear Cross Traffic Alert
+- RCW Rear Collision Warning
+
+BATTERY SAFETY (9 dimensions)
+1) 20+ early-warning algorithms
+2) Voltage/current health protection
+3) Insulated flame-retardant materials + ceramic composite tape
+4) 2,600V max withstand (pack: 1,600V)
+5) Preload control for lithium plating prevention
+6) 3-in-1 fireproof/heat-insulating cotton (mica + mineral wool + glass fiber, >1,000°C), aerogel between cells (>700°C), dual-branch liquid cooling — NP (no propagation, no fire)
+7) IP68 (waterproof, 48hr immersion tested at 1m)
+8) Sandwich structure (foam + galvanized steel + PVC scratch coat)
+9) CIB side collision protection multi-layer
+- 30 rigorous safety tests
+
+======================================================================
+INTELLIGENCE / XPILOT ADAS
+======================================================================
+HARDWARE (29 sensors total)
+- Ultrasonic radar: 12 (6 front, 6 rear)
+- Millimeter-wave radar: 5 (3 front, 2 rear)
+- Front view camera: 2 (binocular)
+- Side view: 4 (2 lateral anterior, 2 lateral posterior)
+- Rear view: 1
+- Parking cameras: 4
+- In-vehicle DMS camera: 1
+- Master control chip: NVIDIA Orin-X (254 TOPS)
+- Forward radar detection range: 210 m
+- 4-corner radar range: 120 m
+- Front camera: 8 MP, 200 m detection distance
+
+DRIVING FUNCTIONS
+- ACC Adaptive Cruise Control
+- LCC Lane Centering Control
+- ALC Auto Lane Change
+
+PARKING FUNCTIONS
+- APA Automated Parking Assistance
+- VPA Valet Parking Assist
+- RVS Remote Vehicle Summoning
+- AEP Auto Exit Parking
+- EAP Intelligent Parking Assist
+- RPA Remote Parking Assist (phone app)
+
+======================================================================
+INTELLIGENT COCKPIT / INFOTAINMENT
+======================================================================
+- Qualcomm Snapdragon 8155P chipset (7nm, 8-core CPU)
+- 12 GB RAM, 128 GB ROM
+- 14.96" center touchscreen (2400×1200, magnetron sputtering coating)
+- 10.2" LCD driver display
+- 4G telematics
+- CANFD (7-channel simultaneous CAN)
+
+"Hey XPENG" Voice Assistant
+- Response speed <300 ms (2–3× industry average)
+- Multi-tone-zone recognition
+- Offline basic controls
+
+- Wireless Apple CarPlay + Android Auto
+- Wireless charging pads: 2× 50 W with air cooling
+- Ports: 3× Type-C (1× 60W + 2× 15W), 1× Type-A, 1× 12V
+- Ambient lighting (hidden design, color/mode/timer configurable)
+- V2L external discharge: 3.3 kW
+
+======================================================================
+COMFORT & SPACE
+======================================================================
+SEATS
+- Driver: 8-way power + 4-way lumbar; cushion 332.6mm; foam 70mm
+- Passenger: 6-way power, seat memory (3 sets), heating + ventilation
+- Rear: 12-position backrest (27°–38.4°), 342.6mm cushion, 114mm foam
+
+CLIMATE
+- Intelligent dual-zone A/C
+- Electric air vents (adjustable blowing angle)
+- Whole-vehicle sweep function
+- Max heat (32°C) / Max cool (18°C) rapid mode
+- Anti-fog sensor
+
+CABIN NOISE
+- 63.8 dB at high speeds
+- 20 air partitions, 5mm double-layer laminated glass, 36 sound-absorbing cotton panels
+- 7 motor NVH technologies
+
+AUDIO
+- Xopera 18-speaker sound system (16 speakers + 2 driver headrest stereos)
+- 960 W external amp, 7.1.4 panoramic effect
+- Titanium, Kevlar, and composite paper cone drivers
+
+STORAGE
+- 18 storage compartments
+- Center armrest holds 6× 500ml bottles
+- Console storage holds 5× 500ml bottles
+
+PANORAMIC SUNROOF
+- 2.12 m² area, 63.4% of roof (5× typical sunroof)
+- LOW-E + double silver plating
+- UV isolation: 99.9%
+- Heat insulation: >86%
+
+======================================================================
+CARGO
+======================================================================
+- Trunk: 571 L
+- With rear seats folded (4/6): 1,374 L
+- Trunk opening width: 923 mm
+- Tailgate sill height: 761 mm
+- Fits 32", 28", 26", 20" luggage
+
+TOWING
+- Capacity: 1,500 kg
+- Vertical ball load: 75 kg
+- Electric tow hook (one-touch stow)
+- Roof rack with integrated connector
+
+======================================================================
+EXTERIOR DESIGN
+======================================================================
+- Cd (drag coefficient): 0.248
+- 17 optimized low-drag design elements
+- LED headlights + daytime running lights (integrated position + dynamic turn signals)
+- Frameless doors
+- Hidden door handles
+- Suspended roof design
+- Widened shoulder rear taillights
+
+======================================================================
+INTERIOR THEMES
+======================================================================
+- Starry Night
+- Imposing Gray
+- Cloud-like Surround Seat (leather)
+
+======================================================================
+OTA / SOFTWARE
+======================================================================
+- Full-vehicle OTA in ~30 minutes
+- 300% OTA speed increase vs prior
+- Intelligent iteration cycle shortened 30%
+- Modes: Instant, Scheduled, 3 AM auto, remote via phone

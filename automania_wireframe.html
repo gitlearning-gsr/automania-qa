@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automania.qa — Wireframe</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f0f0;color:#333}
+
+  /* ── TOP TOOLBAR ── */
+  .toolbar{background:#1e1e2e;color:#fff;padding:10px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:9999;flex-wrap:wrap}
+  .tb-logo{font-weight:900;font-size:15px;color:#f05a1a;margin-right:8px}
+  .tb-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-right:4px}
+  .tb-btn{background:#2d2d44;border:1.5px solid #3d3d5c;color:#ccc;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .2s;font-weight:600}
+  .tb-btn:hover{background:#3d3d5c;color:#fff}
+  .tb-btn.active{background:#f05a1a;border-color:#f05a1a;color:#fff}
+  .tb-sep{color:#444;margin:0 4px}
+
+  /* ── CANVAS ── */
+  .canvas{padding:30px;min-height:100vh}
+  .page-view{display:none;max-width:1100px;margin:0 auto}
+  .page-view.active{display:block}
+
+  /* ── WIREFRAME ATOMS ── */
+  .wf-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:6px}
+  .wf-annotation{font-size:10px;color:#f05a1a;font-weight:600;font-style:italic}
+  .wf-box{background:#e8e8e8;border:1.5px solid #bbb;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;font-weight:600}
+  .wf-text-line{background:#ddd;height:10px;border-radius:2px;margin:4px 0}
+  .wf-text-line.short{width:60%}
+  .wf-text-line.med{width:80%}
+  .wf-text-line.full{width:100%}
+  .wf-divider{height:1.5px;background:#ccc;margin:12px 0}
+  .wf-img{background:#d4d4d4;border:1.5px solid #bbb;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#aaa;gap:4px;font-size:11px}
+  .wf-img svg{opacity:.4}
+  .wf-btn{background:#333;color:#fff;border:none;border-radius:4px;padding:7px 16px;font-size:12px;font-weight:700;cursor:default;display:inline-block}
+  .wf-btn.outline{background:#fff;color:#333;border:1.5px solid #333}
+  .wf-btn.orange{background:#f05a1a;color:#fff}
+  .wf-input{background:#fff;border:1.5px solid #bbb;border-radius:4px;padding:8px 12px;font-size:12px;color:#999;width:100%}
+  .wf-tag{background:#e0e0e0;border:1px solid #bbb;border-radius:12px;padding:3px 10px;font-size:11px;color:#666;display:inline-block}
+  .wf-chip{background:#eee;border:1.5px solid #ccc;border-radius:20px;padding:5px 14px;font-size:11px;font-weight:600;color:#666;display:inline-block}
+  .wf-chip.active{background:#333;color:#fff;border-color:#333}
+  .wf-badge{background:#333;color:#fff;border-radius:12px;padding:2px 8px;font-size:10px;font-weight:700}
+  .wf-tab{padding:8px 18px;font-size:12px;font-weight:700;color:#999;border-bottom:2.5px solid transparent;cursor:default;display:inline-block}
+  .wf-tab.active{color:#333;border-bottom-color:#333}
+
+  /* ── FRAME WRAPPERS ── */
+  .frame{background:#fff;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.12);margin-bottom:20px;overflow:hidden}
+  .frame-header{background:#f7f7f7;border-bottom:1.5px solid #e0e0e0;padding:8px 14px;display:flex;align-items:center;gap:8px}
+  .frame-dot{width:10px;height:10px;border-radius:50%;background:#ddd}
+  .frame-dot.r{background:#f05a1a}
+  .frame-name{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.8px;margin-left:4px}
+  .frame-tag{font-size:10px;background:#eef;color:#446;border-radius:4px;padding:1px 6px;font-weight:700}
+  .frame-body{padding:0}
+
+  /* ── COMPONENT GRID ── */
+  .wf-grid{display:grid;gap:16px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  .g4{grid-template-columns:repeat(4,1fr)}
+
+  /* ── SPECIFIC COMPONENTS ── */
+  .comp-header{background:#1a2744;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+  .comp-logo-box{background:#f05a1a;width:100px;height:24px;border-radius:4px;opacity:.7}
+  .comp-nav{display:flex;gap:8px;align-items:center}
+  .comp-nav-item{background:rgba(255,255,255,.15);border-radius:6px;padding:5px 12px;font-size:11px;color:#fff;font-weight:600}
+  .comp-nav-item.orange{background:#f05a1a}
+
+  .comp-hero{background:linear-gradient(135deg,#1a2744,#2a3a5c);padding:40px 24px;position:relative;overflow:hidden}
+  .comp-hero-title{font-size:28px;font-weight:900;color:#fff;margin-bottom:8px;line-height:1.2}
+  .comp-hero-title span{color:#f05a1a}
+  .comp-hero-sub{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:20px}
+  .comp-hero-search{background:#fff;border-radius:10px;padding:14px;display:flex;gap:10px;flex-wrap:wrap;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+  .comp-hero-sel{background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:8px 12px;font-size:12px;color:#999;flex:1;min-width:120px}
+  .comp-hero-stats{display:flex;gap:24px;margin-top:18px}
+  .comp-hstat{text-align:center;color:#fff}
+  .comp-hstat strong{display:block;font-size:18px;color:#f05a1a}
+  .comp-hstat span{font-size:10px;color:rgba(255,255,255,.5)}
+  .comp-bg-slides{position:absolute;top:0;right:0;bottom:0;width:45%;background:#243;opacity:.3;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);font-size:11px;font-weight:700}
+
+  .comp-brand-strip{background:#fff;border-bottom:1px solid #eee;padding:14px 24px;display:flex;gap:10px;overflow:hidden}
+  .comp-brand-pill{background:#f5f5f5;border:1px solid #eee;border-radius:20px;padding:6px 14px;font-size:11px;color:#666;font-weight:600;white-space:nowrap}
+  .comp-brand-pill.active{background:#333;color:#fff}
+
+  .comp-filter-bar{background:#fff;border-bottom:1px solid #eee;padding:10px 24px;display:flex;gap:8px;overflow:hidden}
+
+  .section-block{padding:24px}
+  .section-title-wf{font-size:16px;font-weight:900;color:#333;margin-bottom:14px}
+  .section-title-wf span{color:#f05a1a}
+
+  .car-card-wf{border:1.5px solid #e0e0e0;border-radius:8px;overflow:hidden;background:#fff}
+  .car-card-img{height:100px;background:#e8e8e8;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:11px;border-bottom:1px solid #eee}
+  .car-card-body{padding:10px}
+  .car-card-brand{font-size:9px;color:#f05a1a;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  .car-card-name{font-size:12px;font-weight:800;color:#333;margin:2px 0}
+  .car-card-price{font-size:11px;color:#666;margin-bottom:6px}
+  .car-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+  .car-card-btn{font-size:10px;background:#333;color:#fff;border:none;border-radius:4px;padding:4px 10px;cursor:default}
+  .car-card-btn.outline{background:#fff;color:#333;border:1px solid #ccc}
+
+  .comp-ev-hero{background:#0a1628;padding:28px 24px}
+  .comp-ev-title{font-size:22px;font-weight:900;color:#fff;margin-bottom:4px}
+  .comp-ev-title span{color:#f05a1a}
+  .comp-ev-sub{color:rgba(255,255,255,.5);font-size:12px;margin-bottom:16px}
+
+  .charging-card-wf{border:1.5px solid #e0e0e0;border-radius:8px;padding:14px;background:#fff}
+  .charging-icon{width:36px;height:36px;background:#e0ffe0;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .charging-name{font-size:13px;font-weight:700;color:#333;margin-bottom:2px}
+  .charging-loc{font-size:11px;color:#999;margin-bottom:6px}
+  .charging-pills{display:flex;gap:4px;flex-wrap:wrap}
+
+  .comp-consult{background:#f7f7f5;padding:40px 24px}
+  .consult-step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+  .step-num{width:28px;height:28px;border-radius:50%;background:#333;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-text{font-size:12px;color:#555;padding-top:5px}
+
+  .price-card-wf{border:1.5px solid #e0e0e0;border-radius:10px;padding:18px;text-align:center;background:#fff}
+  .price-card-wf.featured{border-color:#f05a1a;background:#1a2744;color:#fff}
+  .price-plan{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#f05a1a;margin-bottom:4px}
+  .price-amt{font-size:22px;font-weight:900;color:#333;margin-bottom:4px}
+  .price-card-wf.featured .price-amt{color:#ffd700}
+  .price-items{text-align:left;margin:12px 0;font-size:11px;color:#666}
+  .price-items li{padding:3px 0;list-style:none;padding-left:14px;position:relative}
+  .price-items li::before{content:'✓';position:absolute;left:0;color:#f05a1a;font-weight:800}
+  .price-card-wf.featured .price-items{color:rgba(255,255,255,.7)}
+
+  .comp-form{background:#fff;border:1.5px solid #e0e0e0;border-radius:12px;padding:24px}
+  .form-row{margin-bottom:12px}
+  .form-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#999;margin-bottom:4px}
+  .form-field{background:#f7f7f7;border:1.5px solid #e0e0e0;border-radius:6px;padding:9px 12px;font-size:12px;color:#bbb;width:100%}
+
+  .comp-footer{background:#1a2744;padding:40px 24px 20px}
+  .footer-brand-wf{font-size:18px;font-weight:900;color:#fff;margin-bottom:8px}
+  .footer-desc{font-size:11px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px}
+  .footer-col h4{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#fff;margin-bottom:10px}
+  .footer-col li{font-size:11px;color:rgba(255,255,255,.4);padding:3px 0;list-style:none}
+  .footer-bottom-wf{border-top:1px solid rgba(255,255,255,.1);padding-top:16px;display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+  .footer-copy{font-size:10px;color:rgba(255,255,255,.3)}
+  .social-pill{background:rgba(255,255,255,.1);width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.5)}
+
+  .modal-wf{background:#fff;border-radius:16px;padding:24px;border:1.5px solid #ddd}
+  .modal-title{font-size:16px;font-weight:900;color:#333;margin-bottom:16px}
+  .modal-title span{color:#f05a1a}
+  .compare-col{border:1.5px solid #e0e0e0;border-radius:8px;overflow:hidden}
+  .compare-img{height:80px;background:#e8e8e8;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:11px}
+  .compare-specs{padding:10px;font-size:11px;color:#555}
+  .compare-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0}
+  .compare-key{color:#999;font-size:10px}
+  .compare-val{font-weight:700;font-size:11px}
+
+  .sticky-compare{background:#fff;border-top:2px solid #e0e0e0;padding:12px 24px;display:flex;align-items:center;gap:12px}
+  .comp-slot{background:#f5f5f5;border:1.5px dashed #ccc;border-radius:8px;padding:10px 16px;font-size:11px;color:#bbb;flex:1;text-align:center}
+  .comp-slot.filled{border-style:solid;border-color:#ddd;color:#333;font-weight:700;background:#fff}
+
+  /* ── COMPONENT LIBRARY ── */
+  .comp-lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:24px}
+  .comp-item{background:#fff;border:1.5px solid #e0e0e0;border-radius:8px;padding:16px;position:relative}
+  .comp-item-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:6px}
+  .comp-item-preview{display:flex;flex-wrap:wrap;gap:6px}
+
+  /* ── ANNOTATION LAYER ── */
+  .annot{position:relative}
+  .annot-pin{position:absolute;background:#f05a1a;color:#fff;width:18px;height:18px;border-radius:50%;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:10;cursor:help}
+  .annot-list{background:#fff;border:1.5px solid #e0e0e0;border-radius:8px;padding:16px;margin-top:12px}
+  .annot-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:11px;color:#555}
+  .annot-num{background:#f05a1a;color:#fff;width:16px;height:16px;border-radius:50%;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+  /* ── PAGE LABEL ── */
+  .page-heading{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .page-heading h2{font-size:20px;font-weight:900;color:#333}
+  .page-heading .pg-badge{background:#1e1e2e;color:#f05a1a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+  .page-heading .pg-desc{font-size:12px;color:#888}
+
+  /* ── FLOW ARROWS ── */
+  .flow-section{padding:24px;background:#f9f9f9;border-top:1px solid #e0e0e0}
+  .flow-title{font-size:13px;font-weight:800;color:#333;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
+  .flow-row{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+  .flow-node{background:#fff;border:1.5px solid #ccc;border-radius:6px;padding:8px 14px;font-size:11px;font-weight:700;color:#333;white-space:nowrap}
+  .flow-node.primary{background:#1a2744;color:#fff;border-color:#1a2744}
+  .flow-node.accent{background:#f05a1a;color:#fff;border-color:#f05a1a}
+  .flow-arrow{color:#ccc;font-size:18px;margin:0 4px;font-weight:300}
+
+  /* scrollbar */
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="tb-logo">AUTOMANIA.QA</span>
+  <span class="tb-sep">|</span>
+  <span class="tb-label">Wireframe</span>
+  <span class="tb-btn active" onclick="switchPage('home')">🏠 Home</span>
+  <span class="tb-btn" onclick="switchPage('browse')">🚗 Browse Cars</span>
+  <span class="tb-btn" onclick="switchPage('ev')">⚡ EV Hub</span>
+  <span class="tb-btn" onclick="switchPage('consult')">🎯 Consulting</span>
+  <span class="tb-btn" onclick="switchPage('modals')">⊕ Modals</span>
+  <span class="tb-btn" onclick="switchPage('components')">🧩 Components</span>
+  <span class="tb-sep">|</span>
+  <span style="font-size:10px;color:#666">Click a page to preview its wireframe</span>
+</div>
+
+<div class="canvas">
+
+<!-- ══════════════════ HOME PAGE ══════════════════ -->
+<div class="page-view active" id="wf-home">
+  <div class="page-heading">
+    <h2>Home Page</h2>
+    <span class="pg-badge">page-home</span>
+    <span class="pg-desc">Entry point — hero search, brand strip, car sections, consult CTA</span>
+  </div>
+
+  <!-- HEADER -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Header / Navigation</span><span class="frame-tag">sticky</span></div>
+    <div class="comp-header">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div class="comp-logo-box"></div>
+        <div style="font-size:10px;color:rgba(255,255,255,.4);font-style:italic">Qatar's Premier Auto Marketplace</div>
+      </div>
+      <div class="comp-nav">
+        <div class="comp-nav-item" style="background:rgba(240,90,26,.2);color:#f05a1a">Home</div>
+        <div class="comp-nav-item">Browse Cars</div>
+        <div class="comp-nav-item">⚡ EV Hub</div>
+        <div class="comp-nav-item">⊕ Compare <span style="background:#f05a1a;border-radius:10px;padding:0 5px;font-size:9px">0</span></div>
+        <div class="comp-nav-item orange">🚗 Free Consulting</div>
+      </div>
+    </div>
+    <div class="annot-list" style="margin:0;border:none;border-radius:0;border-top:1px solid #eee">
+      <div class="annot-item"><div class="annot-num">1</div>Logo click → returns to home page</div>
+      <div class="annot-item"><div class="annot-num">2</div>Compare badge shows count of cars added; opens compare modal</div>
+      <div class="annot-item"><div class="annot-num">3</div>Mobile: all nav items hide except "Free Consulting" CTA</div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Hero Section</span><span class="frame-tag">bg-slideshow</span></div>
+    <div class="comp-hero">
+      <div class="comp-bg-slides">[ Car Image Slideshow<br>2s interval autoplay ]</div>
+      <div class="comp-hero-title">Qatar's #1 Car<br>Marketplace <span>& Advisor</span></div>
+      <div class="comp-hero-sub">Find your perfect car from 50+ brands · Free expert consulting · Compare side-by-side</div>
+      <div style="font-size:13px;color:#f05a1a;font-style:italic;margin-bottom:20px;font-weight:700">✦ Choose the car. Protect the dream. ✦</div>
+      <div class="comp-hero-search">
+        <div class="comp-hero-sel">Any Brand ▾</div>
+        <div class="comp-hero-sel">Any Type ▾</div>
+        <div class="comp-hero-sel">Any Budget ▾</div>
+        <button class="wf-btn orange" style="padding:9px 20px;font-size:13px">Search Cars →</button>
+      </div>
+      <div class="comp-hero-stats">
+        <div class="comp-hstat"><strong>50+</strong><span>Brands</span></div>
+        <div class="comp-hstat"><strong>500+</strong><span>Brochures</span></div>
+        <div class="comp-hstat"><strong>30+</strong><span>EV Stations</span></div>
+        <div class="comp-hstat"><strong>Free</strong><span>Consulting</span></div>
+      </div>
+    </div>
+    <div class="annot-list" style="margin:0;border:none;border-radius:0;border-top:1px solid #eee">
+      <div class="annot-item"><div class="annot-num">4</div>Background: rotating car image slideshow, 2-second intervals with CSS fade</div>
+      <div class="annot-item"><div class="annot-num">5</div>Search → navigates to Browse page with filters pre-applied</div>
+    </div>
+  </div>
+
+  <!-- BRAND STRIP -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Brand Strip</span><span class="frame-tag">horizontal scroll</span></div>
+    <div class="comp-brand-strip">
+      <div class="comp-brand-pill active">All</div>
+      <div class="comp-brand-pill">Toyota</div>
+      <div class="comp-brand-pill">Nissan</div>
+      <div class="comp-brand-pill">BMW</div>
+      <div class="comp-brand-pill">Mercedes</div>
+      <div class="comp-brand-pill">Lexus</div>
+      <div class="comp-brand-pill">Kia</div>
+      <div class="comp-brand-pill">Hyundai</div>
+      <div class="comp-brand-pill">Land Rover</div>
+      <div class="comp-brand-pill" style="color:#aaa">+ 40 more →</div>
+    </div>
+  </div>
+
+  <!-- FILTER CHIPS -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Filter Chips</span><span class="frame-tag">horizontal scroll</span></div>
+    <div class="comp-filter-bar">
+      <div class="wf-chip active">All</div>
+      <div class="wf-chip">🚙 SUV</div>
+      <div class="wf-chip">🚗 Sedan</div>
+      <div class="wf-chip">🛻 Pickup</div>
+      <div class="wf-chip">💎 Luxury</div>
+      <div class="wf-chip">⚡ Electric</div>
+      <div class="wf-chip">🚐 MPV</div>
+      <div class="wf-chip">🏎️ Sports</div>
+      <div class="wf-chip">🇨🇳 Chinese</div>
+    </div>
+  </div>
+
+  <!-- CAR SECTIONS -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Car Sections (Dynamic)</span><span class="frame-tag">horizontal scroll per section</span></div>
+    <div class="section-block">
+      <div style="margin-bottom:24px">
+        <div class="section-title-wf">Popular Cars in <span>Qatar</span></div>
+        <div style="display:flex;gap:12px;overflow:hidden">
+          <div class="car-card-wf" style="min-width:160px">
+            <div class="car-card-img">[ Car Photo ]</div>
+            <div class="car-card-body">
+              <div class="car-card-brand">Toyota</div>
+              <div class="car-card-name">Land Cruiser 300</div>
+              <div class="car-card-price">QAR 385,000+</div>
+              <div class="car-card-tags"><span class="wf-tag">SUV</span><span class="wf-tag">⚡</span></div>
+              <div style="display:flex;gap:4px"><div class="car-card-btn">View</div><div class="car-card-btn outline">+ Compare</div></div>
+            </div>
+          </div>
+          <div class="car-card-wf" style="min-width:160px">
+            <div class="car-card-img">[ Car Photo ]</div>
+            <div class="car-card-body">
+              <div class="car-card-brand">Nissan</div>
+              <div class="car-card-name">Patrol LE</div>
+              <div class="car-card-price">QAR 270,000+</div>
+              <div class="car-card-tags"><span class="wf-tag">SUV</span></div>
+              <div style="display:flex;gap:4px"><div class="car-card-btn">View</div><div class="car-card-btn outline">+ Compare</div></div>
+            </div>
+          </div>
+          <div class="car-card-wf" style="min-width:160px">
+            <div class="car-card-img">[ Car Photo ]</div>
+            <div class="car-card-body">
+              <div class="car-card-brand">BMW</div>
+              <div class="car-card-name">X7 xDrive40i</div>
+              <div class="car-card-price">QAR 420,000+</div>
+              <div class="car-card-tags"><span class="wf-tag">Luxury</span></div>
+              <div style="display:flex;gap:4px"><div class="car-card-btn">View</div><div class="car-card-btn outline">+ Compare</div></div>
+            </div>
+          </div>
+          <div class="wf-box" style="min-width:40px;height:160px;background:#f5f5f5;color:#bbb;font-size:18px">›</div>
+        </div>
+      </div>
+
+      <div class="wf-divider"></div>
+
+      <div style="margin-bottom:0">
+        <div class="section-title-wf">Upcoming Launches <span>in Qatar</span></div>
+        <div style="display:flex;gap:12px;overflow:hidden">
+          <div class="car-card-wf" style="min-width:160px">
+            <div class="car-card-img" style="position:relative">[ Car Photo ]<div style="position:absolute;top:6px;left:6px;background:#f05a1a;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:10px">COMING SOON</div></div>
+            <div class="car-card-body">
+              <div class="car-card-brand">BYD</div>
+              <div class="car-card-name">Seal EV</div>
+              <div class="car-card-price">TBA</div>
+              <div class="car-card-tags"><span class="wf-tag">EV</span><span class="wf-tag">Chinese</span></div>
+            </div>
+          </div>
+          <div class="car-card-wf" style="min-width:160px">
+            <div class="car-card-img" style="position:relative">[ Car Photo ]<div style="position:absolute;top:6px;left:6px;background:#1a2744;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:10px">NEW 2025</div></div>
+            <div class="car-card-body">
+              <div class="car-card-brand">Xiaomi</div>
+              <div class="car-card-name">SU7 Ultra</div>
+              <div class="car-card-price">QAR 395,000+</div>
+              <div class="car-card-tags"><span class="wf-tag">EV</span></div>
+            </div>
+          </div>
+          <div class="wf-box" style="min-width:40px;height:160px;background:#f5f5f5;color:#bbb;font-size:18px">›</div>
+        </div>
+      </div>
+    </div>
+    <div class="annot-list" style="margin:0;border:none;border-radius:0;border-top:1px solid #eee">
+      <div class="annot-item"><div class="annot-num">6</div>Sections rendered dynamically from Supabase data; filtered by brand chip or filter chip selection</div>
+      <div class="annot-item"><div class="annot-num">7</div>Car card click → opens Car Detail Modal (full specs, brochure, compare button)</div>
+      <div class="annot-item"><div class="annot-num">8</div>"+ Compare" adds car to sticky Compare Bar (max 3 cars)</div>
+    </div>
+  </div>
+
+  <!-- CONSULT BANNER -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Consulting CTA Banner</span></div>
+    <div style="background:#1a2744;padding:36px 24px;text-align:center">
+      <div style="font-size:10px;color:#f05a1a;font-weight:700;letter-spacing:2px;margin-bottom:8px">FREE SERVICE</div>
+      <div style="font-size:24px;font-weight:900;color:#fff;margin-bottom:8px">Not Sure Which Car is Right?</div>
+      <div style="color:rgba(255,255,255,.5);font-size:12px;margin-bottom:18px">Our Qatar experts shortlist the perfect car for your budget & lifestyle — 100% free</div>
+      <button class="wf-btn orange" style="padding:12px 28px;font-size:14px">Get Free Advice →</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Footer</span></div>
+    <div class="comp-footer">
+      <div class="wf-grid g4">
+        <div>
+          <div class="footer-brand-wf">🚗 Automania.qa</div>
+          <div class="footer-desc">Qatar's premier car marketplace. Find your perfect vehicle with expert guidance and real pricing.</div>
+          <div style="display:flex;gap:6px">
+            <div class="social-pill">in</div>
+            <div class="social-pill">tw</div>
+            <div class="social-pill">ig</div>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Browse</h4><ul><li>SUVs</li><li>Sedans</li><li>Pickups</li><li>Luxury</li><li>Electric</li></ul></div>
+        <div class="footer-col"><h4>Services</h4><ul><li>Free Consulting</li><li>Download Brochures</li><li>Compare Cars</li><li>Book Test Drive</li></ul></div>
+        <div class="footer-col"><h4>Company</h4><ul><li>About Us</li><li>Privacy Policy</li><li>Contact</li><li>Careers</li></ul></div>
+      </div>
+      <div class="footer-bottom-wf">
+        <span class="footer-copy">© 2025 Automania.qa — All rights reserved</span>
+        <span class="footer-copy">Made in Qatar 🇶🇦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER FLOW -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Home Page — User Flow</span></div>
+    <div class="flow-section">
+      <div class="flow-title">Primary User Journeys</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="flow-row">
+          <div class="flow-node primary">Land on Home</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Use Hero Search</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node accent">Browse Page (filtered)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Open Car Modal</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node accent">Compare / Brochure</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-node primary">Land on Home</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Scroll Car Sections</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">+ Add to Compare (3x)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node accent">Compare Modal</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-node primary">Land on Home</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Click Consult CTA</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node accent">Consulting Page</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ BROWSE PAGE ══════════════════ -->
+<div class="page-view" id="wf-browse">
+  <div class="page-heading">
+    <h2>Browse Cars Page</h2>
+    <span class="pg-badge">page-browse</span>
+    <span class="pg-desc">Full filterable car grid with search, type, brand, budget filters</span>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Browse Filters Bar</span><span class="frame-tag">sticky top</span></div>
+    <div style="padding:14px 24px;background:#fff;border-bottom:1px solid #eee;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <input class="wf-input" style="width:180px;flex:none" placeholder="🔍 Search cars...">
+      <select class="wf-input" style="width:130px;flex:none"><option>All Types</option></select>
+      <select class="wf-input" style="width:130px;flex:none"><option>All Brands</option></select>
+      <select class="wf-input" style="width:150px;flex:none"><option>Any Budget</option></select>
+      <div style="font-size:12px;color:#999;font-weight:600">79 Cars found</div>
+    </div>
+    <div class="annot-list" style="margin:0;border:none;border-radius:0;border-top:1px solid #eee">
+      <div class="annot-item"><div class="annot-num">1</div>All filters trigger live re-render of grid — no page reload</div>
+      <div class="annot-item"><div class="annot-num">2</div>Car count updates dynamically as filters change</div>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Car Grid</span><span class="frame-tag">responsive grid</span></div>
+    <div style="padding:20px 24px">
+      <div class="wf-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px">
+        <div class="car-card-wf">
+          <div class="car-card-img">[ Car Photo ]</div>
+          <div class="car-card-body">
+            <div class="car-card-brand">Toyota</div>
+            <div class="car-card-name">Camry 2025</div>
+            <div class="car-card-price">QAR 115,000</div>
+            <div class="car-card-tags"><span class="wf-tag">Sedan</span></div>
+            <div style="display:flex;gap:4px"><div class="car-card-btn">View</div><div class="car-card-btn outline">+</div></div>
+          </div>
+        </div>
+        <div class="car-card-wf">
+          <div class="car-card-img">[ Car Photo ]</div>
+          <div class="car-card-body">
+            <div class="car-card-brand">Lexus</div>
+            <div class="car-card-name">LX 600</div>
+            <div class="car-card-price">QAR 520,000</div>
+            <div class="car-card-tags"><span class="wf-tag">SUV</span><span class="wf-tag">Luxury</span></div>
+            <div style="display:flex;gap:4px"><div class="car-card-btn">View</div><div class="car-card-btn outline">+</div></div>
+          </div>
+        </div>
+        <div class="car-card-wf">
+          <div class="car-card-img">[ Car Photo ]</div>
+          <div class="car-card-body">
+            <div class="car-card-brand">BYD</div>
+            <div class="car-card-name">Atto 3</div>
+            <div class="car-card-price">QAR 149,000</div>
+            <div class="car-card-tags"><span class="wf-tag">EV</span><span class="wf-tag">Chinese</span></div>
+            <div style="display:flex;gap:4px"><div class="car-card-btn">View</div><div class="car-card-btn outline">+</div></div>
+          </div>
+        </div>
+        <div class="car-card-wf">
+          <div class="car-card-img">[ Car Photo ]</div>
+          <div class="car-card-body">
+            <div class="car-card-brand">Ford</div>
+            <div class="car-card-name">F-150 Raptor</div>
+            <div class="car-card-price">QAR 240,000</div>
+            <div class="car-card-tags"><span class="wf-tag">Pickup</span></div>
+            <div style="display:flex;gap:4px"><div class="car-card-btn">View</div><div class="car-card-btn outline">+</div></div>
+          </div>
+        </div>
+        <div class="wf-box" style="height:180px;font-size:11px;color:#ccc">79 total<br>cards<br>rendered</div>
+        <div class="wf-box" style="height:180px;opacity:.4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY COMPARE BAR -->
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Sticky Compare Bar</span><span class="frame-tag">fixed bottom</span></div>
+    <div class="sticky-compare">
+      <div class="comp-slot filled">Toyota Land Cruiser 300 ×</div>
+      <div class="comp-slot">+ Add a car</div>
+      <div class="comp-slot">+ Add a car</div>
+      <button class="wf-btn" style="white-space:nowrap">Compare Now →</button>
+      <button class="wf-btn outline" style="white-space:nowrap">Clear</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ EV HUB PAGE ══════════════════ -->
+<div class="page-view" id="wf-ev">
+  <div class="page-heading">
+    <h2>EV Hub Page</h2>
+    <span class="pg-badge">page-ev</span>
+    <span class="pg-desc">Electric vehicles, charging stations, hybrids, and buyer guide for Qatar</span>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">EV Hub Hero + Tabs</span></div>
+    <div class="comp-ev-hero">
+      <div class="comp-ev-title">⚡ <span>EV Hub</span> Qatar</div>
+      <div class="comp-ev-sub">Electric vehicles, charging infrastructure & buyer's guide for Qatar</div>
+      <div style="display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.15)">
+        <div class="wf-tab active" style="color:#fff;border-bottom-color:#f05a1a">🚗 EV Cars</div>
+        <div class="wf-tab" style="color:rgba(255,255,255,.5)">🔌 Charging Stations (30)</div>
+        <div class="wf-tab" style="color:rgba(255,255,255,.5)">🔋 Hybrids & PHEV</div>
+        <div class="wf-tab" style="color:rgba(255,255,255,.5)">📖 EV Guide</div>
+      </div>
+    </div>
+    <div style="padding:20px 24px;background:#f7f7f5">
+      <div style="font-size:11px;font-weight:700;color:#999;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">Tab Content: EV Cars Grid (same as Browse, filtered to EV only)</div>
+      <div class="wf-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+        <div class="car-card-wf"><div class="car-card-img">[ EV Photo ]</div><div class="car-card-body"><div class="car-card-brand">Tesla</div><div class="car-card-name">Model 3 LR</div><div class="car-card-price">QAR 185,000</div><div class="car-card-tags"><span class="wf-tag">EV</span></div></div></div>
+        <div class="car-card-wf"><div class="car-card-img">[ EV Photo ]</div><div class="car-card-body"><div class="car-card-brand">BYD</div><div class="car-card-name">Han EV</div><div class="car-card-price">QAR 175,000</div><div class="car-card-tags"><span class="wf-tag">EV</span></div></div></div>
+        <div class="wf-box" style="height:160px;color:#ccc;font-size:11px">More EV cars...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Tab: Charging Stations (30 stations)</span></div>
+    <div style="padding:20px 24px;background:#f7f7f5">
+      <div class="wf-grid g3" style="gap:14px">
+        <div class="charging-card-wf">
+          <div class="charging-icon">🔌</div>
+          <div class="charging-name">KAHRAMAA Station — Doha</div>
+          <div class="charging-loc">📍 West Bay, Doha</div>
+          <div class="charging-pills">
+            <span class="wf-tag">CCS2</span>
+            <span class="wf-tag">50kW</span>
+            <span class="wf-tag" style="background:#e0ffe0;color:#060">Open 24/7</span>
+          </div>
+        </div>
+        <div class="charging-card-wf">
+          <div class="charging-icon">⚡</div>
+          <div class="charging-name">Mall of Qatar Fast Charger</div>
+          <div class="charging-loc">📍 Al Rayyan</div>
+          <div class="charging-pills">
+            <span class="wf-tag">Type 2</span>
+            <span class="wf-tag">150kW</span>
+          </div>
+        </div>
+        <div class="wf-box" style="height:100px;color:#ccc;font-size:11px">28 more stations...</div>
+      </div>
+    </div>
+    <div class="annot-list" style="margin:0;border:none;border-radius:0;border-top:1px solid #eee">
+      <div class="annot-item"><div class="annot-num">1</div>Each card shows: name, location, connector type, power rating, availability hours</div>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Tab: EV Buyer Guide</span></div>
+    <div style="padding:20px 24px;max-width:700px">
+      <div class="wf-box" style="height:32px;background:#1a2744;color:#f05a1a;font-size:13px;font-weight:800;justify-content:flex-start;padding:0 16px;margin-bottom:14px">📖 Complete EV Buyer's Guide for Qatar</div>
+      <div style="margin-bottom:12px">
+        <div class="wf-text-line full" style="height:14px;background:#e0e0e0;margin-bottom:6px"></div>
+        <div class="wf-text-line med" style="height:10px"></div>
+        <div class="wf-text-line short" style="height:10px"></div>
+      </div>
+      <div class="wf-box" style="height:24px;background:#f0f0f0;color:#888;font-size:11px;justify-content:flex-start;padding:0 12px;margin-bottom:10px">Section: Charging Infrastructure in Qatar</div>
+      <div class="wf-text-line full" style="height:10px;margin-bottom:4px"></div>
+      <div class="wf-text-line full" style="height:10px;margin-bottom:4px"></div>
+      <div class="wf-text-line med" style="height:10px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ CONSULTING PAGE ══════════════════ -->
+<div class="page-view" id="wf-consult">
+  <div class="page-heading">
+    <h2>Free Consulting Page</h2>
+    <span class="pg-badge">page-consult</span>
+    <span class="pg-desc">2-column: service info + pricing cards (left) / consultation form (right)</span>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Consulting Layout (2-column)</span></div>
+    <div class="comp-consult">
+      <div class="wf-grid g2" style="gap:40px;align-items:start">
+        <!-- Left column -->
+        <div>
+          <div style="font-size:10px;color:#f05a1a;font-weight:800;letter-spacing:2px;margin-bottom:8px">FREE · BRAND-NEUTRAL · QATAR-BASED</div>
+          <div style="font-size:24px;font-weight:900;color:#333;margin-bottom:12px;line-height:1.2">Not Sure Which Car<br>is <span style="color:#f05a1a">Right for You?</span></div>
+          <div style="font-size:12px;color:#777;margin-bottom:20px;line-height:1.7">Our Qatar-based car experts shortlist the perfect vehicle for your budget, lifestyle, and needs. 100% independent — we work for you, not the dealers.</div>
+
+          <div class="consult-step"><div class="step-num">1</div><div class="step-text"><strong>Tell us your needs</strong> — budget, lifestyle, family size</div></div>
+          <div class="consult-step"><div class="step-num">2</div><div class="step-text"><strong>We shortlist 3-5 cars</strong> — matched to your requirements</div></div>
+          <div class="consult-step"><div class="step-num">3</div><div class="step-text"><strong>Free report delivered</strong> — within 24 hours</div></div>
+
+          <div class="wf-divider"></div>
+
+          <!-- Pricing cards -->
+          <div style="font-size:13px;font-weight:800;color:#333;margin-bottom:12px">Service Tiers</div>
+          <div class="wf-grid g3" style="gap:10px">
+            <div class="price-card-wf">
+              <div class="price-plan">Basic</div>
+              <div class="price-amt">Free</div>
+              <ul class="price-items">
+                <li>3 car recommendations</li>
+                <li>Email report</li>
+              </ul>
+              <button class="wf-btn outline" style="width:100%;font-size:11px;padding:6px">Get Started</button>
+            </div>
+            <div class="price-card-wf featured">
+              <div class="price-plan">Premium</div>
+              <div class="price-amt" style="color:#ffd700">QAR 99</div>
+              <ul class="price-items">
+                <li>5 car picks + test drive</li>
+                <li>Dealer negotiation tips</li>
+                <li>Insurance guidance</li>
+              </ul>
+              <button class="wf-btn orange" style="width:100%;font-size:11px;padding:6px">Get Premium</button>
+            </div>
+            <div class="price-card-wf">
+              <div class="price-plan">Pro</div>
+              <div class="price-amt">QAR 249</div>
+              <ul class="price-items">
+                <li>Full market analysis</li>
+                <li>Finance comparison</li>
+                <li>Full support</li>
+              </ul>
+              <button class="wf-btn outline" style="width:100%;font-size:11px;padding:6px">Go Pro</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: Form -->
+        <div class="comp-form">
+          <div style="font-size:16px;font-weight:900;color:#333;margin-bottom:18px">Get Free Car Advice <span style="color:#f05a1a">→</span></div>
+          <div class="form-row"><div class="form-label">Your Name</div><div class="form-field">Full name...</div></div>
+          <div class="form-row"><div class="form-label">Phone / WhatsApp</div><div class="form-field">+974 ...</div></div>
+          <div class="form-row"><div class="form-label">Budget (QAR)</div><select class="form-field"><option>Select budget range</option></select></div>
+          <div class="form-row"><div class="form-label">Car Type Preference</div><select class="form-field"><option>SUV / Sedan / Pickup...</option></select></div>
+          <div class="form-row"><div class="form-label">Tell Us Your Needs</div><div class="form-field" style="height:80px;display:flex;align-items:flex-start;padding-top:10px">Family size, daily use, must-haves...</div></div>
+          <button class="wf-btn orange" style="width:100%;padding:12px;font-size:14px;margin-top:8px">Submit — Get Free Report →</button>
+          <div style="font-size:10px;color:#bbb;margin-top:8px;text-align:center">We reply within 24 hours. No spam, no dealer referrals.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MODALS ══════════════════ -->
+<div class="page-view" id="wf-modals">
+  <div class="page-heading">
+    <h2>Modals</h2>
+    <span class="pg-badge">overlays</span>
+    <span class="pg-desc">Car Detail Modal + Compare Modal — triggered from any page</span>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Car Detail Modal</span><span class="frame-tag">opens on card click</span></div>
+    <div style="padding:24px;background:#f0f0f0">
+      <div class="modal-wf">
+        <div style="position:relative">
+          <div style="position:absolute;top:0;right:0;background:#f5f5f5;border:1px solid #ddd;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#999;cursor:default">×</div>
+        </div>
+        <div class="wf-grid g2" style="gap:24px">
+          <div>
+            <div class="wf-img" style="height:200px;border-radius:8px;margin-bottom:12px">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20M6 6V4M18 6V4"/></svg>
+              Car Photo
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="wf-btn orange" style="flex:1;font-size:12px">📄 Download Brochure</button>
+              <button class="wf-btn outline" style="flex:1;font-size:12px">+ Add to Compare</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#f05a1a;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Toyota</div>
+            <div style="font-size:22px;font-weight:900;color:#333;margin-bottom:4px">Land Cruiser 300</div>
+            <div style="font-size:18px;font-weight:700;color:#f05a1a;margin-bottom:16px">QAR 385,000+</div>
+            <div class="wf-divider"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;font-size:11px">
+              <div style="background:#f7f7f7;padding:10px;border-radius:6px"><div style="color:#999;margin-bottom:3px">Engine</div><strong>3.5L Twin-Turbo V6</strong></div>
+              <div style="background:#f7f7f7;padding:10px;border-radius:6px"><div style="color:#999;margin-bottom:3px">Power</div><strong>415 hp</strong></div>
+              <div style="background:#f7f7f7;padding:10px;border-radius:6px"><div style="color:#999;margin-bottom:3px">Type</div><strong>SUV / 4WD</strong></div>
+              <div style="background:#f7f7f7;padding:10px;border-radius:6px"><div style="color:#999;margin-bottom:3px">Seating</div><strong>7 Seats</strong></div>
+              <div style="background:#f7f7f7;padding:10px;border-radius:6px"><div style="color:#999;margin-bottom:3px">0–100 km/h</div><strong>6.7 sec</strong></div>
+              <div style="background:#f7f7f7;padding:10px;border-radius:6px"><div style="color:#999;margin-bottom:3px">Fuel</div><strong>Petrol</strong></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <div class="wf-tag">Heated Seats</div>
+              <div class="wf-tag">360° Camera</div>
+              <div class="wf-tag">Active Safety</div>
+              <div class="wf-tag">Sunroof</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Compare Modal — Side-by-Side (up to 3 cars)</span><span class="frame-tag">max-width 1100px</span></div>
+    <div style="padding:24px;background:#f0f0f0">
+      <div class="modal-wf">
+        <div class="modal-title">Cars Comparison <span>Side-by-Side</span></div>
+        <div class="wf-grid g3" style="gap:14px">
+          <div class="compare-col">
+            <div class="compare-img">[ Car A Photo ]</div>
+            <div class="compare-specs">
+              <div style="font-weight:800;font-size:13px;margin-bottom:8px">Toyota Land Cruiser 300</div>
+              <div class="compare-row"><div class="compare-key">Price</div><div class="compare-val">QAR 385,000</div></div>
+              <div class="compare-row"><div class="compare-key">Engine</div><div class="compare-val">3.5L V6 TT</div></div>
+              <div class="compare-row"><div class="compare-key">Power</div><div class="compare-val">415 hp</div></div>
+              <div class="compare-row"><div class="compare-key">Type</div><div class="compare-val">SUV</div></div>
+              <div class="compare-row"><div class="compare-key">Seats</div><div class="compare-val">7</div></div>
+            </div>
+          </div>
+          <div class="compare-col">
+            <div class="compare-img">[ Car B Photo ]</div>
+            <div class="compare-specs">
+              <div style="font-weight:800;font-size:13px;margin-bottom:8px">Nissan Patrol LE</div>
+              <div class="compare-row"><div class="compare-key">Price</div><div class="compare-val">QAR 270,000</div></div>
+              <div class="compare-row"><div class="compare-key">Engine</div><div class="compare-val">5.6L V8</div></div>
+              <div class="compare-row"><div class="compare-key">Power</div><div class="compare-val">400 hp</div></div>
+              <div class="compare-row"><div class="compare-key">Type</div><div class="compare-val">SUV</div></div>
+              <div class="compare-row"><div class="compare-key">Seats</div><div class="compare-val">8</div></div>
+            </div>
+          </div>
+          <div class="compare-col" style="border-style:dashed;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px;min-height:200px">
+            + Add third car
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ COMPONENT LIBRARY ══════════════════ -->
+<div class="page-view" id="wf-components">
+  <div class="page-heading">
+    <h2>Component Library</h2>
+    <span class="pg-badge">design system</span>
+    <span class="pg-desc">All reusable UI atoms and molecules used across the site</span>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Colour Palette</span></div>
+    <div style="padding:20px 24px;display:flex;gap:12px;flex-wrap:wrap">
+      <div style="text-align:center"><div style="width:64px;height:64px;background:#1a2744;border-radius:8px;border:1px solid #ddd;margin-bottom:4px"></div><div style="font-size:9px;color:#666;font-weight:700">Navy<br>#1A2744</div></div>
+      <div style="text-align:center"><div style="width:64px;height:64px;background:#f05a1a;border-radius:8px;border:1px solid #ddd;margin-bottom:4px"></div><div style="font-size:9px;color:#666;font-weight:700">Orange<br>#F05A1A</div></div>
+      <div style="text-align:center"><div style="width:64px;height:64px;background:#cc2222;border-radius:8px;border:1px solid #ddd;margin-bottom:4px"></div><div style="font-size:9px;color:#666;font-weight:700">Red<br>#CC2222</div></div>
+      <div style="text-align:center"><div style="width:64px;height:64px;background:#fafaf8;border-radius:8px;border:1px solid #ddd;margin-bottom:4px"></div><div style="font-size:9px;color:#666;font-weight:700">BG<br>#FAFAF8</div></div>
+      <div style="text-align:center"><div style="width:64px;height:64px;background:#f5f2ee;border-radius:8px;border:1px solid #ddd;margin-bottom:4px"></div><div style="font-size:9px;color:#666;font-weight:700">BG2<br>#F5F2EE</div></div>
+      <div style="text-align:center"><div style="width:64px;height:64px;background:#333333;border-radius:8px;border:1px solid #ddd;margin-bottom:4px"></div><div style="font-size:9px;color:#666;font-weight:700">Text<br>#333333</div></div>
+      <div style="text-align:center"><div style="width:64px;height:64px;background:#ffd700;border-radius:8px;border:1px solid #ddd;margin-bottom:4px"></div><div style="font-size:9px;color:#666;font-weight:700">Gold<br>#FFD700</div></div>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Buttons</span></div>
+    <div style="padding:20px 24px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <button class="wf-btn orange" style="padding:10px 20px">Primary CTA</button>
+      <button class="wf-btn" style="padding:10px 20px">Secondary</button>
+      <button class="wf-btn outline" style="padding:10px 20px">Outline</button>
+      <button class="wf-btn" style="background:#1a2744;padding:10px 20px">Navy</button>
+      <button class="wf-btn" style="background:#f05a1a;border-radius:20px;padding:10px 20px">Pill CTA</button>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Tags, Chips & Badges</span></div>
+    <div style="padding:20px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <span class="wf-tag">SUV</span>
+      <span class="wf-tag">Sedan</span>
+      <span class="wf-tag">⚡ Electric</span>
+      <span class="wf-chip">Filter Chip</span>
+      <span class="wf-chip active">Active Chip</span>
+      <span class="wf-badge">LIVE</span>
+      <span style="background:#e0ffe0;color:#060;border-radius:12px;padding:2px 8px;font-size:10px;font-weight:700">Open 24/7</span>
+      <span style="background:#f05a1a;color:#fff;border-radius:10px;padding:1px 7px;font-size:9px;font-weight:800">COMING SOON</span>
+      <span style="background:#1a2744;color:#fff;border-radius:10px;padding:1px 7px;font-size:9px;font-weight:800">NEW 2025</span>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Typography Scale</span></div>
+    <div style="padding:20px 24px">
+      <div style="font-size:36px;font-weight:900;color:#333;margin-bottom:8px">Page Heading (900 weight)</div>
+      <div style="font-size:22px;font-weight:900;color:#333;margin-bottom:8px">Section Title <span style="color:#f05a1a">Accent</span></div>
+      <div style="font-size:16px;font-weight:700;color:#333;margin-bottom:8px">Card Title (700 weight)</div>
+      <div style="font-size:13px;color:#666;margin-bottom:6px;line-height:1.7">Body text — regular reading copy. Used for descriptions, subtitles, and supporting context throughout the interface.</div>
+      <div style="font-size:11px;color:#999;margin-bottom:6px">Caption / meta text — used for labels, dates, secondary info</div>
+      <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#f05a1a">EYEBROW LABEL — UPPERCASE CAPS</div>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="frame-header"><div class="frame-dot r"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-name">Car Card (full anatomy)</span></div>
+    <div style="padding:20px 24px">
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+        <div class="car-card-wf" style="width:200px">
+          <div class="car-card-img" style="height:120px;position:relative">
+            [ Car Photo ]
+            <div style="position:absolute;top:6px;left:6px;background:#f05a1a;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:10px">NEW</div>
+          </div>
+          <div class="car-card-body">
+            <div class="car-card-brand">Brand Name</div>
+            <div class="car-card-name">Car Model Name</div>
+            <div class="car-card-price">QAR 000,000+</div>
+            <div class="car-card-tags"><span class="wf-tag">Type</span><span class="wf-tag">Feature</span></div>
+            <div style="display:flex;gap:6px">
+              <button class="car-card-btn" style="flex:1">View Details</button>
+              <button class="car-card-btn outline">+</button>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#666;line-height:2">
+          <div>📸 <strong>Car image</strong> — real photo from brand/Wikipedia</div>
+          <div>🏷️ <strong>Status badge</strong> — NEW / COMING SOON / POPULAR</div>
+          <div>🔖 <strong>Brand eyebrow</strong> — orange, uppercase, 9px</div>
+          <div>📝 <strong>Model name</strong> — bold, 12px</div>
+          <div>💰 <strong>Price</strong> — in QAR, muted grey</div>
+          <div>🏷️ <strong>Tags</strong> — type, powertrain</div>
+          <div>👁️ <strong>View Details</strong> — opens car modal</div>
+          <div>➕ <strong>Compare button</strong> — adds to compare bar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end canvas -->
+
+<script>
+function switchPage(id){
+  document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('wf-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

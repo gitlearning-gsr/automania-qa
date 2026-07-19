@@ -277,27 +277,101 @@ img{max-width:100%;display:block}
   .header-nav .hn-item:not(.btn-consult){display:none}
   .compare-slots{flex-direction:column}
   .cf-row{grid-template-columns:1fr}
-  .nl-grid{grid-template-columns:1fr!important}
 }
 
-/* ── CAR NEWSLETTER SECTION ── */
-.nl-section{padding:48px 24px;background:var(--bg)}
-.nl-section-inner{max-width:1400px;margin:0 auto}
-.nl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:12px}
-.nl-badge{background:linear-gradient(135deg,#f05a1a,#e8340a);color:#fff;font-size:11px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px}
-.nl-desc{color:var(--muted);font-size:14px;margin-bottom:28px}
-.nl-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.nl-tab{padding:7px 18px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border2);color:var(--muted);background:var(--bg2);transition:all .2s}
-.nl-tab.active{background:var(--orange);color:#fff;border-color:var(--orange)}
-.nl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.nl-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit}
-.nl-card:hover{border-color:var(--orange);box-shadow:var(--sh2);transform:translateY(-2px)}
-.nl-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;font-weight:900}
-.nl-info{flex:1;min-width:0}
-.nl-name{font-size:14px;font-weight:800;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nl-region{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--orange);margin-bottom:5px}
-.nl-blurb{font-size:12px;color:var(--muted);line-height:1.5}
-.nl-link{font-size:11px;color:var(--orange);font-weight:700;margin-top:6px;display:block}
+  /* ═══════════════════ ANIMATIONS ═══════════════════ */
+
+  /* -- Page fade transition -- */
+  .page{animation:none}
+  .page.active{animation:pageFadeIn .35s ease}
+  @keyframes pageFadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+  /* -- Scroll-reveal base -- */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .reveal-left{opacity:0;transform:translateX(-32px);transition:opacity .55s ease,transform .55s ease}
+  .reveal-left.visible{opacity:1;transform:translateX(0)}
+  .reveal-right{opacity:0;transform:translateX(32px);transition:opacity .55s ease,transform .55s ease}
+  .reveal-right.visible{opacity:1;transform:translateX(0)}
+
+  /* -- Staggered children -- */
+  .stagger-children .car-card,.stagger-children .charging-card,.stagger-children .nl-card{
+    opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease
+  }
+  .stagger-children.visible .car-card,.stagger-children.visible .charging-card,.stagger-children.visible .nl-card{
+    opacity:1;transform:translateY(0)
+  }
+
+  /* -- Enhanced card hover -- */
+  .car-card{transition:all .28s cubic-bezier(.25,.46,.45,.94)}
+  .car-card:hover{box-shadow:0 12px 40px rgba(240,90,26,.18);border-color:var(--orange);transform:translateY(-5px) scale(1.01)}
+  .car-card:hover .car-img{transform:scale(1.06)}
+  .car-img{transition:transform .4s cubic-bezier(.25,.46,.45,.94)!important}
+
+  /* -- Shimmer skeleton loader -- */
+  .skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:6px}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .skeleton-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;flex-shrink:0;width:240px}
+  .skeleton-img{height:160px}
+  .skeleton-text{height:14px;margin:12px 12px 6px}
+  .skeleton-text.short{width:60%;margin:6px 12px}
+  .skeleton-text.btn{height:30px;margin:12px;border-radius:4px}
+
+  /* -- Hero stat counter -- */
+  .hstat strong{transition:all .3s ease}
+
+  /* -- Pulse badge -- */
+  .section-badge{animation:pulseBadge 2.5s infinite}
+  @keyframes pulseBadge{0%,100%{box-shadow:0 0 0 0 rgba(240,90,26,.4)}50%{box-shadow:0 0 0 6px rgba(240,90,26,0)}}
+
+  /* -- Brand pill hover bounce -- */
+  .brand-pill{transition:all .2s cubic-bezier(.34,1.56,.64,1)!important}
+  .brand-pill:hover{transform:scale(1.08) translateY(-2px)}
+
+  /* -- Filter chip pop -- */
+  .fchip{transition:all .18s cubic-bezier(.34,1.56,.64,1)!important}
+  .fchip:active{transform:scale(.93)}
+  .fchip.active{box-shadow:0 2px 10px rgba(240,90,26,.3)}
+
+  /* -- Nav item underline slide -- */
+  .hn-item{position:relative;overflow:hidden}
+  .hn-item::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--orange);transition:all .25s ease;transform:translateX(-50%)}
+  .hn-item:hover::after,.hn-item.active::after{width:80%}
+
+  /* -- Section title reveal line -- */
+  .section-title::after{content:'';display:block;width:0;height:3px;background:linear-gradient(90deg,var(--orange),transparent);border-radius:2px;margin-top:4px;transition:width .6s ease .2s}
+  .reveal.visible .section-title::after,.visible .section-title::after{width:60px}
+
+  /* -- Floating CTA pulse ring -- */
+  .hs-btn{position:relative;overflow:hidden}
+  .hs-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .2s}
+  .hs-btn:active::after{background:rgba(255,255,255,.15)}
+
+  /* -- Compare bar slide up -- */
+  .compare-bar{transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s ease}
+
+  /* -- Smooth modal open -- */
+  .modal-overlay{transition:opacity .25s ease}
+  .modal-overlay[style*="flex"] .modal-box{animation:modalIn .3s cubic-bezier(.34,1.56,.64,1)}
+  @keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+  /* -- Toast notification -- */
+  #toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 24px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.25)}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* -- EV tab underline animation -- */
+  .ev-tab{position:relative}
+  .ev-tab::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:3px;background:var(--orange);transition:width .3s ease}
+  .ev-tab.active::after{width:100%}
+
+  /* -- Hero tagline shimmer -- */
+  .hero-tagline{background:linear-gradient(90deg,#f05a1a,#ff8c42,#f05a1a);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:textShimmer 3s linear infinite}
+  @keyframes textShimmer{0%{background-position:200%}100%{background-position:-200%}}
+
+  /* -- Number counter animation -- */
+  @keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .hstat strong.counted{animation:countUp .5s ease forwards}
+
 </style>
 </head>
 <body>
@@ -336,7 +410,6 @@ img{max-width:100%;display:block}
       <div class="hn-item" onclick="showPage('browse',this)">Browse Cars</div>
       <div class="hn-item" onclick="showPage('ev',this)">⚡ EV Hub</div>
       <div class="hn-item" onclick="openCompareModal()">⊕ Compare <span class="compare-count" id="cmpCnt" style="display:none">0</span></div>
-      <div class="hn-item" onclick="showPage('home',this);setTimeout(()=>document.getElementById('newsletterSection')?.scrollIntoView({behavior:'smooth'}),200)">📰 News</div>
       <div class="hn-item btn-consult" onclick="showPage('consult',this)">🚗 Free Consulting</div>
     </div>
   </div>
@@ -412,31 +485,6 @@ img{max-width:100%;display:block}
 
   <!-- SECTIONS -->
   <div id="homeSections"></div>
-
-  <!-- CAR NEWSLETTER SECTION -->
-  <div class="nl-section" id="newsletterSection">
-    <div class="nl-section-inner">
-      <div class="nl-header">
-        <div>
-          <div class="section-title">📰 Car <span>Newsletter & News</span></div>
-          <div class="nl-desc">Stay updated with the latest car launches, reviews &amp; automotive news</div>
-        </div>
-        <div class="nl-badge">LIVE SOURCES</div>
-      </div>
-      <div class="nl-tabs">
-        <div class="nl-tab active" onclick="filterNL(this,'all')">All Sources</div>
-        <div class="nl-tab" onclick="filterNL(this,'global')">🌍 Global</div>
-        <div class="nl-tab" onclick="filterNL(this,'middle-east')">🇶🇦 Middle East</div>
-        <div class="nl-tab" onclick="filterNL(this,'china')">🇨🇳 China EV</div>
-      </div>
-      <div class="nl-grid" id="nlGrid">
-        <!-- Cards injected by renderNewsletter() -->
-      </div>
-      <div style="margin-top:18px;font-size:11px;color:var(--muted2);text-align:center">
-        Clicking any source opens the website in a new tab. Automania.qa is not affiliated with any listed publication.
-      </div>
-    </div>
-  </div>
 
   <!-- CONSULT BANNER -->
   <div style="background:linear-gradient(135deg,var(--navy),#0d1a3a);padding:48px 24px;text-align:center">
@@ -648,9 +696,6 @@ const BRANDS=[
   {name:'Zeekr',color:'#0033cc'},{name:'Rivian',color:'#2fb5b5'},{name:'iCar',color:'#e63c00'},
   {name:'Deepal',color:'#006633'},{name:'Denza',color:'#1a1a6e'},{name:'Leapmotor',color:'#0055cc'},
   {name:'Maxus',color:'#003087'},{name:'Lynk & Co',color:'#0000cc'},
-  {name:'Xiaomi',color:'#ff6900'},{name:'Avatr',color:'#00b4d8'},{name:'Maextro',color:'#7c2d8e'},
-  {name:'SAIC',color:'#003087'},{name:'Hongqi',color:'#c8001b'},{name:'BAIC',color:'#005bac'},
-  {name:'Slate',color:'#2d2d2d'},{name:'Scout',color:'#4a2f00'},
 ];
 
 // ── Supabase Config ──────────────────────────────────────────────────────────
@@ -660,9 +705,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 let CARS = [];  // populated from Supabase on load
 
-// New Chinese models sourced from auto-china.com (merged after Supabase load)
-const LOCAL_CHINA_EXTRAS = LOCAL_CARS_FALLBACK.filter(c => c.id >= 66 && c.id <= 79);
-
 async function loadCarsFromSupabase() {
   try {
     const res = await fetch(
@@ -670,11 +712,7 @@ async function loadCarsFromSupabase() {
       { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
     );
     if (!res.ok) throw new Error('Supabase fetch failed: ' + res.status);
-    const supabaseCars = await res.json();
-    // Merge: keep Supabase data, append local extras not already in Supabase
-    const supabaseIds = new Set(supabaseCars.map(c => c.id));
-    const extras = LOCAL_CHINA_EXTRAS.filter(c => !supabaseIds.has(c.id));
-    CARS = [...supabaseCars, ...extras];
+    CARS = await res.json();
   } catch(err) {
     console.warn('Supabase unavailable, using local fallback:', err.message);
     CARS = LOCAL_CARS_FALLBACK;  // defined below as backup
@@ -689,7 +727,7 @@ async function loadCarsFromSupabase() {
 const LOCAL_CARS_FALLBACK=[
   // ─── POPULAR (featured:true) ───
   {id:1,wiki:'Toyota Land Cruiser 300',brand:'Toyota',model:'Land Cruiser 300',type:'suv',badge:'Hybrid',price:280000,featured:true,pdf:'Toyota_Qatar/Land_Cruiser_Brochure.pdf',
-   img:'https://tmna.aemassets.toyota.com/is/image/toyota/toyota/jellies/relative/2027/landcruiser/base.png?wid=1140&hei=600&fmt=jpg&fit=crop',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-1.png',
    specs:{Engine:'3.5L V6 Twin-Turbo',Power:'415 hp',Torque:'650 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Hybrid'}},
   {id:2,wiki:'Nissan Patrol',brand:'Nissan',model:'Patrol 2025',type:'suv',badge:null,price:235000,featured:true,pdf:'Nissan/Nissan_Patrol_Catalogue.pdf',
    img:'https://www.nissan-me.com/content/dam/Nissan/me/home-page/new_patrol/NissanPatrol2025_main.jpg',
@@ -701,17 +739,17 @@ const LOCAL_CARS_FALLBACK=[
    img:'https://www.lexus.com/content/dam/lexus/images/models/lx/2024/lexus-lx-600-overview.jpg',
    specs:{Engine:'3.5L V6 Twin-Turbo',Power:'415 hp',Torque:'650 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol'}},
   {id:5,wiki:'BYD Atto 3',brand:'Toyota',model:'Hilux 2025',type:'pickup',badge:null,price:112000,featured:true,pdf:'Toyota_Qatar_Brochures/Toyota_Hilux_Brochure.pdf',
-   img:'https://global.toyota/pages/models/images/hilux/hilux_kv_w1920_02.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-5.jpg',
    specs:{Engine:'2.8L Turbo Diesel',Power:'204 hp',Torque:'500 Nm',Trans:'6-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
   // ─── UPCOMING ───
   {id:6,wiki:'Kia EV6',brand:'Toyota',model:'Land Cruiser 70 (2025)',type:'suv',badge:null,price:185000,upcoming:true,pdf:'',
-   img:'https://global.toyota/pages/models/images/landcruiser70/landcruiser70_kv_w1920.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-5.jpg',
    specs:{Engine:'2.8L Turbo Diesel',Power:'204 hp',Torque:'500 Nm',Trans:'6-speed Manual',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
   {id:7,wiki:'Hyundai IONIQ 5',brand:'Kia',model:'EV3 2025',type:'ev',badge:'EV',price:135000,upcoming:true,pdf:'',
    img:'https://www.kia.com/content/dam/kwsovp/int/models/ev3/2024/imagery/kia-ev3-2024-exterior-01.jpg',
    specs:{Battery:'81.4 kWh',Range:'600 km',Power:'204 hp',Charge_DC:'135 kW',Drive:'FWD',Seats:'5'}},
   {id:8,wiki:'Toyota bZ4X',brand:'Hyundai',model:'IONIQ 9 2025',type:'ev',badge:'EV',price:260000,upcoming:true,pdf:'',
-   img:'https://www.hyundainews.com/assets/images/original/2024/10/22/185456-HyundaiMotorRevealseIONIQ9.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-8.jpg',
    specs:{Battery:'110 kWh',Range:'620 km',Power:'422 hp',Charge_DC:'350 kW',Drive:'AWD',Seats:'7'}},
   {id:9,wiki:'BYD Seal',brand:'Nissan',model:'Patrol Nismo 2025',type:'suv',badge:null,price:295000,upcoming:true,pdf:'',
    img:'https://www.nissan-arabianpeninsula.com/content/dam/Nissan/na-common/new-patrol/nismo/patrol-nismo-hero.jpg',
@@ -724,7 +762,7 @@ const LOCAL_CARS_FALLBACK=[
    img:'https://global.toyota/pages/models/images/landcruiserprado/landcruiserprado_kv_w1920.jpg',
    specs:{Engine:'2.4L Turbo Hybrid',Power:'326 hp',Torque:'630 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Hybrid'}},
   {id:12,wiki:'Honda Accord',brand:'Toyota',model:'Camry Hybrid',type:'sedan',badge:'Hybrid',price:95000,pdf:'Toyota_Qatar_Brochures/Toyota_Camry_Brochure.pdf',
-   img:'https://tmna.aemassets.toyota.com/is/image/toyota/toyota/jellies/relative/2026/camry/base.png?wid=1140&hei=600&fmt=jpg&fit=crop',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-12.png',
    specs:{Engine:'2.5L Hybrid',Power:'218 hp',Trans:'e-CVT',Drive:'FWD',Seats:'5',Fuel:'Hybrid'}},
   {id:13,wiki:'Toyota RAV4',brand:'Honda',model:'CR-V e:HEV',type:'suv',badge:'Hybrid',price:120000,pdf:'Honda_Qatar/Honda_CRV_Brochure.pdf',
    img:'https://automobiles.honda.com/-/media/Honda-Automobiles/Vehicles/2026/CR-V/nonVLP/Global-Nav/MY26_CR-V_Hybrid_BAP_Jelly.png?sc_lang=en',
@@ -753,32 +791,32 @@ const LOCAL_CARS_FALLBACK=[
    specs:{Battery:'77.4 kWh',Range:'528 km',Power:'577 hp',Charge_DC:'240 kW',Drive:'AWD',Seats:'5'}},
   // ─── LUXURY ───
   {id:21,wiki:'Suzuki Vitara',brand:'Land Rover',model:'Range Rover',type:'luxury',badge:null,price:520000,pdf:'LandRover/LandRover_RangeRover_Brochure.pdf',
-   img:'https://www.rangerover.com/content/dam/lrdx/global/l460/27my/int/L46027GL_303105263_WESTMINSTER_011_DX_ALT.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-21.jpg',
    specs:{Engine:'4.4L V8',Power:'530 hp',Torque:'750 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
   {id:22,brand:'Land Rover',model:'Defender 110',type:'luxury',badge:null,price:295000,pdf:'LandRover/LandRover_Defender_2024_SpecGuide.pdf',
-   img:'https://jlr.scene7.com/is/image/jlr/L66326GL_303104383_060_DX',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-22.jpg',
    specs:{Engine:'3.0L Mild Hybrid',Power:'400 hp',Trans:'8-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol'}},
   {id:23,brand:'GMC',model:'Yukon Denali',type:'luxury',badge:null,price:310000,pdf:'GMC/GMC_Yukon_2024_Brochure.pdf',
-   img:'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2026/suvs/yukon/overview/gallery/my26-yukon-mov-safety-gallery-preview4-2500x1248-25PGYK00037.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-23.jpg',
    specs:{Engine:'6.2L V8',Power:'420 hp',Torque:'624 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
   {id:24,brand:'Infiniti',model:'QX80 2025',type:'luxury',badge:null,price:295000,pdf:'Infiniti/Infiniti_QX80_MY25_Brochure.pdf',
-   img:'https://www.infiniti-cdn.net/content/dam/Infiniti/entryway/vehicles/qx80/2026/overview/2026-infiniti-qx80-hero-video-d.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-24.jpg',
    specs:{Engine:'3.5L V6 Hybrid',Power:'400 hp',Trans:'7-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
   {id:25,brand:'Porsche',model:'Cayenne PHEV',type:'luxury',badge:'PHEV',price:450000,pdf:'https://autocatalogarchive.com/wp-content/uploads/2022/10/Porsche-Cayenne-2021-INT.pdf',
-   img:'https://images.porsche.com/f/285489813253582/5000x1795/94e6583a68/model-9yaai1-side-shot_4d0897f6999243f281be5868f6992c04.png',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-25.png',
    specs:{Engine:'4.0L V8 + Motor',Power:'739 hp',Torque:'1000 Nm',Drive:'AWD',Seats:'5',Fuel:'PHEV',EV_Range:'42 km'}},
   // ─── CHINESE BRANDS ───
   {id:26,wiki:'Toyota Land Cruiser 70 Series',brand:'BYD',model:'HAN EV',type:'chinese',badge:'EV',price:160000,pdf:'BYD/BYD_HAN-EV_Brochure.pdf',
-   img:'https://ev.byd.com/eu/content/dam/byd-eu/images/han/han-ev-overview-exterior.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-25.png',
    specs:{Battery:'85.4 kWh',Range:'521 km',Power:'517 hp',Charge_DC:'120 kW',Drive:'AWD',Seats:'5'}},
   {id:27,wiki:'Land Rover Defender',brand:'Geely',model:'Monjaro',type:'chinese',badge:null,price:125000,pdf:'Geely/Geely_Monjaro.pdf',
    img:'https://www.geely.com/content/dam/geely-auto/models/monjaro/monjaro-hero.jpg',
    specs:{Engine:'2.0T Turbo',Power:'238 hp',Trans:'7-speed DCT',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
-  {id:28,wiki:'BMW X7',brand:'Jetour',model:'Traveller 8',type:'chinese',badge:null,price:155000,upcoming:false,pdf:'',
+  {id:28,brand:'Jetour',model:'Traveller 8',type:'chinese',badge:null,price:155000,upcoming:false,pdf:'',
    img:'https://www.jetourglobal.com/content/dam/jetour/models/traveller/traveller-overview-hero.jpg',
    specs:{Engine:'2.0T Turbo',Power:'261 hp',Trans:'8-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
-  {id:29,wiki:'Mercedes-Benz GLS-Class',brand:'Zeekr',model:'001',type:'chinese',badge:'EV',price:195000,pdf:'Zeekr/Zeekr_001.pdf',
-   img:'https://www.zeekrlife.com/media/001/zeekr-001-exterior-front.jpg',
+  {id:29,brand:'Zeekr',model:'001',type:'chinese',badge:'EV',price:195000,pdf:'Zeekr/Zeekr_001.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-29.jpg',
    specs:{Battery:'100 kWh',Range:'620 km',Power:'544 hp',Charge_DC:'200 kW',Drive:'AWD',Seats:'4'}},
   {id:30,wiki:'Porsche Cayenne',brand:'LiAuto',model:'L9',type:'chinese',badge:'PHEV',price:210000,pdf:'LiAuto/LiAuto_L9.pdf',
    img:'https://www.lixiang.com/imgs/models/l9/l9-overview-exterior.jpg',
@@ -813,16 +851,16 @@ const LOCAL_CARS_FALLBACK=[
    img:'https://www.jetourglobal.com/content/dam/jetour/models/t2/t2-overview-hero.jpg',
    specs:{Engine:'2.0T Turbo',Power:'254 hp',Torque:'390 Nm',Trans:'7-speed DCT',Drive:'4WD',Seats:'5',Fuel:'Petrol'}},
   {id:40,brand:'Jetour',model:'G700',type:'chinese',badge:null,price:185000,pdf:'Jetour/jetour-g700-v2-brochure.pdf',
-   img:'https://jetourglobal.com/new-static/images/vehicles/cars/g700/p1_1.png',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-40.png',
    specs:{Engine:'2.0T Turbo',Power:'254 hp',Torque:'390 Nm',Trans:'9-speed Auto',Drive:'AWD',Seats:'7',Fuel:'Petrol'}},
   {id:41,brand:'Jetour',model:'Dashing',type:'chinese',badge:null,price:89000,pdf:'Jetour/2024-Dashing-Brochure.pdf',
-   img:'https://jetourglobal.com/new-static/images/vehicles/image/dashing.png',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-41.png',
    specs:{Engine:'1.6T Turbo',Power:'197 hp',Torque:'290 Nm',Trans:'7-speed DCT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
   {id:42,brand:'Jetour',model:'Traveller 8',type:'chinese',badge:null,price:210000,upcoming:true,pdf:'',
-   img:'https://carnewschina.com/wp-content/uploads/2026/04/img_20260424_120528-1-1500x844.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-42.jpg',
    specs:{Engine:'2.4T Turbo',Power:'270 hp',Trans:'9-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol',Body:'Full-size MPV'}},
-  {id:43,brand:'iCar',model:'V23',type:'chinese',badge:'EV',price:54964,pdf:'https://autocatalogarchive.com/wp-content/uploads/2025/12/iCAUR-V23-2026-MY.pdf',
-   img:'https://www.icaur.com.my/_next/static/media/v23_front.414714b4.webp',
+  {id:43,brand:'iCar',model:'V23',type:'chinese',badge:'EV',price:54964,pdf:'iCar/iCAUR+V23_Brochure_Digital.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-43.webp',
    specs:{Motor:'Single/Dual',Power:'211 hp (AWD)',Range:'501 km',Battery:'64.7 kWh',Drive:'AWD',Seats:'5',Design:'Retro Boxy EV'}},
   {id:44,wiki:'GWM Tank 300',brand:'GWM',model:'Tank 300',type:'chinese',badge:null,price:168000,pdf:'GWM/Brochure_tank300.pdf',
    img:'https://www.gwm-global.com/content/dam/gwm/models/tank300/tank300-exterior-front.jpg',
@@ -831,115 +869,290 @@ const LOCAL_CARS_FALLBACK=[
    img:'https://www.gwm-global.com/content/dam/gwm/models/tank500/tank500-exterior-front.jpg',
    specs:{Engine:'2.0T + Electric',Power:'340 hp System',Torque:'750 Nm',Trans:'9-speed Auto',Drive:'4WD',Seats:'7',Fuel:'PHEV',EV_Range:'100 km'}},
   {id:46,brand:'Denza',model:'D9',type:'chinese',badge:'EV',price:265000,pdf:'Denza/Denza_B8_Flagship_6-Seater.pdf',
-   img:'https://media.byd.com/wp-content/uploads/2026/04/b2f42a83c2a8a8872e0183b47583ef3a-l.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-46.jpg',
    specs:{Motor:'Dual',Power:'536 hp',Range:'620 km',Battery:'103 kWh',Drive:'AWD',Seats:'7',Body:'Premium MPV'}},
   {id:47,brand:'Denza',model:'B5',type:'chinese',badge:'EV',price:175000,pdf:'Denza/Denza_B5_Deluxe.pdf',
-   img:'https://www.denza.com/material/denza-site/au/home/site-updates-2-december/B5-heroweb.webp',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-47.webp',
    specs:{Motor:'Single/Dual',Power:'402 hp (AWD)',Range:'526 km',Battery:'82 kWh',Drive:'FWD/AWD',Seats:'5',Body:'Electric SUV'}},
   {id:48,brand:'Denza',model:'B8',type:'chinese',badge:'EV',price:235000,pdf:'Denza/Denza_B8_Flagship_6-Seater.pdf',
-   img:'https://www.denza.com/material/denza-site/au/home/site-updates-2-december/B8ReserveNowDesktop.webp',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-48.webp',
    specs:{Motor:'Dual',Power:'536 hp',Range:'520 km',Battery:'103 kWh',Drive:'AWD',Seats:'6/7',Body:'Large Electric SUV'}},
   {id:49,brand:'Deepal',model:'S07',type:'chinese',badge:'EV',price:135000,pdf:'Deepal/Deepal_S07.pdf',
-   img:'https://i0.wp.com/changanuk.media/wp-content/uploads/2025/09/S07-19-1.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-49.jpg',
    specs:{Motor:'Single',Power:'218 hp',Range:'520 km',Battery:'66.7 kWh',Drive:'RWD',Seats:'5',Body:'Electric Crossover'}},
   {id:50,brand:'Deepal',model:'G318',type:'chinese',badge:'EV',price:168000,pdf:'Deepal/Deepal_G318.pdf',
-   img:'https://www.deepal-eg.com/media/products/G318_Exterior_1920_x_1113_g318.png',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-50.png',
    specs:{Motor:'Dual',Power:'402 hp',Range:'460 km',Battery:'82 kWh',Drive:'AWD',Seats:'5',Body:'Adventure EV SUV'}},
   {id:51,wiki:'MG4 EV',brand:'MG',model:'MG4 EV',type:'chinese',badge:'EV',price:89000,pdf:'MG/MG_4_EV.pdf',
    img:'https://www.mgmotor.co.uk/content/dam/mg/mg4/mg4-electric-gallery-hero.jpg',
    specs:{Motor:'Single',Power:'204 hp',Range:'435 km',Battery:'64 kWh',Drive:'RWD',Seats:'5',Body:'Compact Electric Hatch'}},
   {id:52,brand:'MG',model:'MG7',type:'chinese',badge:null,price:98000,pdf:'MG/MG_7.pdf',
-   img:'https://media-hub-prod.mgmotor.me/api/v2/images/422/w/896/h/504.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-52.jpg',
    specs:{Engine:'2.0T Turbo',Power:'258 hp',Torque:'405 Nm',Trans:'8-speed Auto',Drive:'FWD',Seats:'5',Body:'Sport Sedan'}},
   {id:53,brand:'Hongqi',model:'H9',type:'chinese',badge:null,price:295000,pdf:'Hongqi/Hongqi_H9.pdf',
-   img:'https://www.hongqi-auto.com/storage/faw/20250822_h9.webp',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-53.webp',
    specs:{Engine:'2.0T Turbo',Power:'252 hp',Trans:'8-speed Auto',Drive:'RWD/AWD',Seats:'5',Fuel:'Petrol',Body:'Luxury Flagship Sedan'}},
   {id:54,brand:'Hongqi',model:'HS7',type:'chinese',badge:null,price:245000,pdf:'Hongqi/Hongqi_HS7.pdf',
-   img:'https://www.hongqi-auto.com/images/cartype/hs7_2025/kv.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-54.jpg',
    specs:{Engine:'2.0T Turbo',Power:'252 hp',Trans:'8-speed Auto',Drive:'AWD',Seats:'7',Fuel:'Petrol',Body:'Luxury Large SUV'}},
   {id:55,brand:'BAIC',model:'BJ40 SE',type:'chinese',badge:null,price:128000,pdf:'BAIC/BAIC_BJ40SE.pdf',
-   img:'https://www.baicglobal.com/file/common/image/2024/12/16/DM_20241216155313_001_20241216160344A663.png',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-55.png',
    specs:{Engine:'2.3T Turbo',Power:'224 hp',Torque:'340 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Petrol',Type:'Off-Road'}},
   {id:56,brand:'Maxus',model:'D90 Pro',type:'chinese',badge:null,price:155000,pdf:'Maxus/Maxus_D90.pdf',
-   img:'https://maxus.sa/wp-content/uploads/2025/07/Maxus-D90-Pro.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-56.jpg',
    specs:{Engine:'2.0T Turbo',Power:'224 hp',Torque:'360 Nm',Trans:'6-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol',Body:'Flagship MPV'}},
   {id:57,wiki:'Zeekr 7X',brand:'Zeekr',model:'7X',type:'chinese',badge:'EV',price:195000,pdf:'Zeekr/Zeekr_7X.pdf',
-   img:'https://www.zeekrlife.com/media/7x/zeekr-7x-exterior-front.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-57.jpg',
    specs:{Motor:'Dual',Power:'544 hp','0-100':'3.8 s',Range:'605 km',Battery:'100 kWh',Drive:'AWD',Seats:'5',Body:'Performance Electric SUV'}},
   {id:58,wiki:'Xpeng G9',brand:'Xpeng',model:'G9',type:'chinese',badge:'EV',price:215000,pdf:'Xpeng/Xpeng_G9.pdf',
    img:'https://www.xpeng.com/content/dam/xpeng/models/g9/xpeng-g9-overview-hero.jpg',
    specs:{Motor:'Dual',Power:'551 hp','0-100':'3.9 s',Range:'520 km',Battery:'98 kWh',Drive:'AWD',Seats:'6',Body:'Premium Electric SUV'}},
   {id:59,brand:'LiAuto',model:'L9',type:'chinese',badge:'PHEV',price:335000,pdf:'LiAuto/Li_Auto_L9.pdf',
-   img:'https://carnewschina.com/wp-content/uploads/2026/05/e59bbee78987-55-e1778836967641-800x451.png',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-59.png',
    specs:{Engine:'1.5T + Electric',Power:'449 hp System',Range:'1315 km',EV_Range:'215 km',Drive:'AWD',Seats:'6',Body:'6-Seat Flagship SUV'}},
 
-  // ─── NEW CHINESE MODELS (from auto-china.com · prices est. from EUR @ 4.20 QAR) ───
-  {id:66,wiki:'Xiaomi SU7',brand:'Xiaomi',model:'SU7 Max',type:'chinese',badge:'EV',price:252000,priceEst:true,pdf:'',
-   img:'https://s3.auto-china.com/auto-china/xiaomi-su7/su7_1.webp',
-   specs:{Motor:'Dual AWD',Power:'673 hp','0-100':'2.78 s',Range:'810 km',Battery:'101 kWh',Drive:'AWD',Seats:'5',Body:'Performance Sedan',Origin:'China · from €59,900'}},
-  {id:67,wiki:'Xiaomi SU7 Ultra',brand:'Xiaomi',model:'SU7 Ultra',type:'chinese',badge:'EV',price:353000,priceEst:true,pdf:'',
-   img:'https://s3.auto-china.com/auto-china/xiaomi-su7-ultra/home.webp',
-   specs:{Motor:'Tri-Motor',Power:'1,548 hp','0-100':'2.0 s',Range:'630 km',TopSpeed:'350+ km/h',Drive:'AWD',Seats:'5',Body:'Hypercar Sedan',Origin:'China · from €83,950'}},
-  {id:68,wiki:'Xiaomi YU7',brand:'Xiaomi',model:'YU7',type:'chinese',badge:'EV',price:247000,priceEst:true,pdf:'',
-   img:'https://s3.auto-china.com/auto-china/xiaomi-yu7/1.webp',
-   specs:{Motor:'Dual AWD',Power:'673 hp','0-100':'3.23 s',Range:'835 km',Battery:'96.3 kWh',Drive:'AWD',Seats:'5',Body:'Performance Electric SUV',Origin:'China · from €58,740'}},
-  {id:69,wiki:'BYD Seal',brand:'BYD',model:'Seal 05 DM-i',type:'chinese',badge:'Hybrid',price:88000,priceEst:true,pdf:'BYD/BYD_SEAL_Brochure.pdf',
-   img:'https://s3.auto-china.com/auto-china/byd-seal-05/main.webp',
-   specs:{Engine:'1.5L + Electric',Power:'218 hp System',EV_Range:'150 km',Range:'1,300 km',Trans:'E-CVT',Drive:'FWD',Seats:'5',Body:'Plug-in Hybrid Sedan',Origin:'China · from €20,920'}},
-  {id:70,wiki:'BYD Song Plus',brand:'BYD',model:'Song Plus DM-i',type:'chinese',badge:'Hybrid',price:117000,priceEst:true,pdf:'BYD/BYD_Song_Plus.pdf',
-   img:'https://s3.auto-china.com/auto-china/byd-song-plus/main.webp',
-   specs:{Engine:'1.5L + Electric',Power:'218 hp System',EV_Range:'150 km',Range:'1,300 km',Trans:'E-CVT',Drive:'FWD',Seats:'5/7',Body:'Plug-in Hybrid SUV',Origin:'China · from €27,900'}},
-  {id:71,wiki:'Jetour T2',brand:'Jetour',model:'T2 i-DM',type:'chinese',badge:'Hybrid',price:141000,priceEst:true,pdf:'Jetour/jetour-t2-2025my.pdf',
-   img:'https://s3.auto-china.com/auto-china/jetour-t2/main.webp',
-   specs:{Engine:'1.5T + Electric',Power:'258 hp System',EV_Range:'120 km',Range:'1,200 km',Drive:'AWD',Seats:'5',Body:'Super-Hybrid Off-Road SUV',Origin:'China · from €33,530'}},
-  {id:72,wiki:'Li Auto L6',brand:'LiAuto',model:'L6',type:'chinese',badge:'Hybrid',price:176000,priceEst:true,pdf:'LiAuto/Li_Auto_L9.pdf',
-   img:'https://s3.auto-china.com/auto-china/liauto-l6/0.webp',
-   specs:{Engine:'1.5T EREV',Power:'449 hp System',EV_Range:'215 km',Range:'1,300+ km',Drive:'AWD',Seats:'5',Body:'Extended-Range Electric SUV',Origin:'China · from €41,930'}},
-  {id:73,wiki:'Zeekr 009',brand:'Zeekr',model:'009',type:'chinese',badge:'EV',price:277000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
-   img:'https://s3.auto-china.com/auto-china/zeekr-009/4.webp',
-   specs:{Motor:'Dual',Power:'536 hp','0-100':'4.5 s',Range:'822 km',Battery:'140 kWh',Drive:'AWD',Seats:'6',Body:'Ultra-Luxury Electric MPV',Origin:'China · from €65,900'}},
-  {id:74,wiki:'Zeekr X',brand:'Zeekr',model:'X',type:'chinese',badge:'EV',price:155000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
-   img:'https://s3.auto-china.com/auto-china/zeekr-x/listing.webp',
-   specs:{Motor:'Single/Dual',Power:'268/420 hp',Range:'560 km',Battery:'66 kWh',Drive:'FWD/AWD',Seats:'5',Body:'Premium Compact Electric SUV',Origin:'China · from €36,990'}},
-  {id:75,wiki:'Zeekr 8X',brand:'Zeekr',model:'8X',type:'chinese',badge:'Hybrid',price:351000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
-   img:'https://s3.auto-china.com/auto-china/zeekr-8x/main.webp',
-   specs:{Engine:'2.0T + Electric (Super-Hybrid)',Power:'1,416 hp System',EV_Range:'410 km',Range:'1,416 km',Drive:'AWD',Seats:'6',Body:'Flagship Super-Hybrid SUV',Origin:'China · from €83,490'}},
-  {id:76,wiki:'Zeekr 9X',brand:'Zeekr',model:'9X',type:'chinese',badge:'EV',price:353000,priceEst:true,pdf:'Zeekr/Zeekr_001.pdf',
-   img:'https://s3.auto-china.com/auto-china/zeekr-9x/main.webp',
-   specs:{Motor:'Quad',Power:'1,381 hp','0-100':'2.5 s',Range:'600+ km',Battery:'100 kWh',Drive:'AWD',Seats:'6',Body:'Flagship Electric Performance SUV',Origin:'China · from €83,950'}},
-  {id:77,wiki:'Avatr 12',brand:'Avatr',model:'12',type:'chinese',badge:'EV',price:282000,priceEst:true,pdf:'',
-   img:'https://s3.auto-china.com/auto-china/avatr-12/banner.webp',
-   specs:{Motor:'Dual',Power:'536 hp','0-100':'3.4 s',Range:'700 km',Battery:'116.6 kWh',Drive:'AWD',Seats:'5',Body:'Luxury Electric GT Sedan',Origin:'China · from €67,140'}},
-  {id:78,wiki:'Maextro S800',brand:'Maextro',model:'S800',type:'chinese',badge:'Hybrid',price:528000,priceEst:true,pdf:'',
-   img:'https://s3.auto-china.com/auto-china/maextro-s800/main.webp',
-   specs:{Engine:'EREV + Electric',Power:'523 hp',EV_Range:'300 km',Range:'1,000+ km',Drive:'AWD',Seats:'4/5',Body:'Ultra-Luxury Flagship Sedan',Origin:'China · from €125,630'}},
-  {id:79,wiki:'SAIC Maxus',brand:'SAIC',model:'Z7T',type:'chinese',badge:'EV',price:247000,priceEst:true,pdf:'',
-   img:'https://s3.auto-china.com/auto-china/saic-z7t/4.webp',
-   specs:{Motor:'Dual',Power:'536 hp','0-100':'3.4 s',Range:'700 km',Battery:'103 kWh',Drive:'AWD',Seats:'5',Body:'Performance Electric Sedan',Origin:'China · from €58,790'}},
-
   // ─── GLOBAL NEW LAUNCHES (upcoming) ───
-  {id:60,wiki:'Slate Auto Truck',brand:'Slate',model:'Truck',type:'ev',badge:'EV',price:24950,upcoming:true,pdf:'',
-   img:'https://static.slateauto.com/media/slate-truck-hero.jpg',
-   specs:{Motor:'Single RWD',Power:'181 hp',Range:'240 km',Battery:'65 kWh LFP',Drive:'RWD',Seats:'2',Body:'Compact EV Pickup',Origin:'USA 2026'}},
+  {id:60,wiki:'Slate Auto Truck',brand:'Slate',model:'Truck',type:'ev',badge:'EV',price:24950,pdf:'Slate/en',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-60.png',
+   specs:{Motor:'Single RWD Motor',Power:'181 hp',Range:'330 km (205 mi)',Battery:'65 kWh LFP',Drive:'RWD',Seats:'2',Body:'Compact EV Pickup',Price:'from $24,950 USD',Origin:'USA'}},
   {id:61,wiki:'Rivian R2',brand:'Rivian',model:'R2',type:'ev',badge:'EV',price:45000,upcoming:true,pdf:'',
-   img:'https://res.cloudinary.com/rivian-main/image/upload/f_auto/q_auto/v1/gold-iris/metadata/R2?_a=BAVHt2DY0',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-61.jpg',
    specs:{Motor:'Dual AWD',Power:'~350 hp',Range:'530 km',Battery:'75 kWh',Drive:'AWD',Seats:'5',Body:'Compact Adventure SUV',Origin:'USA 2026'}},
   {id:62,brand:'Scout',model:'Terra',type:'pickup',badge:'EV',price:218000,upcoming:true,pdf:'',
-   img:'https://blog.scoutmotors.com/wp-content/uploads/2025/01/Scout-Terra_Exterior-MJR_1022-sm.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-62.jpg',
    specs:{Motor:'Dual AWD',Power:'~400 hp',Range:'480 km',Drive:'AWD',Seats:'5',Body:'Rugged EV Pickup',Origin:'USA/VW 2026'}},
   {id:63,wiki:'Hyundai IONIQ 9',brand:'Hyundai',model:'IONIQ 9',type:'suv',badge:'EV',price:285000,upcoming:true,pdf:'',
-   img:'https://www.hyundainews.com/assets/images/original/2024/10/22/185456-HyundaiMotorRevealseIONIQ9.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-63.jpg',
    specs:{Motor:'Dual AWD',Power:'422 hp','0-100':'5.0 s',Range:'620 km',Battery:'110.3 kWh',Drive:'AWD',Seats:'7/8',Body:'Full-size Electric SUV'}},
   {id:64,wiki:'Kia EV3',brand:'Kia',model:'EV3',type:'suv',badge:'EV',price:105000,upcoming:true,pdf:'',
    img:'https://www.kia.com/content/dam/kwsovp/int/models/ev3/2024/imagery/kia-ev3-2024-exterior-01.jpg',
    specs:{Motor:'Single',Power:'201 hp',Range:'600 km',Battery:'81.4 kWh',Drive:'FWD',Seats:'5',Body:'Compact Electric SUV',Origin:'Global 2025'}},
   {id:65,brand:'Toyota',model:'C-HR EV',type:'suv',badge:'EV',price:138000,upcoming:true,pdf:'',
-   img:'https://global.toyota/pages/news/images/2025/03/12/0801/001.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-65.jpg',
    specs:{Motor:'Single/Dual',Power:'168/196 hp',Range:'400 km',Battery:'54 kWh',Drive:'FWD/AWD',Seats:'5',Body:'Crossover EV'}},
+  // ── AVATR ──
+  {id:66,brand:'AVATR',model:'11',type:'chinese',badge:'EV',price:278000,pdf:'AVATR/AVATR_11_Specs.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-66.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'425 hp',Range:'590 km',Battery:'90 kWh',Drive:'AWD',Seats:'5',Body:'SUV Coupe EV'}},
+  {id:67,brand:'AVATR',model:'12',type:'chinese',badge:'EV',price:325000,pdf:'AVATR/AVATR_12_Specs.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-67.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'536 hp',Range:'700 km',Battery:'116 kWh',Drive:'AWD',Seats:'5',Body:'Saloon EV'}},
+
+  // ── AUDI ──
+  {id:68,wiki:'Audi Q5',brand:'Audi',model:'Q5 2025',type:'luxury',badge:null,price:198000,pdf:'Audi/Audi_Q5_ME_Brochure.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-67.jpg',
+   specs:{Engine:'2.0L TFSI',Power:'265 hp',Torque:'400 Nm',Drive:'Quattro AWD',Seats:'5',Body:'Luxury SUV'}},
+  {id:69,wiki:'Audi Q7',brand:'Audi',model:'Q7 2025',type:'luxury',badge:null,price:285000,pdf:'Audi/Audi_Q7_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/2020_Audi_Q7_50_TDI_S_line_%28facelift%2C_Typ_4M%29_front_8.1.20.jpg/1280px-2020_Audi_Q7_50_TDI_S_line_%28facelift%2C_Typ_4M%29_front_8.1.20.jpg',
+   specs:{Engine:'3.0L TFSI',Power:'340 hp',Torque:'500 Nm',Drive:'Quattro AWD',Seats:'7',Body:'Luxury SUV'}},
+  {id:70,wiki:'Audi Q8',brand:'Audi',model:'Q8 2025',type:'luxury',badge:null,price:385000,pdf:'Audi/Audi_Q8_ME_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Audi_Q8_50_TDI_quattro_%284M%2C_Facelift%2C_MY2024%29_front_8.16.22.jpg/1280px-Audi_Q8_50_TDI_quattro_%284M%2C_Facelift%2C_MY2024%29_front_8.16.22.jpg',
+   specs:{Engine:'3.0L TFSI V6',Power:'340 hp',Torque:'500 Nm',Drive:'Quattro AWD',Seats:'5',Body:'Luxury Coupe SUV'}},
+  {id:71,wiki:'Audi SQ8',brand:'Audi',model:'SQ8 2026',type:'luxury',badge:null,price:465000,pdf:'Audi/Audi_Q8_SQ8_2026_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/2020_Audi_SQ8_TDI_Tiptronic_4.0_%28MY_2020%29%2C_front_8.15.20.jpg/1280px-2020_Audi_SQ8_TDI_Tiptronic_4.0_%28MY_2020%29%2C_front_8.15.20.jpg',
+   specs:{Engine:'4.0L Twin-Turbo V8',Power:'507 hp',Torque:'770 Nm',Drive:'Quattro AWD',Seats:'5',Body:'Performance SUV'}},
+
+  // ── DONGFENG ──
+  {id:72,brand:'Dongfeng',model:'007',type:'chinese',badge:'EV',price:165000,pdf:'Dongfeng/Dongfeng_007.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2023/11/dongfeng-007-2024-china-1-e1700218620673.jpg',
+   specs:{Engine:'Single Motor EV',Power:'230 hp',Range:'620 km',Battery:'80 kWh',Drive:'RWD',Seats:'5',Body:'Sedan EV'}},
+  {id:73,brand:'Dongfeng',model:'AX7',type:'chinese',badge:null,price:115000,pdf:'Dongfeng/Dongfeng_AX7.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2022/08/dongfeng-ax7-2022-china-7.jpg',
+   specs:{Engine:'1.5T Turbo',Power:'197 hp',Torque:'290 Nm',Drive:'FWD',Seats:'5',Body:'SUV'}},
+  {id:74,brand:'Dongfeng',model:'HUGE',type:'chinese',badge:null,price:245000,pdf:'Dongfeng/Dongfeng_HUGE.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/04/dongfeng-huge-2024-china-1.jpg',
+   specs:{Engine:'2.0T + 48V Mild Hybrid',Power:'300 hp',Torque:'400 Nm',Drive:'4WD',Seats:'7',Body:'Large SUV'}},
+  {id:75,brand:'Dongfeng',model:'MAGE',type:'chinese',badge:'EV',price:178000,pdf:'Dongfeng/Dongfeng_MAGE.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/02/dongfeng-mage-ev-1.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'385 hp',Range:'560 km',Battery:'88 kWh',Drive:'AWD',Seats:'7',Body:'MPV EV'}},
+  {id:76,brand:'Dongfeng',model:'Rich 7',type:'chinese',badge:null,price:128000,pdf:'Dongfeng/Dongfeng_Rich7.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2023/06/dongfeng-rich7-2023-china-3.jpg',
+   specs:{Engine:'2.0T Diesel',Power:'150 hp',Torque:'360 Nm',Drive:'4WD',Seats:'5',Body:'Pickup'}},
+  {id:77,brand:'Dongfeng',model:'SHINE',type:'chinese',badge:'EV',price:135000,pdf:'Dongfeng/Dongfeng_SHINE.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/06/dongfeng-shine-ev-2025-china.jpg',
+   specs:{Engine:'Single Motor EV',Power:'201 hp',Range:'530 km',Battery:'70 kWh',Drive:'FWD',Seats:'5',Body:'Sedan EV'}},
+  {id:78,brand:'Dongfeng',model:'Z9',type:'chinese',badge:'EV',price:298000,pdf:'Dongfeng/Dongfeng_Z9.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/04/dongfeng-z9-2024-china-3.jpg',
+   specs:{Engine:'Tri Motor EV',Power:'1100 hp',Range:'650 km',Battery:'100 kWh',Drive:'AWD',Seats:'4',Body:'Luxury Sedan EV'}},
+
+  // ── EXEED ──
+  {id:79,brand:'EXEED',model:'LX',type:'chinese',badge:null,price:118000,pdf:'EXEED/EXEED_LX.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2022/09/exeed-lx-2023-china-7.jpg',
+   specs:{Engine:'1.5T Turbo',Power:'156 hp',Torque:'230 Nm',Drive:'FWD',Seats:'5',Body:'Compact SUV'}},
+  {id:80,brand:'EXEED',model:'RX',type:'chinese',badge:null,price:148000,pdf:'EXEED/EXEED_RX.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2023/04/exeed-rx-2023-china-1.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'233 hp',Torque:'390 Nm',Drive:'AWD',Seats:'5',Body:'Mid SUV'}},
+  {id:81,brand:'EXEED',model:'RX PHEV',type:'chinese',badge:'PHEV',price:188000,pdf:'EXEED/EXEED_RX_PHEV.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2023/04/exeed-rx-2023-china-1.jpg',
+   specs:{Engine:'1.5T + Electric',Power:'266 hp',Range:'85 km EV',Battery:'19 kWh',Drive:'AWD',Seats:'5',Body:'PHEV SUV'}},
+  {id:82,brand:'EXEED',model:'VX',type:'chinese',badge:null,price:215000,pdf:'EXEED/EXEED_VX.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2022/09/exeed-vx-2023-china-9.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'248 hp',Torque:'400 Nm',Drive:'AWD',Seats:'7',Body:'Large SUV'}},
+
+  // ── GAC AION ──
+  {id:83,brand:'GAC Aion',model:'Aion ES',type:'chinese',badge:'EV',price:112000,pdf:'GAC Aion/GACAion_AionES.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-83.jpg',
+   specs:{Engine:'Single Motor EV',Power:'204 hp',Range:'602 km',Battery:'72 kWh',Drive:'FWD',Seats:'5',Body:'Sedan EV'}},
+  {id:84,brand:'GAC Aion',model:'EMKOO',type:'chinese',badge:'EV',price:128000,pdf:'GAC Aion/GACAion_EMKOO.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2023/03/aion-emkoo-2023-china-3.jpg',
+   specs:{Engine:'Single Motor EV',Power:'201 hp',Range:'530 km',Battery:'70 kWh',Drive:'FWD',Seats:'5',Body:'Compact SUV EV'}},
+  {id:85,brand:'GAC Aion',model:'EMPOW',type:'chinese',badge:'EV',price:138000,pdf:'GAC Aion/GACAion_EMPOW.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2022/11/aion-empow-2023-china-3.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'300 hp',Range:'500 km',Battery:'77 kWh',Drive:'AWD',Seats:'5',Body:'Sports Sedan EV'}},
+  {id:86,brand:'GAC Aion',model:'GS8',type:'chinese',badge:null,price:168000,pdf:'GAC Aion/GACAion_GS8.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2023/07/gac-gs8-2024-china-6.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'252 hp',Torque:'400 Nm',Drive:'AWD',Seats:'7',Body:'Large SUV'}},
+
+  // ── LYNK & CO ──
+  {id:87,brand:'LynkCo',model:'01',type:'chinese',badge:'PHEV',price:195000,pdf:'LynkCo/LynkCo_01.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-87.jpg',
+   specs:{Engine:'2.0T + Electric',Power:'261 hp',Range:'69 km EV',Battery:'14.1 kWh',Drive:'AWD',Seats:'5',Body:'PHEV SUV'}},
+  {id:88,brand:'LynkCo',model:'03',type:'chinese',badge:null,price:165000,pdf:'LynkCo/LynkCo_03.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-88.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'245 hp',Torque:'350 Nm',Drive:'FWD',Seats:'5',Body:'Sports Sedan'}},
+  {id:89,brand:'LynkCo',model:'05',type:'chinese',badge:'PHEV',price:215000,pdf:'LynkCo/LynkCo_05.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-89.jpg',
+   specs:{Engine:'1.5T + Electric',Power:'261 hp',Range:'81 km EV',Battery:'15 kWh',Drive:'AWD',Seats:'5',Body:'PHEV Coupe SUV'}},
+  {id:90,brand:'LynkCo',model:'09',type:'chinese',badge:'PHEV',price:285000,pdf:'LynkCo/LynkCo_09.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-90.jpg',
+   specs:{Engine:'2.0T + Electric',Power:'449 hp',Range:'100 km EV',Battery:'22 kWh',Drive:'AWD',Seats:'6-7',Body:'Luxury PHEV SUV'}},
+
+  // ── MAHINDRA ──
+  {id:91,wiki:'Mahindra Pik Up',brand:'Mahindra',model:'Pik Up 4WD',type:'pickup',badge:null,price:78000,pdf:'Mahindra/Mahindra_PikUp.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-90.jpg',
+   specs:{Engine:'2.2L mHawk Diesel',Power:'120 hp',Torque:'280 Nm',Drive:'4WD',Seats:'4-5',Body:'Pickup Truck'}},
+  {id:92,wiki:'Mahindra Scorpio',brand:'Mahindra',model:'Scorpio Pik Up',type:'pickup',badge:null,price:85000,pdf:'Mahindra/Mahindra_Scorpio_PikUp.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Mahindra_Scorpio_S10_2016.jpg/1280px-Mahindra_Scorpio_S10_2016.jpg',
+   specs:{Engine:'2.2L mHawk Diesel',Power:'140 hp',Torque:'320 Nm',Drive:'4WD',Seats:'5',Body:'Pickup SUV'}},
+
+  // ── MAZDA ──
+  {id:93,wiki:'Mazda3',brand:'Mazda',model:'Mazda3',type:'sedan',badge:null,price:68000,pdf:'Mazda/Mazda3.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/2019_Mazda3_2.0_GT_%28facelift%2C_red%29%2C_front_8.15.19.jpg/1280px-2019_Mazda3_2.0_GT_%28facelift%2C_red%29%2C_front_8.15.19.jpg',
+   specs:{Engine:'2.0L SkyActiv-G',Power:'155 hp',Torque:'200 Nm',Drive:'FWD',Seats:'5',Body:'Sedan / Hatchback'}},
+  {id:94,wiki:'Mazda CX-5',brand:'Mazda',model:'CX-5 2025',type:'suv',badge:null,price:112000,pdf:'Mazda/Mazda_CX5.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/2022_Mazda_CX-5_2.5_Turbo_%28US%29%2C_front_8.2.22.jpg/1280px-2022_Mazda_CX-5_2.5_Turbo_%28US%29%2C_front_8.2.22.jpg',
+   specs:{Engine:'2.5L SkyActiv-G Turbo',Power:'228 hp',Torque:'420 Nm',Drive:'i-AWD',Seats:'5',Body:'Compact SUV'}},
+  {id:95,wiki:'Mazda CX-60',brand:'Mazda',model:'CX-60 PHEV',type:'suv',badge:'PHEV',price:178000,pdf:'Mazda/Mazda_CX60.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/2023_Mazda_CX-60_3.3_Mild_Hybrid_%28AWD%29%2C_front_8.23.22.jpg/1280px-2023_Mazda_CX-60_3.3_Mild_Hybrid_%28AWD%29%2C_front_8.23.22.jpg',
+   specs:{Engine:'2.5L + Electric PHEV',Power:'327 hp',Range:'61 km EV',Battery:'17.8 kWh',Drive:'AWD',Seats:'5',Body:'Premium SUV PHEV'}},
+  {id:96,wiki:'Mazda CX-90',brand:'Mazda',model:'CX-90 PHEV',type:'suv',badge:'PHEV',price:225000,pdf:'Mazda/Mazda_CX90.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/2024_Mazda_CX-90_PHEV_Premium%2B_%28US%29%2C_front_12.16.23.jpg/1280px-2024_Mazda_CX-90_PHEV_Premium%2B_%28US%29%2C_front_12.16.23.jpg',
+   specs:{Engine:'3.3L Turbo + Electric',Power:'340 hp',Range:'50 km EV',Battery:'17.8 kWh',Drive:'AWD',Seats:'8',Body:'Large Premium SUV'}},
+  {id:97,wiki:'Mazda MX-5',brand:'Mazda',model:'MX-5 Roadster',type:'sports',badge:null,price:148000,pdf:'Mazda/Mazda_MX5.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/2020_Mazda_MX-5_Miata_Sport_%28US%29%2C_front_5.3.20.jpg/1280px-2020_Mazda_MX-5_Miata_Sport_%28US%29%2C_front_5.3.20.jpg',
+   specs:{Engine:'2.0L SkyActiv-G',Power:'181 hp',Torque:'205 Nm',Drive:'RWD',Seats:'2',Body:'Roadster'}},
+
+  // ── NIO ──
+  {id:98,wiki:'NIO EC6',brand:'NIO',model:'EC6',type:'chinese',badge:'EV',price:265000,pdf:'NIO/NIO_EC6.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-98.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'483 hp',Range:'620 km',Battery:'100 kWh',Drive:'AWD',Seats:'5',Body:'Coupe SUV EV'}},
+
+  // ── OMODA / JAECOO ──
+  {id:99,brand:'JAECOO',model:'J7',type:'chinese',badge:null,price:98000,pdf:'OMODA_JAECOO/JAECOO_J7_Brochure.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-98.jpg',
+   specs:{Engine:'1.6T Turbo',Power:'197 hp',Torque:'290 Nm',Drive:'AWD',Seats:'5',Body:'Compact SUV'}},
+  {id:100,brand:'JAECOO',model:'J8',type:'chinese',badge:null,price:128000,pdf:'OMODA_JAECOO/JAECOO_J8_Brochure.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/03/jaecoo-j8-2024-china-3.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'248 hp',Torque:'390 Nm',Drive:'AWD',Seats:'7',Body:'Mid SUV'}},
+  {id:101,brand:'OMODA',model:'C5',type:'chinese',badge:null,price:82000,pdf:'OMODA_JAECOO/OMODA_C5_Brochure.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2022/11/omoda-c5-2023-china-2.jpg',
+   specs:{Engine:'1.6T Turbo',Power:'147 hp',Torque:'230 Nm',Drive:'FWD',Seats:'5',Body:'Compact SUV'}},
+
+  // ── ROX ──
+  {id:102,brand:'ROX',model:'ADAMAS',type:'chinese',badge:'EV',price:420000,pdf:'ROX/ROX_ADAMAS_Spec.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/08/rox-adamas-2025-china-1.jpg',
+   specs:{Engine:'Tri Motor EV',Power:'1200 hp',Range:'600 km',Battery:'120 kWh',Drive:'AWD',Seats:'4',Body:'Hypercar EV'}},
+
+  // ── RELY ──
+  {id:103,brand:'Rely',model:'R08',type:'chinese',badge:'EV',price:145000,pdf:'Rely/Rely_R08.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/10/rely-r08-2025-china-1.jpg',
+   specs:{Engine:'Single Motor EV',Power:'215 hp',Range:'560 km',Battery:'76 kWh',Drive:'FWD',Seats:'5',Body:'SUV EV'}},
+
+  // ── RENAULT ──
+  {id:104,wiki:'Renault Arkana',brand:'Renault',model:'Arkana',type:'suv',badge:null,price:88000,pdf:'Renault/Renault_Arkana.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Renault_Arkana_E-Tech_145_2021_3.jpg/1280px-Renault_Arkana_E-Tech_145_2021_3.jpg',
+   specs:{Engine:'1.3L TCe',Power:'140 hp',Torque:'240 Nm',Drive:'FWD',Seats:'5',Body:'Coupe SUV'}},
+  {id:105,wiki:'Renault Duster',brand:'Renault',model:'Duster 2024',type:'suv',badge:null,price:72000,pdf:'Renault/Renault_Duster.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/2024_Renault_Duster_1.2_TCe_130_4x4_%28HJD%29%2C_front_7.10.24.jpg/1280px-2024_Renault_Duster_1.2_TCe_130_4x4_%28HJD%29%2C_front_7.10.24.jpg',
+   specs:{Engine:'1.3L TCe',Power:'130 hp',Torque:'230 Nm',Drive:'4x4',Seats:'5',Body:'Compact SUV'}},
+  {id:106,wiki:'Renault Koleos',brand:'Renault',model:'Koleos',type:'suv',badge:null,price:115000,pdf:'Renault/Renault_Koleos.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/2017_Renault_Koleos_Intens_2.5_Front.jpg/1280px-2017_Renault_Koleos_Intens_2.5_Front.jpg',
+   specs:{Engine:'2.5L DOHC',Power:'170 hp',Torque:'233 Nm',Drive:'AWD',Seats:'5',Body:'Mid SUV'}},
+  {id:107,wiki:'Renault Megane',brand:'Renault',model:'Megane E-Tech EV',type:'ev',badge:'EV',price:138000,pdf:'Renault/Renault_Megane.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/2023_Renault_M%C3%A9gane_E-Tech_EV60_220ch_optimum_charge_%284%29.jpg/1280px-2023_Renault_M%C3%A9gane_E-Tech_EV60_220ch_optimum_charge_%284%29.jpg',
+   specs:{Engine:'Single Motor EV',Power:'218 hp',Range:'470 km',Battery:'60 kWh',Drive:'FWD',Seats:'5',Body:'Compact SUV EV'}},
+
+  // ── SOUEAST ──
+  {id:108,brand:'Soueast',model:'S06',type:'chinese',badge:null,price:78000,pdf:'Soueast/Soueast_S06.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/04/soueast-s06-2024-china-2.jpg',
+   specs:{Engine:'1.5T Turbo',Power:'156 hp',Torque:'230 Nm',Drive:'FWD',Seats:'5',Body:'Compact SUV'}},
+  {id:109,brand:'Soueast',model:'S09',type:'chinese',badge:'EV',price:188000,pdf:'Soueast/Soueast_S09.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/06/soueast-s09-2024-china-1.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'408 hp',Range:'600 km',Battery:'92 kWh',Drive:'AWD',Seats:'7',Body:'Large SUV EV'}},
+
+  // ── SUZUKI ──
+  {id:110,wiki:'Suzuki Baleno',brand:'Suzuki',model:'Baleno',type:'sedan',badge:null,price:42000,pdf:'Suzuki/Suzuki_Baleno_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/2022_Suzuki_Baleno_GLX_%28Philippines%29%2C_front_9.19.22.jpg/1280px-2022_Suzuki_Baleno_GLX_%28Philippines%29%2C_front_9.19.22.jpg',
+   specs:{Engine:'1.2L DualJet',Power:'90 hp',Torque:'113 Nm',Drive:'FWD',Seats:'5',Body:'Compact Hatchback'}},
+  {id:111,wiki:'Suzuki Ertiga',brand:'Suzuki',model:'Ertiga',type:'mpv',badge:null,price:56000,pdf:'Suzuki/Suzuki_Ertiga_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/2022_Suzuki_Ertiga_1.5_GL_MT_%28PH%29%2C_front_9.19.22.jpg/1280px-2022_Suzuki_Ertiga_1.5_GL_MT_%28PH%29%2C_front_9.19.22.jpg',
+   specs:{Engine:'1.5L K15B',Power:'104 hp',Torque:'138 Nm',Drive:'FWD',Seats:'7',Body:'MPV'}},
+  {id:112,wiki:'Suzuki Fronx',brand:'Suzuki',model:'Fronx',type:'suv',badge:null,price:58000,pdf:'Suzuki/Suzuki_Fronx_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Suzuki_Fronx_-_003.jpg/1280px-Suzuki_Fronx_-_003.jpg',
+   specs:{Engine:'1.0L Boosterjet Turbo',Power:'100 hp',Torque:'148 Nm',Drive:'AWD',Seats:'5',Body:'Compact Crossover'}},
+  {id:113,wiki:'Suzuki Grand Vitara',brand:'Suzuki',model:'Grand Vitara',type:'suv',badge:'Hybrid',price:82000,pdf:'Suzuki/Suzuki_Grand-Vitara_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2022_Suzuki_Grand_Vitara_GL%2B_AT_%28Philippines%29%2C_front_9.19.22.jpg/1280px-2022_Suzuki_Grand_Vitara_GL%2B_AT_%28Philippines%29%2C_front_9.19.22.jpg',
+   specs:{Engine:'1.5L + Mild Hybrid',Power:'103 hp',Torque:'135 Nm',Drive:'AWD',Seats:'5',Body:'Compact SUV'}},
+  {id:114,wiki:'Suzuki Jimny',brand:'Suzuki',model:'Jimny 2024',type:'suv',badge:null,price:68000,pdf:'Suzuki/Suzuki_Jimny_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/2018_Suzuki_Jimny_1.5_SZ5_AllGrip_Auto_5-door_%28UK%29%2C_front_8.9.19.jpg/1280px-2018_Suzuki_Jimny_1.5_SZ5_AllGrip_Auto_5-door_%28UK%29%2C_front_8.9.19.jpg',
+   specs:{Engine:'1.5L K15B',Power:'102 hp',Torque:'130 Nm',Drive:'AllGrip 4WD',Seats:'4-5',Body:'Compact Off-Roader'}},
+  {id:115,wiki:'Suzuki Swift',brand:'Suzuki',model:'Swift 2024',type:'sedan',badge:'Hybrid',price:48000,pdf:'Suzuki/Suzuki_Swift_Brochure.pdf',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/2024_Suzuki_Swift_%28AZ%2C_facelift%29%2C_front.jpg/1280px-2024_Suzuki_Swift_%28AZ%2C_facelift%29%2C_front.jpg',
+   specs:{Engine:'1.2L DualJet + Hybrid',Power:'82 hp',Torque:'107 Nm',Drive:'FWD',Seats:'5',Body:'Supermini Hatchback'}},
+
+  // ── VOYAH ──
+  {id:116,wiki:'Voyah Dream',brand:'Voyah',model:'Dream',type:'chinese',badge:'EV',price:348000,pdf:'Voyah/Voyah_Dream.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-116.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'680 hp',Range:'730 km',Battery:'116 kWh',Drive:'AWD',Seats:'6',Body:'Luxury MPV EV'}},
+
+  // ── YANGWANG ──
+  {id:117,brand:'YangWang',model:'U8',type:'chinese',badge:'PHEV',price:680000,pdf:'YangWang/YangWang_U8_Specs.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-116.jpg',
+   specs:{Engine:'Quad Motor PHEV',Power:'1196 hp',Range:'180 km EV',Battery:'49.05 kWh',Drive:'AWD',Seats:'5',Body:'Ultra-Luxury SUV PHEV'}},
+
+  // ── iCar 03 ──
+  {id:118,brand:'iCar',model:'03',type:'chinese',badge:'EV',price:92000,pdf:'iCar/ICAUR_03_BROCHURE_Digital.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-116.jpg',
+   specs:{Engine:'Single Motor EV',Power:'201 hp',Range:'550 km',Battery:'66 kWh',Drive:'RWD',Seats:'5',Body:'Compact SUV EV'}},
+
+  // ── Xpeng new models ──
+  {id:119,wiki:'Xpeng G6',brand:'Xpeng',model:'G6',type:'chinese',badge:'EV',price:178000,pdf:'Xpeng/Xpeng_G6.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-119.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'440 hp',Range:'570 km',Battery:'87.5 kWh',Drive:'AWD',Seats:'5',Body:'Coupe SUV EV'}},
+  {id:120,wiki:'Xpeng P7',brand:'Xpeng',model:'P7',type:'chinese',badge:'EV',price:165000,pdf:'Xpeng/Xpeng_P7.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-120.jpg',
+   specs:{Engine:'Single/Dual Motor EV',Power:'196/316 hp',Range:'706 km',Battery:'80.7 kWh',Drive:'RWD/AWD',Seats:'5',Body:'Sports Sedan EV'}},
+  {id:121,wiki:'Xpeng X9',brand:'Xpeng',model:'X9',type:'chinese',badge:'EV',price:425000,pdf:'Xpeng/x9-brochure.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-121.jpg',
+   specs:{Engine:'Dual Motor EV',Power:'551 hp',Range:'702 km',Battery:'101.5 kWh',Drive:'AWD',Seats:'6',Body:'Luxury MPV EV'}},
+  {id:122,wiki:'Xpeng MONA M03',brand:'Xpeng',model:'MONA M03',type:'chinese',badge:'EV',price:82000,pdf:'Xpeng/小鹏MONA-3.pdf',
+   img:'https://carnewschina.com/wp-content/uploads/2024/08/xpeng-mona-m03-2024-china-3.jpg',
+   specs:{Engine:'Single Motor EV',Power:'201 hp',Range:'620 km',Battery:'62.2 kWh',Drive:'RWD',Seats:'5',Body:'Fastback Sedan EV'}},
+
+  // ── Zeekr X ──
+  {id:123,wiki:'Zeekr X',brand:'Zeekr',model:'X',type:'chinese',badge:'EV',price:138000,pdf:'Zeekr/Zeekr_X.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-123.jpeg',
+   specs:{Engine:'Single/Dual Motor EV',Power:'200/415 hp',Range:'560 km',Battery:'66 kWh',Drive:'FWD/AWD',Seats:'5',Body:'Compact SUV EV'}},
+
+  // ── Jetour X70 Plus ──
+  {id:124,brand:'Jetour',model:'X70 Plus',type:'chinese',badge:null,price:105000,pdf:'Jetour/2024-jetour-x70-plus-luxury-brochure-w-price.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-123.jpeg',
+   specs:{Engine:'1.5T Turbo',Power:'156 hp',Torque:'230 Nm',Drive:'FWD',Seats:'7',Body:'Mid SUV'}},
+
 ];
 
 // UPCOMING extras (placeholder images will use SVG)
-const UPCOMING_IDS=[6,7,8,9,10,42,60,61,62,63,64,65];
+const UPCOMING_IDS=[6,7,8,9,10,42,61,62,63,64,65];
 
 const CHARGING_STATIONS=[
   {id:'c1',name:'Hamad International Airport',area:'Airport',network:'KAHRAMAA',type:'DC Fast',power:'150 kW',ports:4,connectors:['CCS2','CHAdeMO'],status:'available',maps:'https://maps.google.com/?q=25.2732,51.6096',free:true},
@@ -1107,8 +1320,8 @@ function cardHtml(c){
     <div class="car-info">
       <div class="car-brand-tag">${c.brand}</div>
       <div class="car-model">${c.model}</div>
-      <div class="car-price">${fmt(c.price)}${c.priceEst?'<span style="color:var(--orange);font-size:14px;font-weight:700" title="Estimated price converted from EUR. Actual Qatar launch price may differ.">*</span>':''}</div>
-      <div class="car-price-sub">${c.priceEst?'Est. price (EUR→QAR) · Actual may vary*':c.upcoming?'Expected price':'Starting price'} · Contact for quote</div>
+      <div class="car-price">${fmt(c.price)}</div>
+      <div class="car-price-sub">${c.upcoming?'Expected price':'Starting price'} · Contact for final quote</div>
       <div class="car-actions">
         <button class="btn-details" onclick="openCarModal(${c.id})">View Details</button>
         <button class="btn-cmp${inCmp?' added':''}" onclick="addToCompare(${c.id},event)">${inCmp?'✓':'⊕'}</button>
@@ -1467,61 +1680,6 @@ function submitConsult(){
   showToast('Redirecting to WhatsApp! ✓');
 }
 
-// ============ CAR NEWSLETTER ============
-const NEWS_SOURCES=[
-  // Global
-  {name:'Autocar',url:'https://www.autocar.co.uk',region:'global',icon:'🏁',color:'#cc0000',
-   blurb:"World's oldest car magazine. Road tests, news and buyer's guides since 1895."},
-  {name:'Motor1',url:'https://www.motor1.com',region:'global',icon:'🚗',color:'#f05a1a',
-   blurb:'Global automotive news, reviews, spy shots and new model reveals from 15+ editions worldwide.'},
-  {name:'Car and Driver',url:'https://www.caranddriver.com',region:'global',icon:'🏎️',color:'#003478',
-   blurb:'Authoritative US car magazine with long-term tests, comparisons and industry deep-dives.'},
-  {name:'Top Gear',url:'https://www.topgear.com',region:'global',icon:'⚡',color:'#1a2744',
-   blurb:"BBC's iconic car brand. Bold reviews, supercar features and the world's most entertaining automotive content."},
-  {name:'Autocar India',url:'https://www.autocarindia.com',region:'global',icon:'🌐',color:'#e8340a',
-   blurb:'Leading South Asian car publication — relevant to GCC buyers tracking regional launch timelines and India-spec models.'},
-  // Middle East
-  {name:'Drive Arabia',url:'https://www.drivearabia.com',region:'middle-east',icon:'🇦🇪',color:'#006600',
-   blurb:'Leading Middle East car news portal covering UAE, Qatar, Saudi Arabia, Kuwait, Bahrain and Oman launches.'},
-  {name:'Motoring Middle East',url:'https://www.motoringme.com',region:'middle-east',icon:'🇶🇦',color:'#8d1b3d',
-   blurb:'GCC-focused car news, reviews and buying guides with local pricing and dealer information.'},
-  {name:'Maqina',url:'https://www.maqinaonline.com',region:'middle-east',icon:'🏆',color:'#005bac',
-   blurb:'Dedicated Middle East automotive news covering brand appointments, regional premieres and market data.'},
-  {name:'Gulf News Auto',url:'https://gulfnews.com/auto',region:'middle-east',icon:'🗞️',color:'#003087',
-   blurb:'Gulf News automotive section — GCC car launches, policy changes and market trends from a trusted regional news brand.'},
-  // China EV
-  {name:'Car News China',url:'https://carnewschina.com',region:'china',icon:'🇨🇳',color:'#c8001b',
-   blurb:'#1 English source for Chinese automotive news. Covers every Chinese brand — EV, ICE, spy shots and auto shows.'},
-  {name:'CnEVPost',url:'https://cnevpost.com',region:'china',icon:'⚡',color:'#00b4d8',
-   blurb:'Fast, credible China EV data, insights and news. The go-to tracker for BYD, NIO, Xpeng, Zeekr and more.'},
-  {name:'Gasgoo Auto News',url:'https://autonews.gasgoo.com',region:'china',icon:'📊',color:'#333',
-   blurb:'Premier China auto industry intelligence — sales data, factory news, supply chain and OEM developments in English.'},
-  {name:'ChinaPEV',url:'https://www.chinapev.com',region:'china',icon:'🔋',color:'#006633',
-   blurb:'China plug-in EV market tracker with weekly sales rankings, new model news and policy updates.'},
-];
-
-let nlActiveFilter='all';
-function renderNewsletter(){
-  const grid=document.getElementById('nlGrid');if(!grid)return;
-  const src=nlActiveFilter==='all'?NEWS_SOURCES:NEWS_SOURCES.filter(s=>s.region===nlActiveFilter);
-  grid.innerHTML=src.map(s=>`
-    <a class="nl-card" href="${s.url}" target="_blank" rel="noopener">
-      <div class="nl-icon" style="background:${s.color}22;color:${s.color}">${s.icon}</div>
-      <div class="nl-info">
-        <div class="nl-name">${s.name}</div>
-        <div class="nl-region">${s.region==='middle-east'?'MIDDLE EAST':s.region==='china'?'CHINA EV':'GLOBAL'}</div>
-        <div class="nl-blurb">${s.blurb}</div>
-        <span class="nl-link">Visit ${s.name} →</span>
-      </div>
-    </a>`).join('');
-}
-function filterNL(btn,region){
-  document.querySelectorAll('.nl-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  nlActiveFilter=region;
-  renderNewsletter();
-}
-
 // ============ INIT ============
 // ============ HERO SLIDESHOW ============
 function initHeroSlideshow(){
@@ -1553,11 +1711,101 @@ document.addEventListener('DOMContentLoaded', async function(){
   await loadCarsFromSupabase();
   // UI init that doesn't depend on CARS data
   initFilterChips();
-  renderNewsletter();
   // Modal backdrop close
   document.getElementById('carModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
   document.getElementById('compareModal').addEventListener('click',function(e){if(e.target===this)closeCompareModal();});
 });
+
+// ═══════════════════ ANIMATION ENGINE ═══════════════════
+
+// Scroll-reveal with IntersectionObserver
+function initScrollReveal(){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        if(e.target.classList.contains('stagger-children')){
+          e.target.querySelectorAll('.car-card,.charging-card,.nl-card').forEach((c,i)=>{
+            setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0)'},i*60);
+          });
+        }
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger-children').forEach(el=>io.observe(el));
+}
+
+// Animated stat counters in hero
+function animateCounters(){
+  const targets = [
+    {el:document.querySelector('.hero-stats .hstat:nth-child(1) strong'), end:50, suffix:'+', label:'Brands Available'},
+    {el:document.querySelector('.hero-stats .hstat:nth-child(2) strong'), end:500, suffix:'+', label:'Brochures'},
+    {el:document.querySelector('.hero-stats .hstat:nth-child(3) strong'), end:30, suffix:'+', label:'EV Charging Stations'},
+  ];
+  targets.forEach(t=>{
+    if(!t.el) return;
+    let start=0, duration=1200, step=16;
+    let timer=setInterval(()=>{
+      start+=Math.ceil(t.end/((duration/step)));
+      if(start>=t.end){start=t.end;clearInterval(timer);}
+      t.el.textContent=start+t.suffix;
+    },step);
+    t.el.classList.add('counted');
+  });
+}
+
+// Show toast notification
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// Skeleton loader for car grid
+function renderSkeletons(containerId, count=6){
+  const el=document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = Array(count).fill(`
+    <div class="skeleton-card">
+      <div class="skeleton skeleton-img"></div>
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text short"></div>
+      <div class="skeleton skeleton-text btn"></div>
+    </div>`).join('');
+}
+
+// Add reveal classes to section wrappers after render
+function addRevealClasses(){
+  document.querySelectorAll('.section').forEach((s,i)=>{
+    if(!s.classList.contains('reveal')){
+      s.classList.add('reveal');
+      s.style.transitionDelay=(i*0.05)+'s';
+    }
+  });
+  document.querySelectorAll('.section-scroll').forEach(s=>{
+    s.classList.add('stagger-children');
+  });
+  document.querySelectorAll('.ev-grid,.browse-grid').forEach(g=>{
+    g.classList.add('stagger-children');
+  });
+  initScrollReveal();
+}
+
+// Page-enter hook — runs after showPage switches
+const _origShowPage = showPage;
+function showPage(pageId,el){
+  _origShowPage(pageId,el);
+  setTimeout(addRevealClasses, 80);
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', ()=>{
+  setTimeout(animateCounters, 600);
+  setTimeout(addRevealClasses, 400);
+});
+
 </script>
 </body>
 </html>
