@@ -696,14 +696,7 @@ const BRANDS=[
   {name:'Zeekr',color:'#0033cc'},{name:'Rivian',color:'#2fb5b5'},{name:'iCar',color:'#e63c00'},
   {name:'Deepal',color:'#006633'},{name:'Denza',color:'#1a1a6e'},{name:'Leapmotor',color:'#0055cc'},
   {name:'Maxus',color:'#003087'},{name:'Lynk & Co',color:'#0000cc'},
-  // ── 212 ──
-  {id:125,wiki:'212 T01 BAW',brand:'212',model:'T01',type:'chinese',badge:null,price:175000,pdf:'212/212 T01/212_BAW_2025_UAE.pdf',
-   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-125.png',
-   specs:{Engine:'2.0T Turbo',Power:'248 hp',Torque:'410 Nm',Trans:'8AT',Drive:'4WD',Seats:'5',Fuel:'Petrol',Type:'Off-Road SUV'}},
-  // ── iCAUR ──
-  {id:126,wiki:'iCAUR V27',brand:'iCAUR',model:'V27',type:'chinese',badge:'REEV',price:155000,pdf:'iCaur/iCAUR V27/iCAUR Product Catalog (V27+03T)_260609_155130.pdf',
-   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-126.png',
-   specs:{Engine:'REEV + Dual Motor',Power:'449 hp',Torque:'505 Nm',Drive:'AWD',Range:'800+ km',Battery:'34 kWh',Seats:'5',Type:'Off-Road SUV REEV'}},
+  {name:'212',color:'#cc3300'},{name:'iCAUR',color:'#e63c00'},
 ];
 
 // ── Supabase Config ──────────────────────────────────────────────────────────
@@ -1157,6 +1150,16 @@ const LOCAL_CARS_FALLBACK=[
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-123.jpeg',
    specs:{Engine:'1.5T Turbo',Power:'156 hp',Torque:'230 Nm',Drive:'FWD',Seats:'7',Body:'Mid SUV'}},
 
+  // ── 212 ──
+  {id:125,wiki:'212 T01 BAW',brand:'212',model:'T01',type:'chinese',badge:null,price:175000,pdf:'212/212 T01/212_BAW_2025_UAE.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-125.png',
+   specs:{Engine:'2.0T Turbo',Power:'248 hp',Torque:'410 Nm',Trans:'8AT',Drive:'4WD',Seats:'5',Fuel:'Petrol',Type:'Off-Road SUV'}},
+
+  // ── iCAUR ──
+  {id:126,wiki:'iCAUR V27',brand:'iCAUR',model:'V27',type:'chinese',badge:'REEV',price:155000,pdf:'iCaur/iCAUR V27/iCAUR Product Catalog (V27+03T)_260609_155130.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-126.png',
+   specs:{Engine:'REEV + Dual Motor',Power:'449 hp',Torque:'505 Nm',Drive:'AWD',Range:'800+ km',Battery:'34 kWh',Seats:'5',Type:'Off-Road SUV REEV'}},
+
 ];
 
 // UPCOMING extras (placeholder images will use SVG)
@@ -1244,6 +1247,7 @@ function showPage(pageId,el){
   if(pageId==='home'){renderBrandStrip();renderHomeSections();}
   if(pageId==='browse'){renderBrowse();}
   if(pageId==='ev'){renderEvCars();}
+  setTimeout(addRevealClasses,80);
 }
 function showPageFilter(type){
   browseFilters={search:'',type,brand:'',minP:0,maxP:9999999};
@@ -1799,13 +1803,6 @@ function addRevealClasses(){
     g.classList.add('stagger-children');
   });
   initScrollReveal();
-}
-
-// Page-enter hook — runs after showPage switches
-const _origShowPage = showPage;
-function showPage(pageId,el){
-  _origShowPage(pageId,el);
-  setTimeout(addRevealClasses, 80);
 }
 
 // Init on load
