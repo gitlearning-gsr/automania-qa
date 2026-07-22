@@ -880,8 +880,8 @@ const LOCAL_CARS_FALLBACK=[
   {id:4,wiki:'Hyundai Tucson',brand:'Lexus',model:'LX 600',type:'luxury',badge:null,price:420000,featured:true,pdf:'Lexus/Lexus_LX_2025_Brochure.pdf',
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-4.jpg',
    specs:{Engine:'3.5L V6 Twin-Turbo',Power:'415 hp',Torque:'650 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Petrol'}},
-  {id:5,wiki:'BYD Atto 3',brand:'Toyota',model:'Hilux 2025',type:'pickup',badge:null,price:112000,featured:true,pdf:'Toyota_Qatar_Brochures/Toyota_Hilux_Brochure.pdf',
-   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-5.jpg',
+  {id:5,wiki:'Toyota Hilux',brand:'Toyota',model:'Hilux 2025',type:'pickup',badge:null,price:112000,featured:true,pdf:'Toyota_Qatar_Brochures/Toyota_Hilux_Brochure.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-5.png',
    specs:{Engine:'2.8L Turbo Diesel',Power:'204 hp',Torque:'500 Nm',Trans:'6-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
   // ─── UPCOMING ───
   {id:6,wiki:'Kia EV6',brand:'Toyota',model:'Land Cruiser 70 (2025)',type:'suv',badge:null,price:185000,upcoming:true,pdf:'',
@@ -1412,25 +1412,41 @@ const LOCAL_CARS_FALLBACK=[
    specs:{Battery:'63 kWh',Range:'430 km',Power:'143 hp',Charge_DC:'80 kW',Drive:'FWD',Seats:'5',Body:'Retro Compact EV'}},
 
   // ── MITSUBISHI FULL LINEUP ────────────────────────────────────────────────
-  {id:154,wiki:'Mitsubishi Pajero Sport',brand:'Mitsubishi',model:'Pajero Sport 2025',type:'suv',badge:null,price:118000,featured:false,pdf:'',
+  {id:154,wiki:'Mitsubishi Montero Sport',brand:'Mitsubishi',model:'Montero Sport 2025',type:'suv',badge:null,price:118000,featured:false,pdf:'Mitsubishi/Mitsubishi_MonteroSport.pdf',
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-154.jpg',
    specs:{Engine:'2.4L MIVEC Diesel',Power:'181 hp',Torque:'430 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Diesel'}},
 
-  {id:155,wiki:'Mitsubishi Triton',brand:'Mitsubishi',model:'L200 Triton 2025',type:'pickup',badge:null,price:105000,featured:false,pdf:'',
+  {id:155,wiki:'Mitsubishi Triton',brand:'Mitsubishi',model:'L200 Triton 2025',type:'pickup',badge:null,price:105000,featured:false,pdf:'Mitsubishi/Mitsubishi_L200.pdf',
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-155.jpg',
    specs:{Engine:'2.4L MIVEC Diesel',Power:'181 hp',Torque:'430 Nm',Trans:'6-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
 
-  {id:156,wiki:'Mitsubishi Eclipse Cross',brand:'Mitsubishi',model:'Eclipse Cross PHEV 2025',type:'suv',badge:'PHEV',price:128000,featured:false,pdf:'',
+  {id:156,wiki:'Mitsubishi Eclipse Cross',brand:'Mitsubishi',model:'Eclipse Cross PHEV 2025',type:'suv',badge:'PHEV',price:128000,featured:false,pdf:'Mitsubishi/Mitsubishi_EclipseCross.pdf',
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-156.jpg',
    specs:{Engine:'2.4L + Twin Motor',Power:'248 hp',Drive:'AWD',EV_Range:'55 km',Seats:'5',Fuel:'PHEV'}},
 
-  {id:157,wiki:'Mitsubishi ASX',brand:'Mitsubishi',model:'ASX 2025',type:'suv',badge:null,price:88000,featured:false,pdf:'',
+  {id:157,wiki:'Mitsubishi ASX',brand:'Mitsubishi',model:'ASX 2025',type:'suv',badge:null,price:88000,featured:false,pdf:'Mitsubishi/Mitsubishi_ASX.pdf',
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-157.jpg',
    specs:{Engine:'1.3T Turbo',Power:'158 hp',Torque:'270 Nm',Trans:'6-speed DCT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
 
-  {id:158,wiki:'Mitsubishi Mirage',brand:'Mitsubishi',model:'Mirage 2025',type:'sedan',badge:null,price:49000,featured:false,pdf:'',
+  {id:158,wiki:'Mitsubishi Mirage',brand:'Mitsubishi',model:'Mirage 2025',type:'sedan',badge:null,price:49000,featured:false,pdf:'Mitsubishi/Mitsubishi_Mirage.pdf',
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-158.jpg',
    specs:{Engine:'1.2L MIVEC',Power:'78 hp',Torque:'100 Nm',Trans:'CVT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:159,wiki:'Mitsubishi Attrage',brand:'Mitsubishi',model:'Attrage 2025',type:'sedan',badge:null,price:52000,featured:false,pdf:'Mitsubishi/Mitsubishi_Attrage.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-159.jpg',
+   specs:{Engine:'1.2L MIVEC',Power:'78 hp',Torque:'100 Nm',Trans:'CVT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:160,wiki:'Mitsubishi Destinator',brand:'Mitsubishi',model:'Destinator 2025',type:'suv',badge:null,price:95000,featured:false,pdf:'Mitsubishi/Mitsubishi_Destinator.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-160.jpg',
+   specs:{Engine:'1.5L Turbo',Power:'163 hp',Torque:'250 Nm',Trans:'CVT',Drive:'AWD',Seats:'7',Fuel:'Petrol'}},
+
+  {id:161,wiki:'Mitsubishi XForce',brand:'Mitsubishi',model:'XForce 2025',type:'suv',badge:null,price:98000,featured:false,pdf:'Mitsubishi/Mitsubishi_XForce.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-161.jpg',
+   specs:{Engine:'1.5L MIVEC Turbo',Power:'148 hp',Torque:'240 Nm',Trans:'CVT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:162,wiki:'Mitsubishi Xpander',brand:'Mitsubishi',model:'Xpander 2025',type:'suv',badge:null,price:85000,featured:false,pdf:'Mitsubishi/Mitsubishi_Xpander.pdf',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-162.jpg',
+   specs:{Engine:'1.5L MIVEC',Power:'103 hp',Torque:'141 Nm',Trans:'4-speed Auto',Drive:'FWD',Seats:'7',Fuel:'Petrol'}},
 
 ];
 
