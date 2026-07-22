@@ -1873,7 +1873,8 @@ function openCarModal(carId){
   const car=getCarById(carId);if(!car)return;
   const bc=BRANDS.find(b=>b.name===car.brand);
   const bcolor=bc?bc.color:'#f05a1a';
-  const specs=Object.entries(car.specs).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k.replace(/_/g,' ')}</span><span class="spec-val">${v}</span></div>`).join('');
+  const specsObj=car.specs||{};
+  const specs=Object.keys(specsObj).length?Object.entries(specsObj).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k.replace(/_/g,' ')}</span><span class="spec-val">${v}</span></div>`).join(''):'<div class="spec-row" style="color:var(--muted)">Specifications coming soon</div>';
   document.getElementById('carModalBody').innerHTML=`
     <img src="${car.img||'images/car-'+car.id+'.jpg'}" data-wiki="${(Object.prototype.hasOwnProperty.call(WIKI_CORRECTIONS,car.id)?WIKI_CORRECTIONS[car.id]:car.wiki)||''}" onerror="this.onerror=null;this.src='images/car-${car.id}.jpg'||this.src='${genCarSvg(car.brand,car.model,bcolor)}'"
       style="width:100%;height:260px;object-fit:cover;border-radius:12px;margin-bottom:20px" loading="lazy">
