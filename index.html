@@ -1641,7 +1641,9 @@ function cardHtml(c){
   const svgSrc=genCarSvg(c.brand,c.model,bcolor);
   const localImg=`images/car-${c.id}.jpg`;
   const primarySrc=c.img||localImg;
-  const wikiVal=Object.prototype.hasOwnProperty.call(WIKI_CORRECTIONS,c.id)?WIKI_CORRECTIONS[c.id]:c.wiki;
+  // Only use Wikipedia as fallback when car has no Supabase image
+  const hasSupabaseImg=c.img&&c.img.includes('supabase.co');
+  const wikiVal=hasSupabaseImg?'':(Object.prototype.hasOwnProperty.call(WIKI_CORRECTIONS,c.id)?WIKI_CORRECTIONS[c.id]:c.wiki);
   return`<div class="car-card" id="card-${c.id}">
     <div class="car-img-wrap" onclick="openCarModal(${c.id})">
       <img src="${primarySrc}" data-wiki="${wikiVal||''}" alt="${c.brand} ${c.model}"
@@ -1793,6 +1795,8 @@ function tryLoadRealImages(){
   document.querySelectorAll('img[data-wiki]').forEach(img=>{
     const wiki=img.dataset.wiki;
     if(!wiki||img.dataset.wikiLoaded)return;
+    // Never replace a Supabase storage image with Wikipedia
+    if(img.src&&img.src.includes('supabase.co'))return;
     img.dataset.wikiLoaded='1';
     fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(wiki))
       .then(r=>r.json())
