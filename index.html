@@ -350,6 +350,19 @@ img{max-width:100%;display:block}
   /* -- Compare bar slide up -- */
   .compare-bar{transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s ease}
 
+  /* NEWS CARDS */
+  .nl-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;flex-shrink:0;width:280px;transition:all .25s cubic-bezier(.25,.46,.45,.94);cursor:pointer;box-shadow:var(--sh)}
+  .nl-card:hover{box-shadow:var(--sh2);border-color:var(--orange);transform:translateY(-4px)}
+  .nl-img{width:100%;height:160px;object-fit:cover;display:block;transition:transform .4s ease}
+  .nl-card:hover .nl-img{transform:scale(1.05)}
+  .nl-body{padding:14px}
+  .nl-source{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:8px}
+  .nl-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.45;margin-bottom:8px}
+  .nl-meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .nl-dot{width:3px;height:3px;border-radius:50%;background:var(--muted2)}
+  .nl-read{font-size:11px;font-weight:700;color:var(--orange);text-decoration:none;margin-top:10px;display:inline-block}
+  .nl-read:hover{text-decoration:underline}
+
   /* -- Smooth modal open -- */
   .modal-overlay{transition:opacity .25s ease}
   .modal-overlay[style*="flex"] .modal-box{animation:modalIn .3s cubic-bezier(.34,1.56,.64,1)}
@@ -448,7 +461,7 @@ img{max-width:100%;display:block}
     <div id="heroOverlay"></div>
     <div class="hero-inner">
       <div class="hero-title">Qatar's #1 Car<br>Marketplace <span>& Advisor</span></div>
-      <div class="hero-subtitle">Find your perfect car from 50+ brands · Free expert consulting · Compare side-by-side</div>
+      <div class="hero-subtitle">Find your perfect car from 80+ brands · Free expert consulting · Compare side-by-side</div>
       <div class="hero-tagline">✦ <span style="color:#f05a1a;font-weight:700;font-style:italic;letter-spacing:.5px">✦ Choose the car. Protect the dream. ✦</span> ✦</div>
       <div class="hero-search">
         <select class="hs-select" id="hsBrand"><option value="">Any Brand</option></select>
@@ -469,7 +482,7 @@ img{max-width:100%;display:block}
         <button class="hs-btn" onclick="doSearch()">Search Cars →</button>
       </div>
       <div class="hero-stats">
-        <div class="hstat"><strong>50+</strong>Brands Available</div>
+        <div class="hstat"><strong>80+</strong>Brands Available</div>
         <div class="hstat"><strong>500+</strong>Brochures</div>
         <div class="hstat"><strong>30+</strong>EV Charging Stations</div>
         <div class="hstat"><strong>Free</strong>Consulting</div>
@@ -485,6 +498,117 @@ img{max-width:100%;display:block}
 
   <!-- SECTIONS -->
   <div id="homeSections"></div>
+
+  <!-- NEWS SECTION -->
+  <div class="section reveal" style="background:var(--bg2)">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-title">📰 Latest <span>Car News</span></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px">From the world's top automotive sources</div>
+        </div>
+      </div>
+      <div class="section-scroll stagger-children">
+
+        <!-- carnewschina.com -->
+        <div class="nl-card" onclick="window.open('https://carnewschina.com/2025/05/byd-tops-global-ev-sales/','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-16.jpg" alt="BYD EV News"
+            onerror="this.style.background='linear-gradient(135deg,#1db954,#0d7a3e)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#1db95415;color:#1db954">🌏 carnewschina.com</div>
+            <div class="nl-title">BYD Overtakes Tesla in Global EV Sales — What This Means for Qatar</div>
+            <div class="nl-meta"><span>Jul 2025</span><span class="nl-dot"></span><span>3 min read</span></div>
+            <a class="nl-read" href="https://carnewschina.com" target="_blank">Read on carnewschina →</a>
+          </div>
+        </div>
+
+        <!-- autocar.co.uk -->
+        <div class="nl-card" onclick="window.open('https://www.autocar.co.uk/car-news/new-cars/toyota','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-6.jpg" alt="Toyota LC70"
+            onerror="this.style.background='linear-gradient(135deg,#eb0a1e,#8a0010)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#cc000015;color:#cc0000">🇬🇧 autocar.co.uk</div>
+            <div class="nl-title">Toyota Land Cruiser 70 Series 2025: Iconic Off-Roader Gets Turbo Power</div>
+            <div class="nl-meta"><span>Jul 2025</span><span class="nl-dot"></span><span>4 min read</span></div>
+            <a class="nl-read" href="https://www.autocar.co.uk/car-news" target="_blank">Read on Autocar →</a>
+          </div>
+        </div>
+
+        <!-- topgear.com -->
+        <div class="nl-card" onclick="window.open('https://www.topgear.com/car-news/electric/kia-ev9','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-3.jpg" alt="Kia EV9"
+            onerror="this.style.background='linear-gradient(135deg,#05141f,#1a3a5c)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#e8001215;color:#e80012">🏎️ topgear.com</div>
+            <div class="nl-title">Kia EV9 First Drive: Is This the Best Electric SUV You Can Buy Right Now?</div>
+            <div class="nl-meta"><span>Jun 2025</span><span class="nl-dot"></span><span>5 min read</span></div>
+            <a class="nl-read" href="https://www.topgear.com/car-news" target="_blank">Read on Top Gear →</a>
+          </div>
+        </div>
+
+        <!-- carnewschina.com -->
+        <div class="nl-card" onclick="window.open('https://carnewschina.com/tag/gac-aion/','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-84.jpg" alt="GAC EMKOO"
+            onerror="this.style.background='linear-gradient(135deg,#0066cc,#003d7a)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#1db95415;color:#1db954">🌏 carnewschina.com</div>
+            <div class="nl-title">GAC Aion EMKOO & EMPOW Expanding Across GCC — Full Specs & Prices</div>
+            <div class="nl-meta"><span>Jun 2025</span><span class="nl-dot"></span><span>3 min read</span></div>
+            <a class="nl-read" href="https://carnewschina.com/tag/gac-aion/" target="_blank">Read on carnewschina →</a>
+          </div>
+        </div>
+
+        <!-- motortrend.com -->
+        <div class="nl-card" onclick="window.open('https://www.motortrend.com/cars/hyundai/ioniq-9/','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-8.jpg" alt="Hyundai IONIQ 9"
+            onerror="this.style.background='linear-gradient(135deg,#002c5f,#001a3a)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#f0521815;color:#f05218">🇺🇸 motortrend.com</div>
+            <div class="nl-title">Hyundai IONIQ 9: The 7-Seat Electric SUV That Changes Everything in 2025</div>
+            <div class="nl-meta"><span>Jun 2025</span><span class="nl-dot"></span><span>4 min read</span></div>
+            <a class="nl-read" href="https://www.motortrend.com/cars/hyundai/" target="_blank">Read on MotorTrend →</a>
+          </div>
+        </div>
+
+        <!-- drive.com.au -->
+        <div class="nl-card" onclick="window.open('https://www.drive.com.au/news/chinese-cars/','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-26.jpg" alt="BYD Han"
+            onerror="this.style.background='linear-gradient(135deg,#1db954,#0d7a3e)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#f0521815;color:#e05200">🇦🇺 drive.com.au</div>
+            <div class="nl-title">Best Chinese Cars to Buy in 2025: Our Top Picks Across Every Segment</div>
+            <div class="nl-meta"><span>Jul 2025</span><span class="nl-dot"></span><span>6 min read</span></div>
+            <a class="nl-read" href="https://www.drive.com.au/news/chinese-cars/" target="_blank">Read on Drive →</a>
+          </div>
+        </div>
+
+        <!-- autocar.co.uk -->
+        <div class="nl-card" onclick="window.open('https://www.autocar.co.uk/car-news/new-cars/mazda/cx-60','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-95.jpg" alt="Mazda CX-60"
+            onerror="this.style.background='linear-gradient(135deg,#ba0020,#6e0012)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#cc000015;color:#cc0000">🇬🇧 autocar.co.uk</div>
+            <div class="nl-title">Mazda CX-60 PHEV Long-Term Review: Premium SUV Takes on the German Rivals</div>
+            <div class="nl-meta"><span>May 2025</span><span class="nl-dot"></span><span>5 min read</span></div>
+            <a class="nl-read" href="https://www.autocar.co.uk/car-news" target="_blank">Read on Autocar →</a>
+          </div>
+        </div>
+
+        <!-- carnewschina.com -->
+        <div class="nl-card" onclick="window.open('https://carnewschina.com/tag/dongfeng/','_blank')">
+          <img class="nl-img" src="https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-76.webp" alt="Dongfeng Rich 7"
+            onerror="this.style.background='linear-gradient(135deg,#003087,#001a4e)';this.style.height='160px';this.removeAttribute('src')">
+          <div class="nl-body">
+            <div class="nl-source" style="background:#1db95415;color:#1db954">🌏 carnewschina.com</div>
+            <div class="nl-title">Dongfeng Rich 7 Pickup Reviewed: Best Value Workhorse Coming to GCC</div>
+            <div class="nl-meta"><span>May 2025</span><span class="nl-dot"></span><span>3 min read</span></div>
+            <a class="nl-read" href="https://carnewschina.com/tag/dongfeng/" target="_blank">Read on carnewschina →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- CONSULT BANNER -->
   <div style="background:linear-gradient(135deg,var(--navy),#0d1a3a);padding:48px 24px;text-align:center">
@@ -664,7 +788,7 @@ img{max-width:100%;display:block}
     <div class="footer-grid">
       <div class="footer-brand">
         <img src="logo.png" alt="Automania" style="height:40px;width:auto;filter:brightness(0) invert(1)">
-        <p>Qatar's premier automotive marketplace. 50+ brands, 500+ brochures, free expert consulting. <span style="color:#f05a1a;font-weight:700;font-style:italic;letter-spacing:.5px">✦ Choose the car. Protect the dream. ✦</span></p>
+        <p>Qatar's premier automotive marketplace. 80+ brands, 500+ brochures, free expert consulting. <span style="color:#f05a1a;font-weight:700;font-style:italic;letter-spacing:.5px">✦ Choose the car. Protect the dream. ✦</span></p>
         <div class="footer-socials" style="margin-top:14px">
           <div class="fsoc">📘</div><div class="fsoc">📸</div><div class="fsoc">🐦</div><div class="fsoc">▶️</div>
         </div>
@@ -697,6 +821,23 @@ const BRANDS=[
   {name:'Deepal',color:'#006633'},{name:'Denza',color:'#1a1a6e'},{name:'Leapmotor',color:'#0055cc'},
   {name:'Maxus',color:'#003087'},{name:'Lynk & Co',color:'#0000cc'},
   {name:'212',color:'#cc3300'},{name:'iCAUR',color:'#e63c00'},
+  // ── Car-data brands missing from BRANDS (no brand pill without these) ───────
+  {name:'LynkCo',color:'#0000cc'},{name:'Dongfeng',color:'#003087'},{name:'Renault',color:'#ffdd00'},
+  {name:'Mahindra',color:'#cc0000'},{name:'OMODA',color:'#0066cc'},{name:'JAECOO',color:'#1a1a1a'},
+  {name:'Hongqi',color:'#a00000'},{name:'BAIC',color:'#003087'},{name:'AVATR',color:'#0d4f8b'},
+  {name:'Voyah',color:'#1a1a6e'},{name:'YangWang',color:'#c9a227'},{name:'Soueast',color:'#2264a8'},
+  {name:'Rely',color:'#e63c00'},{name:'ROX',color:'#ff6600'},{name:'Scout',color:'#2c4a1e'},
+  {name:'Slate',color:'#555555'},
+  // ── New brands added from Excel ──────────────────────────────────────────────
+  {name:'Tesla',color:'#cc0000'},{name:'Jeep',color:'#336600'},{name:'Genesis',color:'#1a1a1a'},
+  {name:'Volkswagen',color:'#009FE3'},{name:'Volvo',color:'#003057'},{name:'Chevrolet',color:'#cc0000'},
+  {name:'Rolls-Royce',color:'#6d2b3d'},{name:'Bentley',color:'#336b45'},{name:'Lamborghini',color:'#cc9900'},
+  {name:'Ferrari',color:'#cc0000'},{name:'Maserati',color:'#1F56A2'},{name:'Mini',color:'#1a1a1a'},
+  {name:'Alfa Romeo',color:'#cc0000'},{name:'Dodge',color:'#cc0000'},{name:'RAM',color:'#cc0000'},
+  {name:'Jaguar',color:'#1a1a1a'},{name:'Chery',color:'#cc0000'},{name:'Smart',color:'#0099cc'},
+  {name:'Lotus',color:'#006600'},{name:'Peugeot',color:'#003087'},{name:'Skoda',color:'#4BA82E'},
+  {name:'McLaren',color:'#ff6600'},{name:'Aston Martin',color:'#224C70'},{name:'Cadillac',color:'#1a1a1a'},
+  {name:'Lincoln',color:'#1a1a1a'},{name:'Subaru',color:'#004999'},{name:'ORA',color:'#0099ff'},
 ];
 
 // ── Supabase Config ──────────────────────────────────────────────────────────
@@ -820,7 +961,7 @@ const LOCAL_CARS_FALLBACK=[
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-29.jpg',
    specs:{Battery:'100 kWh',Range:'620 km',Power:'544 hp',Charge_DC:'200 kW',Drive:'AWD',Seats:'4'}},
   {id:30,wiki:'Porsche Cayenne',brand:'LiAuto',model:'L9',type:'chinese',badge:'PHEV',price:210000,pdf:'LiAuto/LiAuto_L9.pdf',
-   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-30.jpg',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-30.png',
    specs:{Engine:'1.5T + Dual Motor',Power:'449 hp',Drive:'AWD',Seats:'6',Fuel:'PHEV',EV_Range:'215 km'}},
   // ─── MORE MODELS ───
   {id:31,wiki:'Ford Ranger',brand:'Ford',model:'Ranger Raptor',type:'pickup',badge:null,price:148000,pdf:'Ford/Ford_Ranger_MY25_Spec.pdf',
@@ -1159,6 +1300,137 @@ const LOCAL_CARS_FALLBACK=[
   {id:126,wiki:'iCAUR V27',brand:'iCAUR',model:'V27',type:'chinese',badge:'REEV',price:155000,pdf:'iCaur/iCAUR V27/iCAUR Product Catalog (V27+03T)_260609_155130.pdf',
    img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-126.png',
    specs:{Engine:'REEV + Dual Motor',Power:'449 hp',Torque:'505 Nm',Drive:'AWD',Range:'800+ km',Battery:'34 kWh',Seats:'5',Type:'Off-Road SUV REEV'}},
+
+  // ── NEW BRANDS FROM EXCEL — IDs 127–153 ─────────────────────────────────────
+
+  {id:127,wiki:'Tesla Model Y',brand:'Tesla',model:'Model Y 2025',type:'ev',badge:'EV',price:189000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-127.png',
+   specs:{Battery:'82 kWh',Range:'533 km',Power:'456 hp',Charge_DC:'250 kW',Drive:'AWD',Seats:'5',Body:'EV SUV'}},
+
+  {id:128,wiki:'Jeep Grand Cherokee',brand:'Jeep',model:'Grand Cherokee 2025',type:'suv',badge:null,price:215000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-128.jpg',
+   specs:{Engine:'3.6L V6 Pentastar',Power:'293 hp',Torque:'353 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:129,wiki:'Genesis GV80',brand:'Genesis',model:'GV80 2025',type:'luxury',badge:null,price:265000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-129.jpg',
+   specs:{Engine:'3.5L V6 Twin-Turbo',Power:'380 hp',Torque:'530 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'7',Fuel:'Petrol'}},
+
+  {id:130,wiki:'Volkswagen Tiguan',brand:'Volkswagen',model:'Tiguan 2025',type:'suv',badge:null,price:129000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-130.jpg',
+   specs:{Engine:'2.0T TSI',Power:'204 hp',Torque:'320 Nm',Trans:'7-speed DSG',Drive:'4Motion AWD',Seats:'7',Fuel:'Petrol'}},
+
+  {id:131,wiki:'Volvo XC90',brand:'Volvo',model:'XC90 Recharge 2025',type:'luxury',badge:'PHEV',price:289000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-131.jpg',
+   specs:{Engine:'2.0T + Electric',Power:'455 hp',Torque:'709 Nm',Trans:'8-speed Geartronic',Drive:'AWD',Seats:'7',Fuel:'PHEV'}},
+
+  {id:132,wiki:'Chevrolet Tahoe',brand:'Chevrolet',model:'Tahoe 2025',type:'suv',badge:null,price:232000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-132.jpg',
+   specs:{Engine:'5.3L V8',Power:'355 hp',Torque:'519 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+
+  {id:133,wiki:'Rolls-Royce Cullinan',brand:'Rolls-Royce',model:'Cullinan 2025',type:'luxury',badge:null,price:1650000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-133.jpg',
+   specs:{Engine:'6.75L V12 Twin-Turbo',Power:'600 hp',Torque:'900 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:134,wiki:'Bentley Bentayga',brand:'Bentley',model:'Bentayga 2025',type:'luxury',badge:null,price:780000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-134.jpg',
+   specs:{Engine:'4.0L V8 Twin-Turbo',Power:'542 hp',Torque:'770 Nm',Trans:'8-speed DCT',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:135,wiki:'Lamborghini Urus',brand:'Lamborghini',model:'Urus SE 2025',type:'luxury',badge:'PHEV',price:1250000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-135.jpg',
+   specs:{Engine:'4.0L V8 + Electric',Power:'800 hp',Torque:'750 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'5',Fuel:'PHEV'}},
+
+  {id:136,wiki:'Ferrari Purosangue',brand:'Ferrari',model:'Purosangue 2025',type:'luxury',badge:null,price:1900000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-136.jpg',
+   specs:{Engine:'6.5L V12 NA',Power:'725 hp',Torque:'716 Nm',Trans:'8-speed DCT',Drive:'4WD',Seats:'4',Fuel:'Petrol'}},
+
+  {id:137,wiki:'Maserati Levante',brand:'Maserati',model:'Levante 2025',type:'luxury',badge:null,price:320000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-137.jpg',
+   specs:{Engine:'3.0L V6 Twin-Turbo',Power:'350 hp',Torque:'500 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:138,wiki:'Mini Countryman',brand:'Mini',model:'Countryman 2025',type:'suv',badge:null,price:138000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-138.jpg',
+   specs:{Engine:'2.0T TwinPower Turbo',Power:'204 hp',Torque:'300 Nm',Trans:'7-speed DCT',Drive:'ALL4 AWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:139,wiki:'Alfa Romeo Stelvio',brand:'Alfa Romeo',model:'Stelvio Veloce 2025',type:'suv',badge:null,price:195000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-139.jpg',
+   specs:{Engine:'2.0T Turbo',Power:'280 hp',Torque:'400 Nm',Trans:'8-speed Auto',Drive:'Q4 AWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:140,wiki:'Dodge Durango',brand:'Dodge',model:'Durango R/T 2025',type:'suv',badge:null,price:178000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-140.jpg',
+   specs:{Engine:'5.7L HEMI V8',Power:'360 hp',Torque:'529 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'7',Fuel:'Petrol'}},
+
+  {id:141,wiki:'Ram 1500',brand:'RAM',model:'1500 TRX 2025',type:'pickup',badge:null,price:310000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-141.jpg',
+   specs:{Engine:'6.2L Supercharged HEMI V8',Power:'702 hp',Torque:'881 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:142,wiki:'Jaguar F-Pace',brand:'Jaguar',model:'F-PACE P400 2025',type:'luxury',badge:null,price:225000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-142.jpg',
+   specs:{Engine:'3.0L 6-cyl MHEV',Power:'400 hp',Torque:'550 Nm',Trans:'8-speed Auto',Drive:'AWD',Seats:'5',Fuel:'Mild Hybrid'}},
+
+  {id:143,wiki:'Chery Tiggo 8',brand:'Chery',model:'Tiggo 8 Pro Max 2025',type:'suv',badge:null,price:115000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-143.jpg',
+   specs:{Engine:'2.0T TGDI',Power:'254 hp',Torque:'390 Nm',Trans:'CVT',Drive:'FWD',Seats:'7',Fuel:'Petrol'}},
+
+  {id:144,wiki:'Smart #3',brand:'Smart',model:'#3 Brabus 2025',type:'ev',badge:'EV',price:128000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-144.webp',
+   specs:{Battery:'66 kWh',Range:'455 km',Power:'422 hp',Charge_DC:'150 kW',Drive:'AWD',Seats:'5',Body:'EV Coupe SUV'}},
+
+  {id:145,wiki:'Lotus Eletre',brand:'Lotus',model:'Eletre R 2025',type:'ev',badge:'EV',price:695000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-145.jpg',
+   specs:{Battery:'112 kWh',Range:'490 km',Power:'905 hp',Charge_DC:'350 kW',Drive:'AWD',Seats:'5',Body:'EV Hyper-SUV'}},
+
+  {id:146,wiki:'Peugeot 3008',brand:'Peugeot',model:'3008 GT 2025',type:'suv',badge:null,price:132000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-146.jpg',
+   specs:{Engine:'1.6T PureTech',Power:'180 hp',Torque:'300 Nm',Trans:'8-speed EAT8',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:147,wiki:'Škoda Kodiaq',brand:'Skoda',model:'Kodiaq Sportline 2025',type:'suv',badge:null,price:148000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-147.jpg',
+   specs:{Engine:'2.0 TSI',Power:'204 hp',Torque:'320 Nm',Trans:'7-speed DSG',Drive:'4x4',Seats:'7',Fuel:'Petrol'}},
+
+  {id:148,wiki:'McLaren Artura',brand:'McLaren',model:'Artura Spider 2025',type:'luxury',badge:'PHEV',price:950000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-148.jpg',
+   specs:{Engine:'3.0L V6 + Electric',Power:'700 hp',Torque:'720 Nm',Trans:'8-speed DCT',Drive:'RWD',Seats:'2',Fuel:'PHEV'}},
+
+  {id:149,wiki:'Aston Martin DBX',brand:'Aston Martin',model:'DBX707 2025',type:'luxury',badge:null,price:1280000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-149.jpg',
+   specs:{Engine:'4.0L V8 Twin-Turbo',Power:'707 hp',Torque:'900 Nm',Trans:'9-speed Auto',Drive:'AWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:150,wiki:'Cadillac Escalade',brand:'Cadillac',model:'Escalade ESV 2025',type:'luxury',badge:null,price:435000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-150.jpg',
+   specs:{Engine:'6.2L V8',Power:'420 hp',Torque:'623 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+
+  {id:151,wiki:'Lincoln Navigator',brand:'Lincoln',model:'Navigator Black Label 2025',type:'luxury',badge:null,price:395000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-151.jpg',
+   specs:{Engine:'3.5L V6 Twin-Turbo EcoBoost',Power:'440 hp',Torque:'691 Nm',Trans:'10-speed Auto',Drive:'4WD',Seats:'8',Fuel:'Petrol'}},
+
+  {id:152,wiki:'Subaru Forester',brand:'Subaru',model:'Forester 2025',type:'suv',badge:null,price:118000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-152.jpg',
+   specs:{Engine:'2.5L Boxer',Power:'184 hp',Torque:'239 Nm',Trans:'Lineartronic CVT',Drive:'Symmetrical AWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:153,wiki:'ORA Good Cat',brand:'ORA',model:'03 2025',type:'ev',badge:'EV',price:88000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-153.jpg',
+   specs:{Battery:'63 kWh',Range:'430 km',Power:'143 hp',Charge_DC:'80 kW',Drive:'FWD',Seats:'5',Body:'Retro Compact EV'}},
+
+  // ── MITSUBISHI FULL LINEUP ────────────────────────────────────────────────
+  {id:154,wiki:'Mitsubishi Pajero Sport',brand:'Mitsubishi',model:'Pajero Sport 2025',type:'suv',badge:null,price:118000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-154.jpg',
+   specs:{Engine:'2.4L MIVEC Diesel',Power:'181 hp',Torque:'430 Nm',Trans:'8-speed Auto',Drive:'4WD',Seats:'7',Fuel:'Diesel'}},
+
+  {id:155,wiki:'Mitsubishi Triton',brand:'Mitsubishi',model:'L200 Triton 2025',type:'pickup',badge:null,price:105000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-155.jpg',
+   specs:{Engine:'2.4L MIVEC Diesel',Power:'181 hp',Torque:'430 Nm',Trans:'6-speed Auto',Drive:'4WD',Seats:'5',Fuel:'Diesel'}},
+
+  {id:156,wiki:'Mitsubishi Eclipse Cross',brand:'Mitsubishi',model:'Eclipse Cross PHEV 2025',type:'suv',badge:'PHEV',price:128000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-156.jpg',
+   specs:{Engine:'2.4L + Twin Motor',Power:'248 hp',Drive:'AWD',EV_Range:'55 km',Seats:'5',Fuel:'PHEV'}},
+
+  {id:157,wiki:'Mitsubishi ASX',brand:'Mitsubishi',model:'ASX 2025',type:'suv',badge:null,price:88000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-157.jpg',
+   specs:{Engine:'1.3T Turbo',Power:'158 hp',Torque:'270 Nm',Trans:'6-speed DCT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
+
+  {id:158,wiki:'Mitsubishi Mirage',brand:'Mitsubishi',model:'Mirage 2025',type:'sedan',badge:null,price:49000,featured:false,pdf:'',
+   img:'https://jqtdcfbecagpdtzfvvow.supabase.co/storage/v1/object/public/car-images/car-158.jpg',
+   specs:{Engine:'1.2L MIVEC',Power:'78 hp',Torque:'100 Nm',Trans:'CVT',Drive:'FWD',Seats:'5',Fuel:'Petrol'}},
 
 ];
 
@@ -1751,7 +2023,7 @@ function initScrollReveal(){
 // Animated stat counters in hero
 function animateCounters(){
   const targets = [
-    {el:document.querySelector('.hero-stats .hstat:nth-child(1) strong'), end:50, suffix:'+', label:'Brands Available'},
+    {el:document.querySelector('.hero-stats .hstat:nth-child(1) strong'), end:80, suffix:'+', label:'Brands Available'},
     {el:document.querySelector('.hero-stats .hstat:nth-child(2) strong'), end:500, suffix:'+', label:'Brochures'},
     {el:document.querySelector('.hero-stats .hstat:nth-child(3) strong'), end:30, suffix:'+', label:'EV Charging Stations'},
   ];
